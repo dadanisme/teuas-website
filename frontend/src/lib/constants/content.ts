@@ -7,6 +7,7 @@ import {
   EventCategory,
   MediaItem,
   MediaAlbum,
+  Scholarship,
 } from '@/types/content';
 
 // Mock news categories
@@ -435,5 +436,159 @@ export const MOCK_MEDIA_ITEMS: MediaItem[] = [
     isPublic: true,
     downloadCount: 8,
     slug: 'sesi-hands-on-practice',
+  },
+];
+
+// Mock Scholarships
+export const MOCK_SCHOLARSHIP_CATEGORIES: EventCategory[] = [
+  { id: 1, 
+    name: 'Education Scholarship', 
+    slug: 'education-scholarship', 
+    color: '#3B82F6', 
+    icon: 'Tool' },
+  {
+    id: 2,
+    name: 'Internal Scholarship',
+    slug: 'internal-scholarship',
+    color: '#10B981',
+    icon: 'Presentation',
+  },
+  {
+    id: 3,
+    name: 'Company Scholarship',
+    slug: 'company-scholarship',
+    color: '#8B5CF6',
+    icon: 'Users',
+  },
+];
+
+export const MOCK_SCHOLARSHIPS: Scholarship[] = [
+  {
+    id: 1,
+    title: 'Beasiswa Prestasi Teknik Elektro 2024',
+    description: `Beasiswa bantuan sebesar 3 juta rupiah. `,
+    shortDescription: 'Beasiswa bantuan sebesar 3 juta rupiah.',
+    scholarshipType: 'partial',
+    eventDate: '2024-02-20T09:00:00Z',
+    endDate: '2024-02-20T17:00:00Z',
+    registrationUrl: 'https://forms.gle/ika-teuas-beasiswa-2024',
+    registrationDeadline: '2024-02-15T23:59:59Z',
+    category: MOCK_SCHOLARSHIP_CATEGORIES[0],
+    organizer: {
+      name: 'Divisi Teknologi IKA TEUAS',
+      email: 'tech@ikateuas.com',
+      phone: '+62812345678',
+    },
+    createdAt: '2024-01-10T10:00:00Z',
+    updatedAt: '2024-01-15T14:30:00Z',
+    slug: 'beasiswa-prestasi-teknik-elektro-2024',
+    featuredImage:
+      'https://images.unsplash.com/photo-1753103098469-29b6e6bec545?q=80&w=2998&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ['beasiswa', 'prestasi', 'teknik elektro'],
+    status: 'upcoming',
+    requiresRegistration: true,
+    requirements:[
+      'Mahasiswa aktif program S1 Teknik Elektro semester 5 atau 7',
+      'IPK minimal 3.75 dari skala 4.00',
+      'Tidak sedang menerima beasiswa lain',
+      'Surat rekomendasi dari Ketua Program Studi',
+      'Membuat esai 1000 kata tentang kontribusi di bidang teknologi',
+    ]
+  },
+  {
+    id: 2,
+    title: 'Beasiswa Alumni Cemerlang 2024',
+    description: `Diperuntukkan bagi alumni dengan kontribusi luar biasa di bidang sosial. Total bantuan sebesar 5 juta rupiah.`,
+    shortDescription: 'Beasiswa bagi alumni berprestasi bidang sosial.',
+    scholarshipType: 'full',
+    eventDate: '2024-03-10T08:00:00Z',
+    endDate: '2024-03-10T16:00:00Z',
+    registrationUrl: 'https://bit.ly/alumni-cemerlang-2024',
+    registrationDeadline: '2024-03-01T23:59:59Z',
+    category: MOCK_SCHOLARSHIP_CATEGORIES[1],
+    organizer: {
+      name: 'Forum Alumni Teknik TEUAS',
+      email: 'alumni@ikateuas.com',
+      phone: '+62898765432',
+    },
+    createdAt: '2024-01-20T11:00:00Z',
+    updatedAt: '2024-01-25T09:00:00Z',
+    slug: 'beasiswa-alumni-cemerlang-2024',
+    featuredImage:
+      'https://images.unsplash.com/photo-1753103098469-29b6e6bec545?q=80&w=2998&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ['beasiswa', 'prestasi', 'soshum'],
+    status: 'upcoming',
+    requiresRegistration: true,
+    requirements:[
+      'Mahasiswa aktif program S1 Teknik Elektro semester 5 atau 7',
+      'IPK minimal 3.75 dari skala 4.00',
+      'Tidak sedang menerima beasiswa lain',
+      'Surat rekomendasi dari Ketua Program Studi',
+      'Membuat esai 1000 kata tentang kontribusi di bidang teknologi',
+    ]
+  },
+  {
+    id: 3,
+    title: 'Beasiswa Kemitraan Industri 2024',
+    description: `Beasiswa parsial dari perusahaan mitra bagi mahasiswa tingkat akhir. Nilai beasiswa hingga 7 juta rupiah.`,
+    shortDescription: 'Beasiswa dari perusahaan mitra untuk mahasiswa tingkat akhir.',
+    scholarshipType: 'partial',
+    eventDate: '2024-04-05T10:00:00Z',
+    endDate: '2024-04-05T15:00:00Z',
+    registrationUrl: 'https://daftar.teuas.com/kemitraan-2024',
+    registrationDeadline: '2024-03-25T23:59:59Z',
+    category: MOCK_SCHOLARSHIP_CATEGORIES[2],
+    organizer: {
+      name: 'Biro Kemitraan & Karir TEUAS',
+      email: 'kemitraan@teuas.ac.id',
+      phone: '+6281122334455',
+    },
+    createdAt: '2024-02-01T08:30:00Z',
+    updatedAt: '2024-02-10T13:15:00Z',
+    slug: 'beasiswa-kemitraan-industri-2024',
+    featuredImage:
+      'https://images.unsplash.com/photo-1753103098469-29b6e6bec545?q=80&w=2998&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ['beasiswa', 'prestasi', 'umum'],
+    status: 'upcoming',
+    requiresRegistration: true,
+    requirements:[
+      'Mahasiswa aktif program S1 Teknik Elektro semester 5 atau 7',
+      'IPK minimal 3.75 dari skala 4.00',
+      'Tidak sedang menerima beasiswa lain',
+      'Surat rekomendasi dari Ketua Program Studi',
+      'Membuat esai 1000 kata tentang kontribusi di bidang teknologi',
+    ]
+  },
+  {
+    id: 4,
+    title: 'Beasiswa Kemitraan Industri 2023',
+    description: `Beasiswa parsial dari perusahaan mitra bagi mahasiswa tingkat akhir. Nilai beasiswa hingga 7 juta rupiah.`,
+    shortDescription: 'Beasiswa dari perusahaan mitra untuk mahasiswa tingkat akhir.',
+    scholarshipType: 'partial',
+    eventDate: '2024-04-05T10:00:00Z',
+    endDate: '2024-04-05T15:00:00Z',
+    registrationUrl: 'https://daftar.teuas.com/kemitraan-2024',
+    registrationDeadline: '2024-03-25T23:59:59Z',
+    category: MOCK_SCHOLARSHIP_CATEGORIES[2],
+    organizer: {
+      name: 'Biro Kemitraan & Karir TEUAS',
+      email: 'kemitraan@teuas.ac.id',
+      phone: '+6281122334455',
+    },
+    createdAt: '2024-02-01T08:30:00Z',
+    updatedAt: '2024-02-10T13:15:00Z',
+    slug: 'beasiswa-kemitraan-industri-2024',
+    featuredImage:
+      'https://images.unsplash.com/photo-1753103098469-29b6e6bec545?q=80&w=2998&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ['beasiswa', 'prestasi', 'umum'],
+    status: 'completed',
+    requiresRegistration: true,
+    requirements:[
+      'Mahasiswa aktif program S1 Teknik Elektro semester 5 atau 7',
+      'IPK minimal 3.75 dari skala 4.00',
+      'Tidak sedang menerima beasiswa lain',
+      'Surat rekomendasi dari Ketua Program Studi',
+      'Membuat esai 1000 kata tentang kontribusi di bidang teknologi',
+    ]
   },
 ];
