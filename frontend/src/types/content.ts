@@ -2,6 +2,24 @@
 
 import { User } from './index';
 
+// BaseContett interface for shared properties
+interface BaseContent {
+  id: number;
+  title: string;
+  description: string;
+  shortDescription: string;
+  featuredImage?: string;
+  createdAt: string;
+  updatedAt: string;
+  slug: string;
+}
+
+interface Organizer {
+  name: string;
+  email: string;
+  phone?: string;
+}
+
 // News types
 export interface NewsArticle {
   id: number;
@@ -63,11 +81,7 @@ export interface Event {
   currency?: string;
   category: EventCategory;
   tags: string[];
-  organizer: {
-    name: string;
-    email: string;
-    phone?: string;
-  };
+  organizer: Organizer;
   status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
   isPublic: boolean;
   requiresRegistration: boolean;
@@ -236,4 +250,20 @@ export interface ContentStats {
     action: 'created' | 'updated' | 'published';
     timestamp: string;
   }[];
+}
+
+// Scholarship
+export interface Scholarship extends BaseContent {
+  scholarshipType: 'full' | 'partial';
+  eventDate: string;
+  endDate: string;
+  registrationUrl: string;
+  registrationDeadline: string;
+  category: EventCategory;
+  organizer: Organizer;
+  gallery?: string[];
+  tags: string[];
+  status: 'upcoming' | 'completed' | 'cancelled';
+  requiresRegistration?: boolean;
+  requirements?: string[];
 }
