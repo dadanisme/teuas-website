@@ -10,10 +10,10 @@ export default function LoginPage() {
       {/* Title */}
       <div className="mb-8 text-center">
         <h2 className="text-foreground mb-2 text-3xl font-bold">
-          Welcome Back
+          Selamat Datang Kembali
         </h2>
         <p className="text-muted-foreground">
-          Sign in to your {APP_CONFIG.name} account
+          Masuk ke akun {APP_CONFIG.name} Anda
         </p>
       </div>
 
@@ -25,12 +25,12 @@ export default function LoginPage() {
       {/* Register Link */}
       <div className="mt-6 text-center">
         <p className="text-muted-foreground">
-          Don't have an account?{' '}
+          Belum punya akun?{' '}
           <Link
             href={ROUTES.REGISTER}
             className="text-accent-foreground hover:text-accent-foreground/80 font-medium transition-colors"
           >
-            Register here
+            Daftar di sini
           </Link>
         </p>
       </div>

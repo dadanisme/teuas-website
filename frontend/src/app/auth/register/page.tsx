@@ -10,10 +10,10 @@ export default function RegisterPage() {
       {/* Title */}
       <div className="mb-8 text-center">
         <h2 className="text-foreground mb-2 text-3xl font-bold">
-          Join Our Community
+          Bergabung dengan Komunitas Kami
         </h2>
         <p className="text-muted-foreground">
-          Create your {APP_CONFIG.name} account and connect with fellow alumni
+          Buat akun {APP_CONFIG.name} Anda dan terhubung dengan sesama alumni
         </p>
       </div>
 
@@ -25,12 +25,12 @@ export default function RegisterPage() {
       {/* Login Link */}
       <div className="mt-6 text-center">
         <p className="text-muted-foreground">
-          Already have an account?{' '}
+          Sudah punya akun?{' '}
           <Link
             href={ROUTES.LOGIN}
             className="text-accent-foreground hover:text-accent-foreground/80 font-medium transition-colors"
           >
-            Sign in here
+            Masuk di sini
           </Link>
         </p>
       </div>
