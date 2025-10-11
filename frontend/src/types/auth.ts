@@ -62,30 +62,4 @@ export interface SessionData {
   isActive: boolean;
 }
 
-// NextAuth types extension
-declare module 'next-auth' {
-  interface Session {
-    accessToken?: string;
-    user: {
-      id: string;
-      email: string;
-      name: string;
-      role: string;
-    };
-  }
-
-  interface User {
-    id: string;
-    email: string;
-    name: string;
-    role: string;
-    accessToken?: string;
-  }
-}
-
-declare module 'next-auth/jwt' {
-  interface JWT {
-    accessToken?: string;
-    role?: string;
-  }
-}
+// TODO: Add Supabase auth types when implementing Supabase authentication

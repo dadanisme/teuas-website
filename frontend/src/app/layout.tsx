@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { AuthProvider } from '@/lib/providers/auth-provider';
 import { Toaster } from 'sonner';
 import { APP_CONFIG } from '@/lib/constants';
 import { Header } from '@/components/layout/Header';
@@ -101,12 +100,10 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="id" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <AuthProvider>
-          <Toaster richColors position="top-right" />
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </AuthProvider>
+        <Toaster richColors position="top-right" />
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );
