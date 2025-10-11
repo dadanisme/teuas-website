@@ -12,7 +12,7 @@ import {
   Plane,
   GraduationCap,
 } from 'lucide-react';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 
 interface HeroSectionProps {
   title?: string;

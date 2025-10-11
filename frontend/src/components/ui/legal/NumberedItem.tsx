@@ -1,4 +1,4 @@
-import { NumberedItemProps } from '@/lib/constants/legal';
+import { NumberedItemProps } from '@/constants/legal';
 
 export const NumberedItem = ({
   children,

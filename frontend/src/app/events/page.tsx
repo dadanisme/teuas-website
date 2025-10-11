@@ -8,8 +8,8 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { EventsPageContent } from '@/components/features/events/EventsPageContent';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
-import { MOCK_EVENTS, MOCK_EVENT_CATEGORIES } from '@/lib/constants/content';
+import { ROUTES, APP_CONFIG } from '@/constants';
+import { MOCK_EVENTS, MOCK_EVENT_CATEGORIES } from '@/constants/content';
 import Link from 'next/link';
 
 export const metadata: Metadata = {

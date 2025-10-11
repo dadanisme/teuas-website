@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Search, Filter, Users } from 'lucide-react';
-import { GRADUATION_YEARS, LOCATIONS, COMPANIES } from '@/lib/constants/alumni';
+import { GRADUATION_YEARS, LOCATIONS, COMPANIES } from '@/constants/alumni';
 
 interface AlumniFiltersProps {
   searchQuery: string;

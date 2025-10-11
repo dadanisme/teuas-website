@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Calendar, MapPin, Users, Clock, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 
 interface EventCardProps {
   event: Event;

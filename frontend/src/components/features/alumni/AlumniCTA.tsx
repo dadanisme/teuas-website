@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { UserPlus, Users, MessageCircle, BookOpen } from 'lucide-react';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 
 interface AlumniCTAProps {
   className?: string;

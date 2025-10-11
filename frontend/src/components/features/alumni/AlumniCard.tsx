@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Briefcase, MapPin } from 'lucide-react';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 import type { AlumniProfile } from '@/types/alumni';
 
 interface AlumniCardProps {

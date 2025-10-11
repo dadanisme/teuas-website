@@ -8,8 +8,8 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { MediaPageContent } from '@/components/features/media/MediaPageContent';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
-import { MOCK_MEDIA_ALBUMS } from '@/lib/constants/content';
+import { ROUTES, APP_CONFIG } from '@/constants';
+import { MOCK_MEDIA_ALBUMS } from '@/constants/content';
 import Link from 'next/link';
 
 export const metadata: Metadata = {

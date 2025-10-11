@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 import { FormAlert } from '@/components/ui/alert';
 
 interface LoginFormData {

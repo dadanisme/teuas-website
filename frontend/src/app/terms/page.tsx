@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Gavel } from 'lucide-react';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
+import { ROUTES, APP_CONFIG } from '@/constants';
 import { LegalPageLayout } from '@/components/layout/LegalPageLayout';
 import { Introduction } from '@/components/features/terms/sections/Introduction';
 import { AcceptanceSection } from '@/components/features/terms/sections/AcceptanceSection';
@@ -12,7 +12,7 @@ import { LimitationLiabilitySection } from '@/components/features/terms/sections
 import { ModificationsSection } from '@/components/features/terms/sections/ModificationsSection';
 import { GoverningLawSection } from '@/components/features/terms/sections/GoverningLawSection';
 import { termsSections } from '@/components/features/terms/data/sections';
-import { BreadcrumbItem } from '@/lib/constants/legal';
+import { BreadcrumbItem } from '@/constants/legal';
 import { ContactSection } from '@/components/ui/legal/ContactSection';
 
 export const metadata: Metadata = {

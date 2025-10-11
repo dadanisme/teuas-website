@@ -26,8 +26,8 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
-import { MOCK_EVENTS } from '@/lib/constants/content';
+import { ROUTES, APP_CONFIG } from '@/constants';
+import { MOCK_EVENTS } from '@/constants/content';
 
 interface EventDetailPageProps {
   params: Promise<{

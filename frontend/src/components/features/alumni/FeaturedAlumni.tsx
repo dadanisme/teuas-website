@@ -12,7 +12,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { ArrowRight, Quote } from 'lucide-react';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 import Autoplay from 'embla-carousel-autoplay';
 import { useEffect, useState } from 'react';
 import { type CarouselApi } from '@/components/ui/carousel';

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, HandHeart } from 'lucide-react';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 
 interface DonationCTAProps {
   className?: string;

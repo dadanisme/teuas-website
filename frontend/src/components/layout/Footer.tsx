@@ -13,8 +13,8 @@ import {
   Users,
   Briefcase,
 } from 'lucide-react';
-import { APP_CONFIG } from '@/lib/constants';
-import { FOOTER_NAVIGATION } from '@/lib/constants/navigation';
+import { APP_CONFIG } from '@/constants';
+import { FOOTER_NAVIGATION } from '@/constants/navigation';
 import Image from 'next/image';
 
 export function Footer() {

@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { MOCK_ALUMNI } from '@/lib/constants/alumni';
+import { MOCK_ALUMNI } from '@/constants/alumni';
 import type { AlumniProfile } from '@/types/alumni';
 
 const ITEMS_PER_PAGE = 8;

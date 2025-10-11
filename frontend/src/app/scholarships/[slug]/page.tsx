@@ -23,8 +23,8 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
-import { MOCK_SCHOLARSHIPS } from '@/lib/constants/content';
+import { ROUTES, APP_CONFIG } from '@/constants';
+import { MOCK_SCHOLARSHIPS } from '@/constants/content';
 
 interface ScholarshipsDetailPageProps {
   params: Promise<{

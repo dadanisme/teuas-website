@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 
 interface CallToActionProps {
   className?: string;

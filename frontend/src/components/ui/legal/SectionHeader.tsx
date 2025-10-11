@@ -1,4 +1,4 @@
-import { SectionHeaderProps } from '@/lib/constants/legal';
+import { SectionHeaderProps } from '@/constants/legal';
 
 export const SectionHeader = ({
   icon: Icon,

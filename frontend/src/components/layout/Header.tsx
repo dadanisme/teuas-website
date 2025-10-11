@@ -14,8 +14,8 @@ import {
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { Menu, X } from 'lucide-react';
-import { MAIN_NAVIGATION } from '@/lib/constants/navigation';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
+import { MAIN_NAVIGATION } from '@/constants/navigation';
+import { ROUTES, APP_CONFIG } from '@/constants';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

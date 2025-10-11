@@ -4,7 +4,7 @@ import { FeaturedAlumni } from '@/components/features/alumni/FeaturedAlumni';
 import { Separator } from '@/components/ui/separator';
 import { AboutSection } from '@/components/features/home/AboutSection';
 import { OurFocus } from '@/components/features/home/OurFocus';
-import { APP_CONFIG } from '@/lib/constants';
+import { APP_CONFIG } from '@/constants';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

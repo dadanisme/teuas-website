@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Calendar, Clock } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 import { Scholarship } from '@/types/content';
 
 interface ScholarshipsCardProps {

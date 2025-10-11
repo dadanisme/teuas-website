@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 import { Home, Search, Users, Calendar, BookOpen } from 'lucide-react';
 
 export default function NotFound() {

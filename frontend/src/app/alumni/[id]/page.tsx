@@ -12,8 +12,8 @@ import {
 import { AlumniProfileHeader } from '@/components/features/alumni/AlumniProfileHeader';
 import { AlumniProfileContent } from '@/components/features/alumni/AlumniProfileContent';
 import { AlumniProfileSidebar } from '@/components/features/alumni/AlumniProfileSidebar';
-import { ROUTES } from '@/lib/constants';
-import { MOCK_ALUMNI } from '@/lib/constants/alumni';
+import { ROUTES } from '@/constants';
+import { MOCK_ALUMNI } from '@/constants/alumni';
 
 interface AlumniProfilePageProps {
   params: Promise<{

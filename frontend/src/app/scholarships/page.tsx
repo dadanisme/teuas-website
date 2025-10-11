@@ -2,11 +2,11 @@ import { PageHeader } from '@/components/common/PageHeader';
 import { AlumniCTA } from '@/components/features/alumni/AlumniCTA';
 import { Separator } from '@/components/ui/separator';
 import type { Metadata } from 'next';
-import { APP_CONFIG } from '@/lib/constants';
+import { APP_CONFIG } from '@/constants';
 import {
   MOCK_SCHOLARSHIP_CATEGORIES,
   MOCK_SCHOLARSHIPS,
-} from '@/lib/constants/content';
+} from '@/constants/content';
 import { ScholarshipsPageContent } from '@/components/features/scholarships/ScholarshipsPageContent';
 
 export const metadata: Metadata = {

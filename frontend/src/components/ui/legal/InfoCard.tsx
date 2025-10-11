@@ -1,4 +1,4 @@
-import { InfoCardProps } from '@/lib/constants/legal';
+import { InfoCardProps } from '@/constants/legal';
 
 export const InfoCard = ({
   children,

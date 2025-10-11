@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { Users, Award, Building } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { APP_CONFIG } from '@/lib/constants';
-import { ROUTES } from '@/lib/constants';
+import { APP_CONFIG } from '@/constants';
+import { ROUTES } from '@/constants';
 import LoginForm from './components/LoginForm';
 import Image from 'next/image';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';

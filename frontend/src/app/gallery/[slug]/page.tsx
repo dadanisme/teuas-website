@@ -11,8 +11,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
-import { MOCK_MEDIA_ALBUMS, MOCK_MEDIA_ITEMS } from '@/lib/constants/content';
+import { ROUTES, APP_CONFIG } from '@/constants';
+import { MOCK_MEDIA_ALBUMS, MOCK_MEDIA_ITEMS } from '@/constants/content';
 import {
   AlbumHeader,
   MediaGrid,

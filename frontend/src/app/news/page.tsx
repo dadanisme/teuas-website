@@ -8,11 +8,8 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { NewsPageContent } from '@/components/features/news/NewsPageContent';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
-import {
-  MOCK_NEWS_ARTICLES,
-  MOCK_NEWS_CATEGORIES,
-} from '@/lib/constants/content';
+import { ROUTES, APP_CONFIG } from '@/constants';
+import { MOCK_NEWS_ARTICLES, MOCK_NEWS_CATEGORIES } from '@/constants/content';
 import Link from 'next/link';
 
 export const metadata: Metadata = {

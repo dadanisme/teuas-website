@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Shield } from 'lucide-react';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
-import { BreadcrumbItem } from '@/lib/constants/legal';
+import { ROUTES, APP_CONFIG } from '@/constants';
+import { BreadcrumbItem } from '@/constants/legal';
 import { LegalPageLayout } from '@/components/layout/LegalPageLayout';
 import { FileLogSection } from '@/components/features/privacy/sections/FileLogSection';
 import { InformationCollectionSection } from '@/components/features/privacy/sections/InformationCollectionSection';

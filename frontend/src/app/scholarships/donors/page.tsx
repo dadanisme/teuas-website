@@ -2,7 +2,7 @@ import { PageHeader } from '@/components/common/PageHeader';
 import { DonorsForm } from '@/components/features/scholarships/donors/DonorsForm';
 import { Separator } from '@/components/ui/separator';
 import type { Metadata } from 'next';
-import { APP_CONFIG } from '@/lib/constants';
+import { APP_CONFIG } from '@/constants';
 export const metadata: Metadata = {
   title: `Donasi | ${APP_CONFIG.name}`,
   description: 'Dari Kita, Oleh Kita, Untuk Kemajuan Teknik Elektro UPI.',

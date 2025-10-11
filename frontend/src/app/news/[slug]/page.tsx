@@ -14,8 +14,8 @@ import { Separator } from '@/components/ui/separator';
 import { Calendar, User, Eye, Share2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
-import { MOCK_NEWS_ARTICLES } from '@/lib/constants/content';
+import { ROUTES, APP_CONFIG } from '@/constants';
+import { MOCK_NEWS_ARTICLES } from '@/constants/content';
 
 interface NewsDetailPageProps {
   params: Promise<{

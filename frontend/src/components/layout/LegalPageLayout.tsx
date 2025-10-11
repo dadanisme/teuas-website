@@ -14,7 +14,7 @@ import {
   BreadcrumbItem as BreadcrumbItemType,
   SectionItem,
   LegalPageHeaderProps,
-} from '@/lib/constants/legal';
+} from '@/constants/legal';
 
 interface LegalPageLayoutProps {
   breadcrumbItems: BreadcrumbItemType[];
