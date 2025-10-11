@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   Mail,
   Lock,
@@ -18,6 +19,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { FormAlert } from '@/components/ui/alert';
+import { useAuth } from '@/hooks/useAuth';
+import { ROUTES } from '@/constants';
+import type { SignUpData } from '@/schemas/auth.schema';
 
 interface RegisterFormData {
   firstName: string;
@@ -54,8 +58,18 @@ function RegisterFormComponent({
   const [internalLoading, setInternalLoading] = useState(false);
   const [internalError, setInternalError] = useState<string>('');
 
+  const router = useRouter();
+  const { signUp, isAuthenticated } = useAuth();
+
   const isLoading = externalLoading || internalLoading;
   const error = externalError || internalError;
+
+  // Redirect if already authenticated
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      router.push(ROUTES.HOME);
+    }
+  }, [isAuthenticated, router]);
 
   const handleInputChange = (
     field: keyof RegisterFormData,
@@ -139,11 +153,26 @@ function RegisterFormComponent({
         await onSubmit(formData);
       } else {
         setInternalLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Register attempt:', formData);
+
+        // Use real Supabase authentication
+        const signUpData: SignUpData = {
+          email: formData.email,
+          password: formData.password,
+          fullName: `${formData.firstName} ${formData.lastName}`.trim(),
+          nim: formData.nim,
+        };
+
+        const { error } = await signUp(signUpData);
+
+        if (error) {
+          setInternalError(error);
+          setInternalLoading(false);
+          return;
         }
+
+        // Success - redirect will be handled by useEffect or show success message
         setInternalLoading(false);
+        // You might want to show a success message here if email confirmation is required
       }
     } catch (error) {
       setInternalLoading(false);

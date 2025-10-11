@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,6 +11,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/constants';
 import { FormAlert } from '@/components/ui/alert';
+import { useAuth } from '@/hooks/useAuth';
+import type { SignInData } from '@/schemas/auth.schema';
 
 interface LoginFormData {
   email: string;
@@ -37,8 +40,18 @@ function LoginFormComponent({
   const [internalLoading, setInternalLoading] = useState(false);
   const [internalError, setInternalError] = useState<string>('');
 
+  const router = useRouter();
+  const { signIn, isAuthenticated } = useAuth();
+
   const isLoading = externalLoading || internalLoading;
   const error = externalError || internalError;
+
+  // Redirect if already authenticated
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      router.push(ROUTES.HOME);
+    }
+  }, [isAuthenticated, router]);
 
   const handleInputChange = (
     field: keyof LoginFormData,
@@ -87,10 +100,22 @@ function LoginFormComponent({
         await onSubmit(formData);
       } else {
         setInternalLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Login attempt:', formData);
+
+        // Use real Supabase authentication
+        const signInData: SignInData = {
+          email: formData.email,
+          password: formData.password,
+        };
+
+        const { error } = await signIn(signInData);
+
+        if (error) {
+          setInternalError(error);
+          setInternalLoading(false);
+          return;
         }
+
+        // Success - redirect will be handled by useEffect
         setInternalLoading(false);
       }
     } catch (error) {

@@ -5,6 +5,7 @@ import { Toaster } from 'sonner';
 import { APP_CONFIG } from '@/constants';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -100,10 +101,12 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="id" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <Toaster richColors position="top-right" />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <AuthProvider>
+          <Toaster richColors position="top-right" />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );
