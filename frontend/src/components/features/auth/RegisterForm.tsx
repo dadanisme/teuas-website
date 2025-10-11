@@ -20,11 +20,7 @@ interface RegisterFormProps {
   error?: string;
 }
 
-function RegisterFormComponent({
-  onSubmit,
-  isLoading: externalLoading,
-  error: externalError,
-}: RegisterFormProps) {
+function RegisterFormComponent({ onSubmit }: RegisterFormProps) {
   const { signUp } = useAuth();
 
   const form = useForm<SignUpWithConfirmData>({
@@ -37,10 +33,11 @@ function RegisterFormComponent({
       confirmPassword: '',
       agreeToTerms: false,
     },
+    shouldUnregister: false,
   });
 
-  const isLoading = externalLoading || form.formState.isSubmitting;
-  const error = externalError || form.formState.errors.root?.message;
+  const isLoading = form.formState.isSubmitting;
+  const error = form.formState.errors.root?.message;
 
   const handleFormSubmit = async (data: SignUpWithConfirmData) => {
     try {

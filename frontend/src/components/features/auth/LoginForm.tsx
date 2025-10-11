@@ -22,11 +22,7 @@ interface LoginFormProps {
   error?: string;
 }
 
-function LoginFormComponent({
-  onSubmit,
-  isLoading: externalLoading,
-  error: externalError,
-}: LoginFormProps) {
+function LoginFormComponent({ onSubmit }: LoginFormProps) {
   const { signIn } = useAuth();
 
   const form = useForm<SignInData>({
@@ -36,10 +32,11 @@ function LoginFormComponent({
       password: '',
       rememberMe: false,
     },
+    shouldUnregister: false,
   });
 
-  const isLoading = externalLoading || form.formState.isSubmitting;
-  const error = externalError || form.formState.errors.root?.message;
+  const isLoading = form.formState.isSubmitting;
+  const error = form.formState.errors.root?.message;
 
   const handleFormSubmit = async (data: SignInData) => {
     try {
