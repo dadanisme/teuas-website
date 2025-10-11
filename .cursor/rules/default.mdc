@@ -10,9 +10,9 @@ alwaysApply: true
 
 ## 1. Overview
 
-This document provides comprehensive context, conventions, and workflow for the **IKA TEUAS UPI alumni platform**. The project is a **sophisticated frontend with disconnected backend** - beautiful UI exists but needs integration work.
+This document provides comprehensive context, conventions, and workflow for the **IKA TEUAS UPI alumni platform**. The project is a **sophisticated frontend with Supabase backend** - beautiful UI exists and needs Supabase integration.
 
-**Current Status:** ⚠️ **FRONTEND COMPLETE, BACKEND DISCONNECTED** - UI is polished but no API integration yet.
+**Current Status:** ⚠️ **FRONTEND COMPLETE, SUPABASE INTEGRATION NEEDED** - UI is polished but needs Supabase API integration.
 
 For detailed features and requirements, refer to **[PRD.md](PRD.md)**.  
 For implementation phases, see **[plans/](plans/)** directory.
@@ -21,17 +21,17 @@ For implementation phases, see **[plans/](plans/)** directory.
 
 As an AI assistant, you must adhere to these principles:
 
-1. **Integration Focus:** The **primary goal** is connecting the beautiful frontend to the backend API. Frontend UI is complete but uses mock data. Backend exists but isn't connected.
+1. **Supabase Integration Focus:** The **primary goal** is connecting the beautiful frontend to Supabase. Frontend UI is complete but uses mock data. Supabase is configured but not integrated.
 
-2. **Maintain Architecture:** The project uses a sophisticated **Turbo monorepo** structure. The architecture is sound - focus on integration, not restructuring.
+2. **Maintain Architecture:** The project uses a **Next.js frontend with Supabase backend** structure. The architecture is sound - focus on Supabase integration, not restructuring.
 
-3. **TypeScript First:** Both frontend and backend are **fully TypeScript**. Maintain strict typing when adding integration code.
+3. **TypeScript First:** Frontend is **fully TypeScript**. Maintain strict typing when adding Supabase integration code.
 
-4. **API Integration Priority:** The main work needed is:
-   - Connect frontend forms to backend endpoints
-   - Fix endpoint mismatches (frontend calls `/api/auth/*`, backend has `/user/*`)
-   - Replace mock data with real API calls
-   - Implement proper authentication flow
+4. **Supabase Integration Priority:** The main work needed is:
+   - Connect frontend forms to Supabase Auth
+   - Replace mock data with Supabase database queries
+   - Implement Supabase authentication flow
+   - Set up Supabase storage for file uploads
 
 5. **Test Integration:** Always test API connections and run `npm run lint` and `npm run type-check`.
 
@@ -41,18 +41,10 @@ As an AI assistant, you must adhere to these principles:
 
 ### Architecture
 
-- **Monorepo:** Turbo-managed workspace with 3 packages
-- **Package Manager:** npm with workspaces
-- **Build System:** Turbo for parallel builds and caching
-
-### Backend (`@teuas/backend`)
-
-- **Language:** TypeScript (100% coverage)
-- **Framework:** Express.js with structured middleware
-- **Database:** MariaDB with connection pooling
-- **Authentication:** JWT with bcrypt password hashing
-- **Email:** Nodemailer integration
-- **File Upload:** Multer for profile photos
+- **Frontend:** Next.js 15 with App Router
+- **Backend:** Supabase (PostgreSQL + Auth + Storage)
+- **Package Manager:** npm
+- **Build System:** Next.js build system
 
 ### Frontend (`@teuas/frontend`)
 
@@ -60,35 +52,26 @@ As an AI assistant, you must adhere to these principles:
 - **Language:** TypeScript with strict typing
 - **Styling:** Tailwind CSS 4.0
 - **Components:** shadcn/ui (40+ components)
-- **Authentication:** NextAuth.js with custom provider
+- **Authentication:** Supabase Auth
 - **Forms:** React Hook Form with Zod validation
 - **Animations:** Framer Motion
 
-### Shared (`@teuas/shared`)
+### Backend (Supabase)
 
-- **Types:** Centralized type definitions
-- **Utils:** Logger and common utilities
-- **Constants:** Shared configuration
+- **Database:** PostgreSQL with Row Level Security
+- **Authentication:** Supabase Auth with JWT
+- **Storage:** Supabase Storage for file uploads
+- **Real-time:** Supabase Realtime subscriptions
+- **API:** Auto-generated REST and GraphQL APIs
 
 ## 4. Project Structure
 
 ```
-teuas-website/                    # Turbo monorepo root
-├── backend/                      # @teuas/backend
-│   ├── src/
-│   │   ├── controllers/          # API route handlers
-│   │   ├── models/               # Database models
-│   │   ├── middlewares/          # Auth, validation, error handling
-│   │   ├── routes/               # Express routes
-│   │   ├── config/               # Database configuration
-│   │   └── types/                # Backend type definitions
-│   ├── dist/                     # Compiled JavaScript
-│   └── package.json
+teuas-website/                    # Next.js project root
 ├── frontend/                     # @teuas/frontend
 │   ├── src/
 │   │   ├── app/                  # Next.js App Router pages
 │   │   │   ├── (18 implemented pages)
-│   │   │   ├── api/auth/         # NextAuth configuration
 │   │   │   └── globals.css
 │   │   ├── components/
 │   │   │   ├── ui/               # shadcn/ui components
@@ -96,20 +79,14 @@ teuas-website/                    # Turbo monorepo root
 │   │   │   ├── layout/           # Header, Footer, etc.
 │   │   │   └── common/           # Shared components
 │   │   ├── lib/
-│   │   │   ├── api/              # API client and endpoints
-│   │   │   ├── auth/             # NextAuth configuration
 │   │   │   ├── constants/        # App configuration
 │   │   │   └── validations/      # Zod schemas
 │   │   └── types/                # Frontend type definitions
+│   ├── supabase/                 # Supabase configuration
+│   │   ├── config.toml           # Local development config
+│   │   └── migrations/           # Database migrations
 │   └── public/                   # Static assets
-├── shared/                       # @teuas/shared
-│   ├── src/
-│   │   ├── types/                # Shared types
-│   │   ├── utils/                # Logger, utilities
-│   │   └── constants/            # Shared constants
-│   └── dist/                     # Compiled output
 ├── plans/                        # Implementation documentation
-├── turbo.json                    # Turbo configuration
 └── package.json                  # Root workspace config
 ```
 
@@ -118,53 +95,36 @@ teuas-website/                    # Turbo monorepo root
 ### Quick Start
 
 ```bash
-# Install all dependencies
+# Navigate to frontend directory
+cd frontend
+
+# Install dependencies
 npm install
 
-# Start all services in development
+# Start development server
 npm run dev
 
-# Or start individual services
-npm run frontend    # Frontend only
-npm run backend     # Backend only
-npm run shared      # Shared package watch mode
+# Start Supabase locally (optional)
+npx supabase start
 ```
 
 ### Available Commands
 
 ```bash
-# Development
-npm run dev           # All packages in development mode
-npm run build         # Build all packages
-npm run lint          # Lint all packages
-npm run type-check    # TypeScript checking
-npm run format        # Format with Prettier
-
-# Individual packages
-npm run frontend      # turbo dev --filter=@teuas/frontend
-npm run backend       # turbo dev --filter=@teuas/backend
-npm run shared        # turbo dev --filter=@teuas/shared
-```
-
-### Package-Specific Commands
-
-```bash
-# Backend (@teuas/backend)
-cd backend
-npm run dev           # nodemon with TypeScript
-npm run build         # tsc compilation
-npm run start         # Run compiled JavaScript
-
-# Frontend (@teuas/frontend)
+# Frontend development
 cd frontend
 npm run dev           # Next.js dev with Turbopack
 npm run build         # Next.js production build
 npm run start         # Next.js production server
+npm run lint          # ESLint checking
+npm run type-check    # TypeScript checking
+npm run format        # Format with Prettier
 
-# Shared (@teuas/shared)
-cd shared
-npm run dev           # TypeScript watch mode
-npm run build         # Compile TypeScript
+# Supabase commands
+npx supabase start    # Start local Supabase
+npx supabase stop     # Stop local Supabase
+npx supabase status   # Check Supabase status
+npx supabase db reset # Reset local database
 ```
 
 ## 6. Implemented Features
@@ -208,27 +168,22 @@ npm run build         # Compile TypeScript
 
 ## 7. Database Schema
 
-**Current Database:** MariaDB (`TEUAS`)
+**Database:** Supabase PostgreSQL with Row Level Security
 
-**Users Table Structure:**
+**Main Tables:**
 
-```sql
-Users (
-  id: number (PK),
-  email: string (unique),
-  fullName: string,
-  password: string (hashed),
-  graduationYear: number?,
-  nim: string?,
-  major: string?,
-  phoneNumber: string?,
-  address: string?,
-  profilePhoto: string?,
-  role: 'admin' | 'user',
-  currentCompany: string?,
-  position: string?
-)
-```
+- `users` - Main user profiles linked to Supabase Auth
+- `user_experiences` - Work experience entries
+- `user_educations` - Educational background
+- `user_socials` - Social media links
+- `user_skills` - Skills and expertise
+- `user_certifications` - Professional certifications
+
+**Storage:**
+
+- `avatars` bucket for profile photos with RLS policies
+
+See `frontend/supabase/migrations/` for complete schema.
 
 ## 8. Coding Conventions
 
