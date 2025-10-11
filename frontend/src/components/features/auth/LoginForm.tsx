@@ -129,7 +129,7 @@ function LoginFormComponent({
   };
 
   return (
-    <Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm">
+    <Card className="bg-card/80 border-0 shadow-lg backdrop-blur-sm">
       <CardContent className="space-y-6 p-6">
         {/* Enhanced Error/Success Alert */}
         <FormAlert errors={error} dismissible autoHide autoHideDelay={7000} />
@@ -139,13 +139,13 @@ function LoginFormComponent({
           <div className="space-y-2">
             <Label
               htmlFor="email"
-              className="text-sm font-medium text-[#374957]"
+              className="text-muted-foreground text-sm font-medium"
             >
               Email Address
             </Label>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <Mail className="h-4 w-4 text-[#374957]" />
+                <Mail className="text-muted-foreground h-4 w-4" />
               </div>
               <Input
                 id="email"
@@ -155,7 +155,7 @@ function LoginFormComponent({
                 required
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                className="border-[#374957]/20 pl-9 transition-all duration-200 focus:ring-2 focus:ring-[#014631]/20"
+                className="border-input focus:ring-ring pl-9 transition-all duration-200 focus:ring-2"
                 placeholder="Enter your email"
                 disabled={isLoading}
               />
@@ -166,13 +166,13 @@ function LoginFormComponent({
           <div className="space-y-2">
             <Label
               htmlFor="password"
-              className="text-sm font-medium text-[#374957]"
+              className="text-muted-foreground text-sm font-medium"
             >
               Password
             </Label>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <Lock className="h-4 w-4 text-[#374957]" />
+                <Lock className="text-muted-foreground h-4 w-4" />
               </div>
               <Input
                 id="password"
@@ -182,21 +182,21 @@ function LoginFormComponent({
                 required
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
-                className="border-[#374957]/20 pr-9 pl-9 transition-all duration-200 focus:ring-2 focus:ring-[#014631]/20"
+                className="border-input focus:ring-ring pr-9 pl-9 transition-all duration-200 focus:ring-2"
                 placeholder="Enter your password"
                 disabled={isLoading}
               />
               <button
                 type="button"
-                className="absolute inset-y-0 right-0 flex items-center pr-3 transition-colors hover:text-[#0C1532] disabled:cursor-not-allowed"
+                className="hover:text-foreground absolute inset-y-0 right-0 flex items-center pr-3 transition-colors disabled:cursor-not-allowed"
                 onClick={() => setShowPassword(!showPassword)}
                 disabled={isLoading}
                 tabIndex={-1}
               >
                 {showPassword ? (
-                  <EyeOff className="h-4 w-4 text-[#374957]" />
+                  <EyeOff className="text-muted-foreground h-4 w-4" />
                 ) : (
-                  <Eye className="h-4 w-4 text-[#374957]" />
+                  <Eye className="text-muted-foreground h-4 w-4" />
                 )}
               </button>
             </div>
@@ -215,21 +215,21 @@ function LoginFormComponent({
                 }
                 disabled={isLoading}
                 className={cn(
-                  'bg-background h-4 w-4 rounded border-[#374957]/20 text-[#014631]',
-                  'focus:ring-2 focus:ring-[#014631]/20 focus:ring-offset-2',
+                  'bg-background border-input text-primary h-4 w-4 rounded',
+                  'focus:ring-ring focus:ring-2 focus:ring-offset-2',
                   'disabled:cursor-not-allowed disabled:opacity-50'
                 )}
               />
               <Label
                 htmlFor="remember-me"
-                className="cursor-pointer text-sm font-normal text-[#374957]"
+                className="text-muted-foreground cursor-pointer text-sm font-normal"
               >
                 Remember me
               </Label>
             </div>
             <Link
               href={ROUTES.FORGOT_PASSWORD}
-              className="text-sm font-medium text-[#E46713] transition-colors hover:text-[#E46713]/80"
+              className="text-accent-foreground hover:text-accent-foreground/80 text-sm font-medium transition-colors"
             >
               Forgot password?
             </Link>
@@ -239,7 +239,7 @@ function LoginFormComponent({
           <Button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-[#014631] text-white transition-all duration-200 hover:bg-[#31453F] hover:shadow-lg"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 w-full transition-all duration-200 hover:shadow-lg"
             size="lg"
           >
             {isLoading ? (
