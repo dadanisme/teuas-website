@@ -1,4 +1,3 @@
-import { createClient } from '@/utils/supabase/client';
 import {
   groupAndCountByYear,
   groupAndCountByLocation,
@@ -16,16 +15,19 @@ import type {
   AlumniListResponse,
   AlumniStatsResponse,
 } from '@/types/alumni-query';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '@/types/database';
+import { createClient as createClientSideClient } from '@/utils/supabase/client';
 
 /**
  * Alumni service class that handles all alumni-related data operations
- * Integrates with Supabase to fetch real alumni data
+ * Uses dependency injection for Supabase client to support both client and server contexts
  */
 export class AlumniService {
-  private supabase;
+  private supabase: SupabaseClient<Database>;
 
-  constructor() {
-    this.supabase = createClient();
+  constructor(supabaseClient: SupabaseClient<Database>) {
+    this.supabase = supabaseClient;
   }
 
   /**
@@ -225,5 +227,5 @@ export class AlumniService {
   }
 }
 
-// Export a singleton instance
-export const alumniService = new AlumniService();
+// Legacy singleton for backward compatibility (client-side only)
+export const alumniService = new AlumniService(createClientSideClient());
