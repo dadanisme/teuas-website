@@ -45,4 +45,11 @@ export const queryKeys = {
     detail: (id: string) => [...queryKeys.alumni.details(), id] as const,
     stats: () => [...queryKeys.alumni.all, 'stats'] as const,
   },
+  // Profile-related query keys
+  profile: {
+    all: ['profile'] as const,
+    details: () => [...queryKeys.profile.all, 'detail'] as const,
+    detail: (userId: string) =>
+      [...queryKeys.profile.details(), userId] as const,
+  },
 } as const;
