@@ -15,14 +15,16 @@ import {
   UserPlus,
   ExternalLink,
 } from 'lucide-react';
-import { AlumniProfile } from '@/types/alumni';
+import { AlumniProfile } from '@/types/alumni-query';
 
 interface AlumniProfileHeaderProps {
   alumni: AlumniProfile;
 }
 
 export function AlumniProfileHeader({ alumni }: AlumniProfileHeaderProps) {
-  const currentWork = alumni.workExperience?.[0];
+  const currentWork =
+    alumni.user_experiences?.find((exp) => exp.is_current) ||
+    alumni.user_experiences?.[0];
 
   return (
     <section className="bg-foreground py-12">
@@ -34,8 +36,8 @@ export function AlumniProfileHeader({ alumni }: AlumniProfileHeaderProps) {
               <div className="flex-shrink-0">
                 <div className="border-primary/20 relative h-32 w-32 overflow-hidden rounded-full border-4 lg:h-40 lg:w-40">
                   <Image
-                    src={alumni.profilePhoto || '/assets/avatars/avatar.png'}
-                    alt={alumni.fullName}
+                    src={alumni.photo_url || '/assets/avatars/avatar.png'}
+                    alt={alumni.full_name}
                     fill
                     className="object-cover"
                     priority
@@ -47,10 +49,10 @@ export function AlumniProfileHeader({ alumni }: AlumniProfileHeaderProps) {
               <div className="flex-1 space-y-4">
                 <div>
                   <h1 className="text-foreground text-3xl font-bold lg:text-4xl">
-                    {alumni.fullName}
+                    {alumni.full_name}
                   </h1>
                   <p className="text-muted-foreground text-lg">
-                    {alumni.position}{' '}
+                    {currentWork?.position}{' '}
                     {currentWork?.company && `at ${currentWork.company}`}
                   </p>
                 </div>
@@ -59,18 +61,16 @@ export function AlumniProfileHeader({ alumni }: AlumniProfileHeaderProps) {
                 <div className="text-muted-foreground flex flex-wrap gap-4 text-sm">
                   <div className="flex items-center gap-1">
                     <Calendar className="h-4 w-4" />
-                    <span>Lulus {alumni.graduationYear}</span>
+                    <span>Lulus {alumni.year || 'N/A'}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Building className="h-4 w-4" />
-                    <span>{alumni.major}</span>
+                    <span>{alumni.major || 'N/A'}</span>
                   </div>
-                  {currentWork?.location && (
-                    <div className="flex items-center gap-1">
-                      <MapPin className="h-4 w-4" />
-                      <span>{currentWork.location}</span>
-                    </div>
-                  )}
+                  <div className="flex items-center gap-1">
+                    <MapPin className="h-4 w-4" />
+                    <span>{alumni.location || 'N/A'}</span>
+                  </div>
                 </div>
 
                 {/* Bio */}
@@ -80,38 +80,40 @@ export function AlumniProfileHeader({ alumni }: AlumniProfileHeaderProps) {
                   </p>
                 )}
 
-                {/* Interests */}
-                {alumni.interests && alumni.interests.length > 0 && (
+                {/* Skills */}
+                {alumni.user_skills && alumni.user_skills.length > 0 && (
                   <div className="flex flex-wrap gap-2">
-                    {alumni.interests.map((interest, index) => (
-                      <Badge key={index} variant="secondary">
-                        {interest}
+                    {alumni.user_skills.slice(0, 5).map((skill) => (
+                      <Badge key={skill.id} variant="secondary">
+                        {skill.name}
                       </Badge>
                     ))}
+                    {alumni.user_skills.length > 5 && (
+                      <Badge variant="outline">
+                        +{alumni.user_skills.length - 5} lainnya
+                      </Badge>
+                    )}
                   </div>
                 )}
 
                 {/* Contact Info */}
                 <div className="flex flex-wrap gap-2">
-                  {alumni.privacySettings.contactInfoVisible && (
+                  <Button variant="outline" size="sm" asChild>
+                    <Link href={`mailto:${alumni.email}`}>
+                      <Mail className="mr-2 h-4 w-4" />
+                      Email
+                    </Link>
+                  </Button>
+                  {alumni.phone && (
                     <Button variant="outline" size="sm" asChild>
-                      <Link href={`mailto:${alumni.email}`}>
-                        <Mail className="mr-2 h-4 w-4" />
-                        Email
+                      <Link href={`tel:${alumni.phone}`}>
+                        <Phone className="mr-2 h-4 w-4" />
+                        Telepon
                       </Link>
                     </Button>
                   )}
-                  {alumni.privacySettings.contactInfoVisible &&
-                    alumni.phoneNumber && (
-                      <Button variant="outline" size="sm" asChild>
-                        <Link href={`tel:${alumni.phoneNumber}`}>
-                          <Phone className="mr-2 h-4 w-4" />
-                          Telepon
-                        </Link>
-                      </Button>
-                    )}
-                  {alumni.socialLinks?.map((social, index) => (
-                    <Button key={index} variant="outline" size="sm" asChild>
+                  {alumni.user_socials?.map((social) => (
+                    <Button key={social.id} variant="outline" size="sm" asChild>
                       <Link
                         href={social.url}
                         target="_blank"
@@ -136,7 +138,8 @@ export function AlumniProfileHeader({ alumni }: AlumniProfileHeaderProps) {
                   <UserPlus className="mr-2 h-4 w-4" />
                   Tambah Koneksi
                 </Button>
-                {alumni.mentorshipInfo.isAvailableAsMentor && (
+                {/* Mentorship info not available in database */}
+                {false && (
                   <Button variant="outline">
                     <Calendar className="mr-2 h-4 w-4" />
                     Request Mentoring

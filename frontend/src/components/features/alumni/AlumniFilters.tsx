@@ -8,8 +8,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Search, Filter, Users } from 'lucide-react';
-import { GRADUATION_YEARS, LOCATIONS, COMPANIES } from '@/constants/alumni';
+import { Search, Filter, Users, Loader2 } from 'lucide-react';
+
+interface FilterOptions {
+  years: number[];
+  locations: string[];
+  companies: string[];
+  majors: string[];
+}
 
 interface AlumniFiltersProps {
   searchQuery: string;
@@ -19,6 +25,8 @@ interface AlumniFiltersProps {
   filteredCount: number;
   currentPage: number;
   totalPages: number;
+  filterOptions: FilterOptions;
+  isSearching?: boolean;
   onSearchChange: (value: string) => void;
   onFilterChange: (filterType: string, value: string) => void;
 }
@@ -31,6 +39,8 @@ export function AlumniFilters({
   filteredCount,
   currentPage,
   totalPages,
+  filterOptions,
+  isSearching = false,
   onSearchChange,
   onFilterChange,
 }: AlumniFiltersProps) {
@@ -41,11 +51,14 @@ export function AlumniFilters({
       {/* Search Bar */}
       <div className="relative">
         <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+        {isSearching && (
+          <Loader2 className="text-muted-foreground absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 animate-spin" />
+        )}
         <Input
           placeholder="Cari alumni berdasarkan nama, posisi, atau perusahaan..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="pl-10"
+          className={`pl-10 ${isSearching ? 'pr-10' : ''}`}
         />
       </div>
 
@@ -85,8 +98,9 @@ export function AlumniFilters({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {GRADUATION_YEARS.map((year) => (
-                  <SelectItem key={year} value={year}>
+                <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                {filterOptions.years.map((year) => (
+                  <SelectItem key={year} value={year.toString()}>
                     {year}
                   </SelectItem>
                 ))}
@@ -103,7 +117,8 @@ export function AlumniFilters({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {LOCATIONS.map((location) => (
+                <SelectItem value="Semua Lokasi">Semua Lokasi</SelectItem>
+                {filterOptions.locations.map((location) => (
                   <SelectItem key={location} value={location}>
                     {location}
                   </SelectItem>
@@ -121,7 +136,10 @@ export function AlumniFilters({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {COMPANIES.map((company) => (
+                <SelectItem value="Semua Perusahaan">
+                  Semua Perusahaan
+                </SelectItem>
+                {filterOptions.companies.map((company) => (
                   <SelectItem key={company} value={company}>
                     {company}
                   </SelectItem>
