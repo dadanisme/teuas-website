@@ -1,14 +1,20 @@
 import { createClient } from '@/utils/supabase/client';
+import {
+  groupAndCountByYear,
+  groupAndCountByLocation,
+  groupAndCountByCompany,
+  groupAndCountByMajor,
+} from '@/helpers/alumni.helpers';
+import {
+  ServiceResponseBuilder,
+  PaginatedResponseBuilder,
+} from '@/helpers/response.helpers';
 import type {
   AlumniFilters,
   AlumniStats,
   AlumniResponse,
   AlumniListResponse,
   AlumniStatsResponse,
-  YearData,
-  LocationData,
-  CompanyData,
-  MajorData,
 } from '@/types/alumni-query';
 
 /**
@@ -75,33 +81,14 @@ export class AlumniService {
       const { data: users, error } = await query;
 
       if (error) {
-        return {
-          data: [],
-          pagination: {
-            page,
-            limit,
-            total: 0,
-            totalPages: 0,
-            hasNext: false,
-            hasPrev: false,
-          },
-          error: error.message,
-        };
+        return PaginatedResponseBuilder.error(error.message, page, limit);
       }
 
       if (!users) {
-        return {
-          data: [],
-          pagination: {
-            page,
-            limit,
-            total: 0,
-            totalPages: 0,
-            hasNext: false,
-            hasPrev: false,
-          },
-          error: null,
-        };
+        return PaginatedResponseBuilder.success(
+          [],
+          PaginatedResponseBuilder.createPagination(page, limit, 0)
+        );
       }
 
       // Apply company filter on raw data
@@ -118,36 +105,21 @@ export class AlumniService {
       }
 
       const total = count || 0;
-      const totalPages = Math.ceil(total / limit);
+      const pagination = PaginatedResponseBuilder.createPagination(
+        page,
+        limit,
+        total
+      );
 
-      return {
-        data: filteredUsers,
-        pagination: {
-          page,
-          limit,
-          total,
-          totalPages,
-          hasNext: page < totalPages,
-          hasPrev: page > 1,
-        },
-        error: null,
-      };
+      return PaginatedResponseBuilder.success(filteredUsers, pagination);
     } catch (error) {
-      return {
-        data: [],
-        pagination: {
-          page: filters.page || 1,
-          limit: filters.limit || 12,
-          total: 0,
-          totalPages: 0,
-          hasNext: false,
-          hasPrev: false,
-        },
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
-      };
+      const errorMessage =
+        error instanceof Error ? error.message : 'An unexpected error occurred';
+      return PaginatedResponseBuilder.error(
+        errorMessage,
+        filters.page || 1,
+        filters.limit || 12
+      );
     }
   }
 
@@ -173,31 +145,18 @@ export class AlumniService {
         .single();
 
       if (error) {
-        return {
-          data: null,
-          error: error.message,
-        };
+        return ServiceResponseBuilder.error(error.message);
       }
 
       if (!user) {
-        return {
-          data: null,
-          error: 'Alumni profile not found',
-        };
+        return ServiceResponseBuilder.error('Alumni profile not found');
       }
 
-      return {
-        data: user,
-        error: null,
-      };
+      return ServiceResponseBuilder.success(user);
     } catch (error) {
-      return {
-        data: null,
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
-      };
+      const errorMessage =
+        error instanceof Error ? error.message : 'An unexpected error occurred';
+      return ServiceResponseBuilder.error(errorMessage);
     }
   }
 
@@ -244,10 +203,10 @@ export class AlumniService {
         .eq('is_current', true);
 
       // Process the data
-      const byYear = this.groupAndCountByYear(byYearData || []);
-      const byLocation = this.groupAndCountByLocation(byLocationData || []);
-      const byMajor = this.groupAndCountByMajor(byMajorData || []);
-      const byCompany = this.groupAndCountByCompany(experiencesData || []);
+      const byYear = groupAndCountByYear(byYearData || []);
+      const byLocation = groupAndCountByLocation(byLocationData || []);
+      const byMajor = groupAndCountByMajor(byMajorData || []);
+      const byCompany = groupAndCountByCompany(experiencesData || []);
 
       const stats: AlumniStats = {
         total_alumni: totalAlumni || 0,
@@ -257,119 +216,12 @@ export class AlumniService {
         by_major: byMajor,
       };
 
-      return {
-        data: stats,
-        error: null,
-      };
+      return ServiceResponseBuilder.success(stats);
     } catch (error) {
-      return {
-        data: null,
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
-      };
+      const errorMessage =
+        error instanceof Error ? error.message : 'An unexpected error occurred';
+      return ServiceResponseBuilder.error(errorMessage);
     }
-  }
-
-  /**
-   * Helper function to group and count data by year
-   */
-  private groupAndCountByYear(
-    data: YearData
-  ): Array<{ year: number; count: number }> {
-    const grouped = data.reduce(
-      (acc, item) => {
-        const value = item.year;
-        if (value) {
-          acc[value] = (acc[value] || 0) + 1;
-        }
-        return acc;
-      },
-      {} as Record<number, number>
-    );
-
-    return Object.entries(grouped)
-      .map(([key, count]) => ({
-        year: parseInt(key),
-        count: count as number,
-      }))
-      .sort((a, b) => (b.count as number) - (a.count as number));
-  }
-
-  /**
-   * Helper function to group and count data by location
-   */
-  private groupAndCountByLocation(
-    data: LocationData
-  ): Array<{ location: string; count: number }> {
-    const grouped = data.reduce(
-      (acc, item) => {
-        const value = item.location;
-        if (value) {
-          acc[value] = (acc[value] || 0) + 1;
-        }
-        return acc;
-      },
-      {} as Record<string, number>
-    );
-
-    return Object.entries(grouped)
-      .map(([key, count]) => ({
-        location: key,
-        count: count as number,
-      }))
-      .sort((a, b) => (b.count as number) - (a.count as number));
-  }
-
-  /**
-   * Helper function to group and count data by company
-   */
-  private groupAndCountByCompany(
-    data: CompanyData
-  ): Array<{ company: string; count: number }> {
-    const grouped = data.reduce(
-      (acc, item) => {
-        const value = item.company;
-        if (value) {
-          acc[value] = (acc[value] || 0) + 1;
-        }
-        return acc;
-      },
-      {} as Record<string, number>
-    );
-
-    return Object.entries(grouped)
-      .map(([key, count]) => ({
-        company: key,
-        count: count as number,
-      }))
-      .sort((a, b) => (b.count as number) - (a.count as number));
-  }
-
-  /**
-   * Helper function to group and count data by major
-   */
-  private groupAndCountByMajor(
-    data: MajorData
-  ): Array<{ major: string; count: number }> {
-    const grouped = data.reduce(
-      (acc, item) => {
-        const value = item.major;
-        if (value) {
-          acc[value] = (acc[value] || 0) + 1;
-        }
-        return acc;
-      },
-      {} as Record<string, number>
-    );
-
-    return Object.entries(grouped)
-      .map(([key, count]) => ({
-        major: key,
-        count: count as number,
-      }))
-      .sort((a, b) => (b.count as number) - (a.count as number));
   }
 }
 
