@@ -1,3 +1,22 @@
+import { UnderConstructionPage } from '@/components/common/UnderConstructionPage';
+import { ROUTES } from '@/constants';
+
+export default function EventsPage() {
+  const breadcrumbItems = [
+    { label: 'Beranda', href: ROUTES.HOME },
+    { label: 'Acara', current: true },
+  ];
+
+  return (
+    <UnderConstructionPage
+      title="Acara"
+      breadcrumbs={breadcrumbItems}
+      estimatedCompletion="Maret 2026"
+    />
+  );
+}
+
+/* TEMPORARILY DISABLED - UNDER CONSTRUCTION
 import { Metadata } from 'next';
 import {
   Breadcrumb,
@@ -35,7 +54,7 @@ export default function EventsPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Breadcrumb */}
+      MARK: Breadcrumb
       <div className="bg-muted/30 border-b">
         <div className="container mx-auto px-4 py-4">
           <Breadcrumb>
@@ -61,8 +80,9 @@ export default function EventsPage() {
         </div>
       </div>
 
-      {/* Content */}
+      MARK: Content
       <EventsPageContent events={upcomingEvents} categories={categories} />
     </div>
   );
 }
+*/

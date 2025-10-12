@@ -1,3 +1,22 @@
+import { UnderConstructionPage } from '@/components/common/UnderConstructionPage';
+import { ROUTES } from '@/constants';
+
+export default function TermsOfServicePage() {
+  const breadcrumbItems = [
+    { label: 'Beranda', href: ROUTES.HOME },
+    { label: 'Syarat dan Ketentuan', current: true },
+  ];
+
+  return (
+    <UnderConstructionPage
+      title="Syarat dan Ketentuan"
+      breadcrumbs={breadcrumbItems}
+      estimatedCompletion="Maret 2026"
+    />
+  );
+}
+
+/* TEMPORARILY DISABLED - UNDER CONSTRUCTION
 import { Metadata } from 'next';
 import { Gavel } from 'lucide-react';
 import { ROUTES, APP_CONFIG } from '@/constants';
@@ -59,3 +78,4 @@ export default function TermsOfServicePage() {
     </LegalPageLayout>
   );
 }
+*/

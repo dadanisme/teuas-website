@@ -1,3 +1,24 @@
+import { UnderConstructionPage } from '@/components/common/UnderConstructionPage';
+import { ROUTES } from '@/constants';
+
+export default function GalleryPage() {
+  const breadcrumbItems = [
+    { label: 'Beranda', href: ROUTES.HOME },
+    { label: 'Galeri', current: true },
+  ];
+
+  return (
+    <UnderConstructionPage
+      title="Galeri"
+      breadcrumbs={breadcrumbItems}
+      estimatedCompletion="Maret 2026"
+    />
+  );
+}
+
+/*
+TEMPORARILY DISABLED - UNDER CONSTRUCTION
+
 import { Metadata } from 'next';
 import {
   Breadcrumb,
@@ -30,7 +51,6 @@ export default function GalleryPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Breadcrumb */}
       <div className="bg-muted/30 border-b">
         <div className="container mx-auto px-4 py-4">
           <Breadcrumb>
@@ -55,9 +75,8 @@ export default function GalleryPage() {
           </Breadcrumb>
         </div>
       </div>
-
-      {/* Content */}
       <MediaPageContent albums={MOCK_MEDIA_ALBUMS} />
     </div>
   );
 }
+*/

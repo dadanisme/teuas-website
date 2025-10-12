@@ -1,3 +1,22 @@
+import { UnderConstructionPage } from '@/components/common/UnderConstructionPage';
+import { ROUTES } from '@/constants';
+
+export default function ScholarshipsDirectoryPage() {
+  const breadcrumbs = [
+    { label: 'Beranda', href: ROUTES.HOME },
+    { label: 'Beasiswa', current: true },
+  ];
+
+  return (
+    <UnderConstructionPage
+      title="Beasiswa"
+      breadcrumbs={breadcrumbs}
+      estimatedCompletion="Maret 2026"
+    />
+  );
+}
+
+/* TEMPORARILY DISABLED - UNDER CONSTRUCTION
 import { PageHeader } from '@/components/common/PageHeader';
 import { AlumniCTA } from '@/components/features/alumni/AlumniCTA';
 import { Separator } from '@/components/ui/separator';
@@ -42,3 +61,4 @@ export default function ScholarshipsDirectoryPage() {
     </>
   );
 }
+*/

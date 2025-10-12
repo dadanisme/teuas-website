@@ -1,3 +1,23 @@
+import { UnderConstructionPage } from '@/components/common/UnderConstructionPage';
+import { ROUTES } from '@/constants';
+
+export default function DonationsDirectoryPage() {
+  const breadcrumbs = [
+    { label: 'Beranda', href: ROUTES.HOME },
+    { label: 'Beasiswa', href: ROUTES.SCHOLARSHIPS.ROOT },
+    { label: 'Donasi', current: true },
+  ];
+
+  return (
+    <UnderConstructionPage
+      title="Donasi"
+      breadcrumbs={breadcrumbs}
+      estimatedCompletion="Maret 2026"
+    />
+  );
+}
+
+/* TEMPORARILY DISABLED - UNDER CONSTRUCTION
 import { PageHeader } from '@/components/common/PageHeader';
 import { Separator } from '@/components/ui/separator';
 import type { Metadata } from 'next';
@@ -29,3 +49,4 @@ export default function DonationsDirectoryPage() {
     </>
   );
 }
+*/

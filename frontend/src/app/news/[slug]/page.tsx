@@ -1,3 +1,31 @@
+import { UnderConstructionPage } from '@/components/common/UnderConstructionPage';
+import { ROUTES } from '@/constants';
+
+interface NewsDetailPageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
+export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
+  const { slug: _slug } = await params;
+
+  const breadcrumbItems = [
+    { label: 'Beranda', href: ROUTES.HOME },
+    { label: 'Berita', href: ROUTES.NEWS.ROOT },
+    { label: 'Detail Berita', current: true },
+  ];
+
+  return (
+    <UnderConstructionPage
+      title="Detail Berita"
+      breadcrumbs={breadcrumbItems}
+      estimatedCompletion="Maret 2026"
+    />
+  );
+}
+
+/* TEMPORARILY DISABLED - UNDER CONSTRUCTION
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import {
@@ -67,7 +95,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Breadcrumb */}
+      MARK: Breadcrumb
       <div className="bg-muted/30 border-b">
         <div className="container mx-auto px-4 py-4">
           <Breadcrumb>
@@ -95,7 +123,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
         </div>
       </div>
 
-      {/* Back Button */}
+      MARK: Back Button
       <div className="container mx-auto px-4 py-4">
         <Button variant="ghost" asChild className="mb-4">
           <Link href={ROUTES.NEWS.ROOT}>
@@ -105,12 +133,12 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
         </Button>
       </div>
 
-      {/* Main Content */}
+      MARK: Main Content
       <div className="container mx-auto px-4 pb-12">
-        {/* Article Content */}
+        MARK: Article Content
 
         <article className="space-y-6">
-          {/* Header */}
+          MARK: Header
           <div className="space-y-4">
             <Badge variant="outline" className="w-fit">
               {article.category.name}
@@ -122,7 +150,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
 
             <p className="text-muted-foreground text-lg">{article.excerpt}</p>
 
-            {/* Meta Info */}
+            MARK: Meta Info
             <div className="text-muted-foreground flex flex-wrap items-center gap-4 text-sm">
               <div className="flex items-center gap-1">
                 <User className="h-4 w-4" />
@@ -149,7 +177,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
               </div>
             </div>
 
-            {/* Share Button */}
+            MARK: Share Button
             <div className="flex items-center gap-2">
               <Button variant="outline" size="sm">
                 <Share2 className="mr-2 h-4 w-4" />
@@ -160,7 +188,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
 
           <Separator />
 
-          {/* Featured Image */}
+          MARK: Featured Image
           {article.featuredImage && (
             <div className="relative h-64 overflow-hidden rounded-lg md:h-[600px]">
               <Image
@@ -173,7 +201,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
             </div>
           )}
 
-          {/* Content */}
+          MARK: Content
           <div className="prose prose-lg max-w-none">
             <div
               className="text-foreground leading-relaxed"
@@ -181,7 +209,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
             />
           </div>
 
-          {/* Tags */}
+          MARK: Tags
           {article.tags.length > 0 && (
             <div className="space-y-2">
               <h3 className="text-muted-foreground text-sm font-medium">
@@ -201,3 +229,4 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     </div>
   );
 }
+*/
