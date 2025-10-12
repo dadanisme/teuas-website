@@ -306,10 +306,20 @@ select: (response: ServiceResponse<T>) => {
 - **Relationships:** Use Supabase's relationship queries for joined data
 - **Filtering:** Implement filtering at the database level when possible
 
-### Styling
+### File Size & Organization
+
+- **Maximum file size:** 150 lines per file
+- **Split large files:** If a file exceeds 150 lines, split into smaller self-contained modules
+- **Co-locate helpers:** Keep related functionality together when possible
+- **Descriptive naming:** Use intent-based file names (e.g., `useUploadHandler.ts`, not `utils.ts`)
+
+### Styling & Colors
 
 - **Tailwind:** Utility-first approach
 - **Components:** Use shadcn/ui for consistency
+- **Semantic colors:** Always use shadcn semantic color tokens (e.g., `text-foreground`, `bg-primary`, `border-muted`)
+- **No hardcoded colors:** Never use hardcoded color values (e.g., `text-orange-500`, `bg-yellow-400`)
+- **Color configuration:** If new colors are needed, add them to the project's color style configuration
 - **Responsive:** Mobile-first design
 - **Dark mode:** Ready for implementation
 
