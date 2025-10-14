@@ -1,6 +1,8 @@
 'use client';
 
 import { Users } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { AlumniCard } from './AlumniCard';
 import { AlumniFilters } from './AlumniFilters';
 import { AlumniPagination } from './AlumniPagination';
@@ -44,9 +46,62 @@ export function AlumniDirectory() {
 
       {/* Loading State */}
       {isLoading && (
-        <div className="py-12 text-center">
-          <div className="border-primary mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-t-transparent"></div>
-          <p className="text-muted-foreground">Memuat data alumni...</p>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {[...Array(8)].map((_, i) => (
+            <Card key={i} className="flex h-full flex-col overflow-hidden p-0">
+              <CardContent className="flex h-full flex-col p-0">
+                {/* Profile Header Skeleton */}
+                <div className="from-muted/50 to-muted/30 relative bg-gradient-to-r p-6 pb-16">
+                  <div className="absolute bottom-0 left-6 translate-y-1/2">
+                    <Skeleton className="h-20 w-20 rounded-full" />
+                  </div>
+                  <div className="absolute bottom-[3px] left-30 translate-y-1/2">
+                    <Skeleton className="mb-2 h-5 w-32" />
+                    <Skeleton className="h-4 w-20" />
+                  </div>
+                </div>
+
+                {/* Profile Content Skeleton */}
+                <div className="mt-6 flex flex-grow flex-col p-6">
+                  <div className="mb-4 space-y-2">
+                    {/* Position and Company */}
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="h-4 w-4 rounded" />
+                      <Skeleton className="h-4 w-24" />
+                      <Skeleton className="h-1.5 w-1.5 rounded-full" />
+                      <Skeleton className="h-4 w-20" />
+                    </div>
+
+                    {/* Location */}
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="h-4 w-4 rounded" />
+                      <Skeleton className="h-4 w-16" />
+                    </div>
+                  </div>
+
+                  {/* Bio */}
+                  <div className="mb-4 space-y-2">
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/4" />
+                  </div>
+
+                  {/* Skills */}
+                  <div className="mb-4">
+                    <div className="flex flex-wrap gap-1">
+                      <Skeleton className="h-6 w-16 rounded-full" />
+                      <Skeleton className="h-6 w-20 rounded-full" />
+                      <Skeleton className="h-6 w-14 rounded-full" />
+                    </div>
+                  </div>
+
+                  {/* Button */}
+                  <div className="mt-auto">
+                    <Skeleton className="h-10 w-full rounded-md" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       )}
 

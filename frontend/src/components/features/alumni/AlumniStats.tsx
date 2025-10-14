@@ -1,6 +1,7 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Users, MapPin, Briefcase, GraduationCap } from 'lucide-react';
 import { useAlumniStats } from '@/hooks/queries/useAlumni';
 
@@ -13,19 +14,24 @@ export function AlumniStats({ className = '' }: AlumniStatsProps) {
 
   if (isLoading) {
     return (
-      <div
-        className={`grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 ${className}`}
-      >
-        {[...Array(4)].map((_, i) => (
-          <Card key={i} className="animate-pulse">
-            <CardContent className="p-6">
-              <div className="bg-muted mb-2 h-4 rounded"></div>
-              <div className="bg-muted mb-2 h-8 rounded"></div>
-              <div className="bg-muted h-3 rounded"></div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <section className={`bg-background py-16 ${className}`}>
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {[...Array(4)].map((_, i) => (
+              <Card key={i} className="bg-muted/30 border-0 text-center">
+                <CardContent className="p-6">
+                  <Skeleton className="mx-auto mb-4 h-16 w-16 rounded-full" />
+                  <div className="space-y-2">
+                    <Skeleton className="mx-auto h-8 w-20" />
+                    <Skeleton className="mx-auto h-6 w-24" />
+                    <Skeleton className="mx-auto h-4 w-32" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
     );
   }
 
