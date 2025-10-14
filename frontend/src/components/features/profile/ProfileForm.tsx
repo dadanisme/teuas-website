@@ -277,17 +277,19 @@ export function ProfileForm({ userId }: ProfileFormProps) {
               value={activeTab}
               onValueChange={(value) => setActiveTab(value as ProfileSection)}
             >
-              <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7">
+              <TabsList className="flex w-full overflow-x-auto lg:grid lg:grid-cols-7">
                 {tabsConfig.map((tab) => {
                   const Icon = tab.icon;
                   return (
                     <TabsTrigger
                       key={tab.value}
                       value={tab.value}
-                      className="flex items-center space-x-1 text-xs lg:text-sm"
+                      className="flex min-w-0 flex-shrink-0 items-center space-x-1 text-xs whitespace-nowrap lg:text-sm"
                     >
                       <Icon className="h-3 w-3 lg:h-4 lg:w-4" />
-                      <span className="hidden sm:inline">{tab.label}</span>
+                      <span className="hidden sm:inline lg:inline">
+                        {tab.label}
+                      </span>
                     </TabsTrigger>
                   );
                 })}
