@@ -47,7 +47,7 @@ export const MAIN_NAVIGATION: NavItem[] = [
 export const USER_NAVIGATION: NavItem[] = [
   {
     title: 'Profil Saya',
-    href: ROUTES.PROFILE,
+    href: ROUTES.ALUMNI.EDIT_PROFILE,
   },
   {
     title: 'Artikel Saya',
