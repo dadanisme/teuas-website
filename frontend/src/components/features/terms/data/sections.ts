@@ -1,4 +1,4 @@
-import { SectionItem } from '@/lib/constants/legal';
+import { SectionItem } from '@/constants/legal';
 import {
   FileText,
   Eye,

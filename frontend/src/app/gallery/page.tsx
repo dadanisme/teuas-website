@@ -1,3 +1,24 @@
+import { UnderConstructionPage } from '@/components/common/UnderConstructionPage';
+import { ROUTES } from '@/constants';
+
+export default function GalleryPage() {
+  const breadcrumbItems = [
+    { label: 'Beranda', href: ROUTES.HOME },
+    { label: 'Galeri', current: true },
+  ];
+
+  return (
+    <UnderConstructionPage
+      title="Galeri"
+      breadcrumbs={breadcrumbItems}
+      estimatedCompletion="Maret 2026"
+    />
+  );
+}
+
+/*
+TEMPORARILY DISABLED - UNDER CONSTRUCTION
+
 import { Metadata } from 'next';
 import {
   Breadcrumb,
@@ -8,8 +29,8 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { MediaPageContent } from '@/components/features/media/MediaPageContent';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
-import { MOCK_MEDIA_ALBUMS } from '@/lib/constants/content';
+import { ROUTES, APP_CONFIG } from '@/constants';
+import { MOCK_MEDIA_ALBUMS } from '@/constants/content';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -30,7 +51,6 @@ export default function GalleryPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Breadcrumb */}
       <div className="bg-muted/30 border-b">
         <div className="container mx-auto px-4 py-4">
           <Breadcrumb>
@@ -55,9 +75,8 @@ export default function GalleryPage() {
           </Breadcrumb>
         </div>
       </div>
-
-      {/* Content */}
       <MediaPageContent albums={MOCK_MEDIA_ALBUMS} />
     </div>
   );
 }
+*/

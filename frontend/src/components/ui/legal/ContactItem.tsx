@@ -1,4 +1,4 @@
-import { ContactItemProps } from '@/lib/constants/legal';
+import { ContactItemProps } from '@/constants/legal';
 
 export const ContactItem = ({
   icon: Icon,

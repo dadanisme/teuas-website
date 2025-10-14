@@ -1,0 +1,408 @@
+---
+alwaysApply: true
+---
+
+# Project Guide: IKA TEUAS UPI Website
+
+**Version:** 2.0  
+**Date:** August 3, 2025  
+**Last Updated:** Complete rewrite reflecting current production-ready state
+
+## 1. Overview
+
+This document provides comprehensive context, conventions, and workflow for the **IKA TEUAS UPI alumni platform**. The project is a **sophisticated frontend with Supabase backend** - beautiful UI exists and needs Supabase integration.
+
+**Current Status:** ✅ **SUPABASE INTEGRATION COMPLETE** - Frontend and Supabase are fully integrated with modern architectural patterns.
+
+For detailed features and requirements, refer to **[PRD.md](PRD.md)**.  
+For implementation phases, see **[plans/](plans/)** directory.
+
+## 2. Core Mandates for AI Contribution
+
+As an AI assistant, you must adhere to these principles:
+
+1. **Service Architecture:** Follow established **dependency injection patterns** with constructor-based injection for Supabase clients. Provide both DI classes and singleton exports for backward compatibility.
+
+2. **Maintain Architecture:** The project uses a **Next.js frontend with Supabase backend** structure with direct database calls through services. No additional API routes needed.
+
+3. **TypeScript First:** Frontend is **fully TypeScript**. Maintain strict typing with proper service interfaces and response builders.
+
+4. **Service Layer Patterns:** Follow established patterns:
+   - Constructor injection for Supabase clients (like `AlumniService`)
+   - Consistent response builders (`ServiceResponseBuilder`, `PaginatedResponseBuilder`)
+   - Direct Supabase database calls through service methods
+   - Both DI classes and singleton exports for flexibility
+
+5. **Test Integration:** Always test service integrations and run `npm run lint` and `npm run type-check`.
+
+6. **Code Quality:** Follow established patterns in the codebase. Reference existing service implementations when adding new features.
+
+## 3. Technology Stack
+
+### Architecture
+
+- **Frontend:** Next.js 15 with App Router
+- **Backend:** Supabase (PostgreSQL + Auth + Storage)
+- **Package Manager:** npm
+- **Build System:** Next.js build system
+
+### Frontend (`@teuas/frontend`)
+
+- **Framework:** Next.js 15 with App Router
+- **Language:** TypeScript with strict typing
+- **Styling:** Tailwind CSS 4.0
+- **Components:** shadcn/ui (40+ components)
+- **Authentication:** Supabase Auth with dependency injection
+- **Forms:** React Hook Form with Zod validation
+- **Animations:** Framer Motion
+- **Data Fetching:** React Query with custom hooks
+- **Services:** Class-based services with constructor injection
+
+### Backend (Supabase)
+
+- **Database:** PostgreSQL with Row Level Security
+- **Authentication:** Supabase Auth with JWT
+- **Storage:** Supabase Storage for file uploads
+- **Real-time:** Supabase Realtime subscriptions
+- **API:** Auto-generated REST and GraphQL APIs
+
+## 4. Project Structure
+
+```
+teuas-website/                    # Next.js project root
+├── frontend/                     # @teuas/frontend
+│   ├── src/
+│   │   ├── app/                  # Next.js App Router pages
+│   │   │   ├── (18 implemented pages)
+│   │   │   └── globals.css
+│   │   ├── components/
+│   │   │   ├── ui/               # shadcn/ui components
+│   │   │   ├── features/         # Feature-specific components
+│   │   │   ├── layout/           # Header, Footer, etc.
+│   │   │   └── common/           # Shared components
+│   │   ├── lib/
+│   │   │   ├── constants/        # App configuration
+│   │   │   └── validations/      # Zod schemas
+│   │   ├── services/             # Service layer with DI
+│   │   ├── helpers/              # Response builders and utilities
+│   │   ├── hooks/                # React Query custom hooks
+│   │   └── types/                # Frontend type definitions
+│   ├── supabase/                 # Supabase configuration
+│   │   ├── config.toml           # Local development config
+│   │   └── migrations/           # Database migrations
+│   └── public/                   # Static assets
+├── plans/                        # Implementation documentation
+└── package.json                  # Root workspace config
+```
+
+## 5. Development Workflow
+
+### Quick Start
+
+```bash
+# Navigate to frontend directory
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Start Supabase locally (optional)
+npx supabase start
+```
+
+### Available Commands
+
+```bash
+# Frontend development
+cd frontend
+npm run dev           # Next.js dev with Turbopack
+npm run build         # Next.js production build
+npm run start         # Next.js production server
+npm run lint          # ESLint checking
+npm run type-check    # TypeScript checking
+npm run format        # Format with Prettier
+
+# Supabase commands
+npx supabase start    # Start local Supabase
+npx supabase stop     # Stop local Supabase
+npx supabase status   # Check Supabase status
+npx supabase db reset # Reset local database
+```
+
+## 6. Implemented Features
+
+### ✅ Frontend Complete (18 Pages)
+
+**Core Pages:**
+
+- Homepage with hero section and highlights ✅
+- About page with mission/vision ✅
+- Contact page with services info ✅
+
+**Authentication:**
+
+- Login page with Supabase Auth integration ✅
+- Register page with validation and backend connection ✅
+- Supabase Auth setup with proper session management ✅
+
+**Alumni Features:**
+
+- Alumni directory with filters and real data ✅
+- Individual alumni profiles with full database integration ✅
+- Alumni statistics with live database queries ✅
+
+**Content Pages:**
+
+- News section ✅ (ready for content management)
+- Events system ✅ (ready for content management)
+- Media gallery ✅ (ready for content management)
+- Scholarships ✅ (ready for content management)
+- Privacy/Terms pages ✅
+
+### ✅ Full Integration Complete
+
+- **Complete backend-frontend communication** through service layer
+- **Real authentication** with Supabase Auth and session management
+- **Live data** from Supabase database with proper typing
+- **Consistent API patterns** through dependency injection
+- **File upload** ready through Supabase Storage
+- **Email notifications** ready for implementation
+
+## 7. Database Schema
+
+**Database:** Supabase PostgreSQL with Row Level Security
+
+**Main Tables:**
+
+- `users` - Main user profiles linked to Supabase Auth
+- `user_experiences` - Work experience entries
+- `user_educations` - Educational background
+- `user_socials` - Social media links
+- `user_skills` - Skills and expertise
+- `user_certifications` - Professional certifications
+
+**Storage:**
+
+- `avatars` bucket for profile photos with RLS policies
+
+See `frontend/supabase/migrations/` for complete schema.
+
+## 8. Coding Conventions
+
+### Service Architecture & Dependency Injection
+
+**Service Classes:** Use constructor-based dependency injection for Supabase clients:
+
+```typescript
+export class AlumniService {
+  private supabase: SupabaseClient<Database>;
+
+  constructor(supabaseClient: SupabaseClient<Database>) {
+    this.supabase = supabaseClient;
+  }
+
+  async getAlumni(filters: AlumniFilters = {}): Promise<AlumniListResponse> {
+    // Implementation using this.supabase
+  }
+}
+
+// Provide both DI class and singleton export
+export const alumniService = new AlumniService(createClientSideClient());
+```
+
+**Response Builders:** Use consistent response patterns:
+
+```typescript
+// For single responses
+return ServiceResponseBuilder.success(data);
+return ServiceResponseBuilder.error('Error message');
+
+// For paginated responses
+return PaginatedResponseBuilder.success(data, pagination);
+return PaginatedResponseBuilder.error('Error message', page, limit);
+```
+
+**Supabase Client Injection:** Support both client and server contexts:
+
+```typescript
+// Client-side usage
+const clientService = new AlumniService(createClient());
+
+// Server-side usage
+const serverClient = await createServerClient();
+const serverService = new AlumniService(serverClient);
+```
+
+### TypeScript
+
+- **Strict typing:** All functions, props, and variables must be typed
+- **Interface naming:** Use `PascalCase` (e.g., `UserProfile`, `ServiceResponse`)
+- **Service types:** Use `SupabaseClient<Database>` for client injection
+- **Response types:** Use `ServiceResponse<T>` and `PaginatedResponse<T>`
+
+### React/Next.js
+
+- **Components:** `PascalCase` with descriptive names
+- **Props:** Use interfaces, not types for component props
+- **File naming:** `kebab-case` for files, `PascalCase` for components
+- **Hooks:** Custom hooks for React Query integration (`useAlumniList`, `useAlumniProfile`)
+
+### Data Fetching & React Query
+
+**Custom Hook Pattern:** Create hooks that wrap service calls:
+
+```typescript
+export function useAlumniList(filters: AlumniFilters = {}) {
+  return useQuery({
+    queryKey: queryKeys.alumni.list(filters as Record<string, unknown>),
+    queryFn: () => alumniService.getAlumni(filters),
+    select: (response: AlumniListResponse) => {
+      if (response.error) {
+        throw new Error(response.error);
+      }
+      return response;
+    },
+    enabled: true,
+    refetchOnWindowFocus: false,
+  });
+}
+```
+
+**Query Key Patterns:** Use consistent, hierarchical query keys:
+
+```typescript
+export const queryKeys = {
+  alumni: {
+    all: ['alumni'] as const,
+    lists: () => [...queryKeys.alumni.all, 'list'] as const,
+    list: (filters: Record<string, unknown>) =>
+      [...queryKeys.alumni.lists(), filters] as const,
+    details: () => [...queryKeys.alumni.all, 'detail'] as const,
+    detail: (id: string) => [...queryKeys.alumni.details(), id] as const,
+  },
+};
+```
+
+**Error Handling:** Transform service errors into query errors:
+
+```typescript
+select: (response: ServiceResponse<T>) => {
+  if (response.error) {
+    throw new Error(response.error);
+  }
+  return response.data;
+},
+```
+
+**Caching Strategy:** Leverage React Query's built-in caching with appropriate stale times
+
+### Database Integration
+
+- **Direct Calls:** Make direct Supabase calls through services (no API routes)
+- **Row Level Security:** Rely on Supabase RLS for data security
+- **Relationships:** Use Supabase's relationship queries for joined data
+- **Filtering:** Implement filtering at the database level when possible
+
+### File Size & Organization
+
+- **Maximum file size:** 150 lines per file
+- **Split large files:** If a file exceeds 150 lines, split into smaller self-contained modules
+- **Co-locate helpers:** Keep related functionality together when possible
+- **Descriptive naming:** Use intent-based file names (e.g., `useUploadHandler.ts`, not `utils.ts`)
+
+### Styling & Colors
+
+- **Tailwind:** Utility-first approach
+- **Components:** Use shadcn/ui for consistency
+- **Semantic colors:** Always use shadcn semantic color tokens (e.g., `text-foreground`, `bg-primary`, `border-muted`)
+- **No hardcoded colors:** Never use hardcoded color values (e.g., `text-orange-500`, `bg-yellow-400`)
+- **Color configuration:** If new colors are needed, add them to the project's color style configuration
+- **Responsive:** Mobile-first design
+- **Dark mode:** Ready for implementation
+
+## 9. Current Status & Next Steps
+
+### ✅ Completed
+
+- **Frontend UI** - Complete, beautiful, responsive
+- **Supabase Integration** - Full database integration with services
+- **Service Architecture** - Dependency injection with constructor-based pattern
+- **Component library** - 40+ shadcn/ui components
+- **Type safety** - Strict TypeScript with proper service typing
+- **Database setup** - Supabase PostgreSQL with RLS
+- **Authentication** - Supabase Auth fully integrated
+- **Data Fetching** - React Query with custom hooks
+- **Response Patterns** - Consistent ServiceResponseBuilder usage
+
+### 🔄 **ENHANCEMENT OPPORTUNITIES**
+
+1. **Service Standardization** - Migrate remaining services to DI pattern
+2. **Advanced Filtering** - Enhance database query capabilities
+3. **Real-time Features** - Implement Supabase Realtime subscriptions
+4. **Performance Optimization** - Query optimization and caching strategies
+5. **Testing Coverage** - Comprehensive service and integration tests
+
+### 🔄 Future Enhancements (After Integration)
+
+- Admin dashboard for content management
+- Advanced search and filtering
+- Email subscription system
+- Performance optimizations
+- Testing suite implementation
+
+### ✅ **DEPLOYMENT READY**
+
+**Frontend** is production ready:
+
+- SEO optimization ✅
+- Performance considerations ✅
+- Beautiful responsive UI ✅
+- Full Supabase integration ✅
+
+**Backend** (Supabase) is configured:
+
+- Database schema deployed ✅
+- Row Level Security policies ✅
+- Authentication configured ✅
+- Storage buckets configured ✅
+
+## 10. Important Notes
+
+### For AI Assistants
+
+1. **This is a FULLY INTEGRATED project** - frontend and Supabase backend are connected with modern patterns
+2. **PRIMARY GOAL: Maintain and enhance** - follow established architectural patterns and service layer design
+3. **Focus on Enhancement work:** Add new features using existing patterns, optimize performance, add tests
+4. **Service Architecture:** Always use dependency injection pattern for new services, follow `AlumniService` example
+5. **TypeScript is non-negotiable** - maintain strict typing with proper service interfaces
+6. **Test your changes** - always run `npm run lint` and `npm run type-check`
+7. **Follow established patterns** - reference existing services, response builders, and React Query hooks
+
+### Development Guidelines
+
+- **Read existing code** before making changes
+- **Follow established patterns** in the codebase, especially service architecture
+- **Use dependency injection** for new services following `AlumniService` pattern
+- **Implement consistent responses** using `ServiceResponseBuilder` and `PaginatedResponseBuilder`
+- **Update types** when adding new features
+- **Create React Query hooks** for new data fetching needs
+- **Document significant changes** in commit messages
+
+### Service Implementation Checklist
+
+When creating new services:
+
+1. ✅ Use constructor-based dependency injection for Supabase client
+2. ✅ Provide both DI class and singleton export for backward compatibility
+3. ✅ Use consistent response builders for all methods
+4. ✅ Implement proper TypeScript interfaces
+5. ✅ Create corresponding React Query hooks
+6. ✅ Handle errors consistently with try-catch blocks
+7. ✅ Use direct Supabase calls (no API routes)
+
+---
+
+**Remember:** This is a sophisticated and **fully integrated** application. The frontend and Supabase backend communicate through a well-designed service layer with dependency injection. Focus on **maintaining patterns** and **enhancing features** using established architectural principles.

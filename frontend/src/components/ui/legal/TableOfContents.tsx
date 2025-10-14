@@ -1,5 +1,5 @@
 import { FileText } from 'lucide-react';
-import { TableOfContentsProps } from '@/lib/constants/legal';
+import { TableOfContentsProps } from '@/constants/legal';
 
 export const TableOfContents = ({ sections }: TableOfContentsProps) => (
   <div className="sticky top-8">

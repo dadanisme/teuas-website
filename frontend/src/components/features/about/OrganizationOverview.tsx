@@ -2,7 +2,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Users, Calendar, Award, Building } from 'lucide-react';
 import Link from 'next/link';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 
 interface OrganizationOverviewProps {
   className?: string;

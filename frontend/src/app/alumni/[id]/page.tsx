@@ -1,19 +1,8 @@
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { AlumniProfileHeader } from '@/components/features/alumni/AlumniProfileHeader';
-import { AlumniProfileContent } from '@/components/features/alumni/AlumniProfileContent';
-import { AlumniProfileSidebar } from '@/components/features/alumni/AlumniProfileSidebar';
-import { ROUTES } from '@/lib/constants';
-import { MOCK_ALUMNI } from '@/lib/constants/alumni';
+import { AlumniProfilePage } from '@/components/features/alumni/AlumniProfilePage';
+import { AlumniService } from '@/services/alumni.service';
+import { createClient } from '@/utils/supabase/server';
+import { APP_CONFIG } from '@/constants';
 
 interface AlumniProfilePageProps {
   params: Promise<{
@@ -24,84 +13,53 @@ interface AlumniProfilePageProps {
 export async function generateMetadata({
   params,
 }: AlumniProfilePageProps): Promise<Metadata> {
-  const { id: _id } = await params;
-  // In a real app, you would fetch the alumni data here
-  const alumniName = 'Alumni Profile'; // This would come from API
+  const { id } = await params;
+
+  // Fetch alumni profile for metadata generation
+  const supabaseClient = await createClient();
+  const alumniService = new AlumniService(supabaseClient);
+  const alumniResponse = await alumniService.getAlumniProfile(id);
+
+  if (alumniResponse.error || !alumniResponse.data) {
+    return {
+      title: `Alumni Profile | ${APP_CONFIG.name}`,
+      description: `View alumni profile in the TEUAS Alumni Directory. Connect with fellow alumni and expand your professional network.`,
+      openGraph: {
+        title: `Alumni Profile | ${APP_CONFIG.name}`,
+        description: `View alumni profile in the TEUAS Alumni Directory.`,
+        type: 'profile',
+      },
+    };
+  }
+
+  const alumni = alumniResponse.data;
+  const title = `${alumni.full_name} | ${APP_CONFIG.name}`;
+  const description = alumni.bio
+    ? `${alumni.bio.substring(0, 160)}...`
+    : `View ${alumni.full_name}'s profile in the TEUAS Alumni Directory. Connect with fellow alumni and expand your professional network.`;
 
   return {
-    title: `${alumniName} - Alumni Profile | TEUAS`,
-    description: `View ${alumniName}'s profile in the TEUAS Alumni Directory. Connect with fellow alumni and expand your professional network.`,
+    title,
+    description,
     openGraph: {
-      title: `${alumniName} - Alumni Profile | TEUAS`,
-      description: `View ${alumniName}'s profile in the TEUAS Alumni Directory.`,
+      title: alumni.full_name,
+      description,
       type: 'profile',
+      images: alumni.photo_url ? [alumni.photo_url] : undefined,
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+      images: alumni.photo_url ? [alumni.photo_url] : undefined,
     },
   };
 }
 
-export default async function AlumniProfilePage({
+export default async function AlumniProfilePageServer({
   params,
 }: AlumniProfilePageProps) {
   const { id } = await params;
 
-  // Find alumni by ID from constants
-  const alumni = MOCK_ALUMNI.find((a) => a.id === parseInt(id));
-
-  if (!alumni) {
-    notFound();
-  }
-
-  const breadcrumbItems = [
-    { label: 'Beranda', href: ROUTES.HOME },
-    { label: 'Alumni', href: ROUTES.ALUMNI.ROOT },
-    { label: alumni.fullName, href: ROUTES.ALUMNI.PROFILE(id) },
-  ];
-
-  return (
-    <div className="bg-background min-h-screen">
-      {/* Breadcrumb */}
-      <div className="bg-muted/30 border-b">
-        <div className="container mx-auto px-4 py-4">
-          <Breadcrumb>
-            <BreadcrumbList>
-              {breadcrumbItems.map((item, index) => (
-                <div key={index} className="flex items-center">
-                  <BreadcrumbItem>
-                    {index < breadcrumbItems.length - 1 ? (
-                      <BreadcrumbLink asChild>
-                        <Link href={item.href}>{item.label}</Link>
-                      </BreadcrumbLink>
-                    ) : (
-                      <BreadcrumbPage>{item.label}</BreadcrumbPage>
-                    )}
-                  </BreadcrumbItem>
-                  {index < breadcrumbItems.length - 1 && (
-                    <BreadcrumbSeparator />
-                  )}
-                </div>
-              ))}
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-      </div>
-
-      {/* Profile Header */}
-      <AlumniProfileHeader alumni={alumni} />
-
-      {/* Profile Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {/* Main Content */}
-          <div className="lg:col-span-2">
-            <AlumniProfileContent alumni={alumni} />
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <AlumniProfileSidebar alumni={alumni} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return <AlumniProfilePage id={id} />;
 }

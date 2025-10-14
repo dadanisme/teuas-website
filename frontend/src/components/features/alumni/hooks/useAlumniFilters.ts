@@ -1,49 +1,88 @@
-import { useState, useMemo } from 'react';
-import { MOCK_ALUMNI } from '@/lib/constants/alumni';
-import type { AlumniProfile } from '@/types/alumni';
+import { useState, useMemo, useEffect } from 'react';
+import { debounce } from 'lodash';
+import {
+  useAlumniList,
+  useAlumniFilterOptions,
+} from '@/hooks/queries/useAlumni';
+import type { AlumniFilters } from '@/types/alumni-query';
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 12;
 
 export function useAlumniFilters() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
   const [selectedYear, setSelectedYear] = useState('Semua Tahun');
   const [selectedLocation, setSelectedLocation] = useState('Semua Lokasi');
   const [selectedCompany, setSelectedCompany] = useState('Semua Perusahaan');
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredAlumni = useMemo(() => {
-    return MOCK_ALUMNI.filter((alumni: AlumniProfile) => {
-      const matchesSearch =
-        alumni.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (alumni.position &&
-          alumni.position.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (alumni.currentCompany &&
-          alumni.currentCompany
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase()));
+  // Debounced search function using lodash
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((query: string) => {
+        setDebouncedSearchQuery(query);
+        setCurrentPage(1); // Reset to first page when search changes
+        setIsSearching(false);
+      }, 300),
+    []
+  );
 
-      const matchesYear =
-        selectedYear === 'Semua Tahun' ||
-        alumni.graduationYear?.toString() === selectedYear;
-      const matchesLocation =
-        selectedLocation === 'Semua Lokasi' ||
-        alumni.workExperience.some((exp) =>
-          exp.location?.includes(selectedLocation)
-        );
-      const matchesCompany =
-        selectedCompany === 'Semua Perusahaan' ||
-        (alumni.currentCompany &&
-          alumni.currentCompany.includes(selectedCompany));
+  // Cleanup debounced function on unmount
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
 
-      return matchesSearch && matchesYear && matchesLocation && matchesCompany;
-    });
-  }, [searchQuery, selectedYear, selectedLocation, selectedCompany]);
+  // Build filters for the API
+  const filters: AlumniFilters = useMemo(() => {
+    const apiFilters: AlumniFilters = {
+      page: currentPage,
+      limit: ITEMS_PER_PAGE,
+    };
 
-  // Pagination calculations
-  const totalPages = Math.ceil(filteredAlumni.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentAlumni = filteredAlumni.slice(startIndex, endIndex);
+    if (debouncedSearchQuery.trim()) {
+      apiFilters.search = debouncedSearchQuery.trim();
+    }
+
+    if (selectedYear !== 'Semua Tahun') {
+      apiFilters.year = parseInt(selectedYear);
+    }
+
+    if (selectedLocation !== 'Semua Lokasi') {
+      apiFilters.location = selectedLocation;
+    }
+
+    if (selectedCompany !== 'Semua Perusahaan') {
+      apiFilters.company = selectedCompany;
+    }
+
+    return apiFilters;
+  }, [
+    debouncedSearchQuery,
+    selectedYear,
+    selectedLocation,
+    selectedCompany,
+    currentPage,
+  ]);
+
+  // Fetch alumni data using React Query
+  const {
+    data: alumniResponse,
+    isLoading,
+    isError,
+    error,
+  } = useAlumniList(filters);
+
+  // Get filter options
+  const filterOptions = useAlumniFilterOptions();
+
+  // Extract data from response
+  const currentAlumni = alumniResponse?.data || [];
+  const pagination = alumniResponse?.pagination || null;
+  const totalPages = pagination?.totalPages || 0;
+  const filteredCount = pagination?.total || 0;
 
   // Reset to first page when filters change
   const handleFilterChange = (filterType: string, value: string) => {
@@ -63,7 +102,13 @@ export function useAlumniFilters() {
 
   const handleSearchChange = (value: string) => {
     setSearchQuery(value);
-    setCurrentPage(1);
+
+    // Set searching state if query is different from current debounced query
+    if (value !== debouncedSearchQuery) {
+      setIsSearching(true);
+    }
+
+    debouncedSearch(value);
   };
 
   return {
@@ -75,9 +120,18 @@ export function useAlumniFilters() {
     currentPage,
 
     // Computed values
-    filteredAlumni,
     currentAlumni,
     totalPages,
+    filteredCount,
+
+    // Loading and error states
+    isLoading: isLoading || isSearching,
+    isError,
+    error,
+    isSearching,
+
+    // Filter options
+    filterOptions,
 
     // Actions
     setCurrentPage,

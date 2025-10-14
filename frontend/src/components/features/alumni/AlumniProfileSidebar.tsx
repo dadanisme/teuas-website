@@ -1,19 +1,12 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import {
-  Users,
-  Calendar,
-  Award,
-  Eye,
-  UserCheck,
-  BookOpen,
-  TrendingUp,
-} from 'lucide-react';
-import { AlumniProfile } from '@/types/alumni';
+import { Button } from '@/components/ui/button';
+import { Mail, Phone } from 'lucide-react';
+import { AlumniProfile } from '@/types/alumni-query';
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale';
 
 interface AlumniProfileSidebarProps {
   alumni: AlumniProfile;
@@ -22,206 +15,116 @@ interface AlumniProfileSidebarProps {
 export function AlumniProfileSidebar({ alumni }: AlumniProfileSidebarProps) {
   return (
     <div className="space-y-6">
-      {/* Quick Stats */}
+      {/* Basic Info */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
-            Statistik Profil
-          </CardTitle>
+          <CardTitle className="text-lg">Informasi Dasar</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Eye className="text-muted-foreground h-4 w-4" />
-              <span className="text-sm">Dilihat</span>
-            </div>
-            <span className="font-semibold">
-              {alumni.profileViews.toLocaleString()}
-            </span>
+            <span className="text-sm">NIM</span>
+            <span className="font-semibold">{alumni.nim || 'N/A'}</span>
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Users className="text-muted-foreground h-4 w-4" />
-              <span className="text-sm">Koneksi</span>
-            </div>
-            <span className="font-semibold">{alumni.connectionsCount}</span>
+            <span className="text-sm">Tahun Lulus</span>
+            <span className="font-semibold">{alumni.year || 'N/A'}</span>
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <BookOpen className="text-muted-foreground h-4 w-4" />
-              <span className="text-sm">Artikel</span>
-            </div>
-            <span className="font-semibold">{alumni.articlesCount}</span>
+            <span className="text-sm">Jurusan</span>
+            <span className="font-semibold">{alumni.major || 'N/A'}</span>
           </div>
 
-          {alumni.mentorshipInfo.isAvailableAsMentor && (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <UserCheck className="text-muted-foreground h-4 w-4" />
-                <span className="text-sm">Mentee</span>
-              </div>
-              <span className="font-semibold">{alumni.menteeCount}</span>
-            </div>
-          )}
+          <div className="flex items-center justify-between">
+            <span className="text-sm">Gelar</span>
+            <span className="font-semibold">{alumni.degree || 'N/A'}</span>
+          </div>
 
-          <Separator />
+          <div className="flex items-center justify-between">
+            <span className="text-sm">Lokasi</span>
+            <span className="font-semibold">{alumni.location || 'N/A'}</span>
+          </div>
+        </CardContent>
+      </Card>
 
+      {/* Contact Info */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Kontak</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span>Kelengkapan Profil</span>
-              <span className="font-semibold">
-                {alumni.profileCompleteness}%
-              </span>
+            <div className="flex items-center gap-2">
+              <Mail className="h-4 w-4" />
+              <span className="text-sm">{alumni.email}</span>
             </div>
-            <div className="bg-muted h-2 w-full rounded-full">
-              <div
-                className="bg-primary h-2 rounded-full transition-all duration-300"
-                style={{ width: `${alumni.profileCompleteness}%` }}
-              />
+
+            <div className="flex items-center gap-2">
+              <Phone className="h-4 w-4" />
+              <span className="text-sm">{alumni.phone || 'N/A'}</span>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Mentorship Info */}
-      {alumni.mentorshipInfo.isAvailableAsMentor && (
+      {/* Social Links */}
+      {alumni.user_socials && alumni.user_socials.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <UserCheck className="h-5 w-5" />
-              Informasi Mentoring
-            </CardTitle>
+            <CardTitle className="text-lg">Media Sosial</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Badge variant="default" className="bg-green-100 text-green-800">
-                ✓ Tersedia untuk Mentoring
-              </Badge>
-
-              <div className="space-y-1 text-sm">
-                <p>
-                  <strong>Bidang Keahlian:</strong>
-                </p>
-                <div className="flex flex-wrap gap-1">
-                  {alumni.mentorshipInfo.mentorshipAreas.map((area, index) => (
-                    <Badge key={index} variant="outline" className="text-xs">
-                      {area}
-                    </Badge>
-                  ))}
-                </div>
+          <CardContent className="space-y-3">
+            {alumni.user_socials.map((social) => (
+              <div
+                key={social.id}
+                className="flex items-center justify-between"
+              >
+                <span className="text-sm capitalize">{social.platform}</span>
+                <Button variant="outline" size="sm" asChild>
+                  <a
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs"
+                  >
+                    Lihat
+                  </a>
+                </Button>
               </div>
-
-              <div className="flex items-center justify-between text-sm">
-                <span>Kapasitas Mentee:</span>
-                <span className="font-semibold">
-                  {alumni.mentorshipInfo.currentMentees}/
-                  {alumni.mentorshipInfo.maxMentees}
-                </span>
-              </div>
-
-              {alumni.mentorshipInfo.mentoringExperience && (
-                <div className="text-sm">
-                  <p>
-                    <strong>Pengalaman:</strong>
-                  </p>
-                  <p className="text-muted-foreground">
-                    {alumni.mentorshipInfo.mentoringExperience}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            <Button
-              className="w-full"
-              disabled={
-                alumni.mentorshipInfo.currentMentees >=
-                alumni.mentorshipInfo.maxMentees
-              }
-            >
-              <Calendar className="mr-2 h-4 w-4" />
-              {alumni.mentorshipInfo.currentMentees >=
-              alumni.mentorshipInfo.maxMentees
-                ? 'Kapasitas Penuh'
-                : 'Request Mentoring'}
-            </Button>
+            ))}
           </CardContent>
         </Card>
       )}
 
-      {/* Verification Status */}
+      {/* Account Status */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Award className="h-5 w-5" />
-            Status Verifikasi
-          </CardTitle>
+          <CardTitle className="text-lg">Status Akun</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm">Status Akun:</span>
-            <Badge
-              variant={
-                alumni.verificationStatus === 'verified'
-                  ? 'default'
-                  : 'secondary'
-              }
-              className={
-                alumni.verificationStatus === 'verified'
-                  ? 'bg-green-100 text-green-800'
-                  : ''
-              }
-            >
-              {alumni.verificationStatus === 'verified'
-                ? '✓ Terverifikasi'
-                : alumni.verificationStatus === 'pending'
-                  ? 'Menunggu'
-                  : 'Ditolak'}
+            <span className="text-sm">Status</span>
+            <Badge variant={alumni.role === 'user' ? 'default' : 'secondary'}>
+              {alumni.role === 'user' ? 'Alumni' : alumni.role}
             </Badge>
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="text-sm">Status Profil:</span>
-            <Badge
-              variant={
-                alumni.accountStatus === 'active' ? 'default' : 'secondary'
-              }
-              className={
-                alumni.accountStatus === 'active'
-                  ? 'bg-green-100 text-green-800'
-                  : ''
-              }
-            >
-              {alumni.accountStatus === 'active'
-                ? 'Aktif'
-                : alumni.accountStatus === 'inactive'
-                  ? 'Tidak Aktif'
-                  : 'Ditangguhkan'}
+            <span className="text-sm">Akun</span>
+            <Badge variant={alumni.deleted ? 'destructive' : 'default'}>
+              {alumni.deleted ? 'Nonaktif' : 'Aktif'}
             </Badge>
           </div>
 
-          {alumni.lastLoginAt && (
-            <div className="text-muted-foreground text-xs">
-              Terakhir aktif:{' '}
-              {new Date(alumni.lastLoginAt).toLocaleDateString('id-ID')}
-            </div>
-          )}
+          <div className="text-muted-foreground text-xs">
+            Bergabung:{' '}
+            {format(new Date(alumni.created_at), 'dd MMM yyyy', {
+              locale: id,
+            })}
+          </div>
         </CardContent>
       </Card>
-
-      {/* Contact Visibility Notice */}
-      {!alumni.privacySettings.contactInfoVisible && (
-        <Card className="border-amber-200 bg-amber-50">
-          <CardContent className="p-4">
-            <p className="text-sm text-amber-800">
-              <strong>Catatan:</strong> Alumni ini membatasi visibilitas
-              informasi kontak. Gunakan fitur pesan untuk berkomunikasi.
-            </p>
-          </CardContent>
-        </Card>
-      )}
     </div>
   );
 }

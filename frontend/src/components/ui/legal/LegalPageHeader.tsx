@@ -1,5 +1,5 @@
 import { Calendar } from 'lucide-react';
-import { LegalPageHeaderProps } from '@/lib/constants/legal';
+import { LegalPageHeaderProps } from '@/constants/legal';
 
 export const LegalPageHeader = ({
   title,

@@ -8,7 +8,7 @@ import {
   MessageSquare,
   Camera,
 } from 'lucide-react';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 
 const focusFeatures = [
   {

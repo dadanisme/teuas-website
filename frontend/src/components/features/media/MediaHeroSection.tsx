@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Play, Calendar, Image as ImageIcon, Video, Eye } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 import { MediaAlbum } from '@/types/content';
 
 interface MediaHeroSectionProps {

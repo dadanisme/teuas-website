@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useSession, signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
@@ -18,38 +17,37 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import { Menu, X, User, LogOut, Settings } from 'lucide-react';
-import { MAIN_NAVIGATION, USER_NAVIGATION } from '@/lib/constants/navigation';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
+import { MAIN_NAVIGATION } from '@/constants/navigation';
+import { ROUTES, APP_CONFIG } from '@/constants';
+import { useAuth } from '@/hooks/useAuth';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { data: session, status } = useSession();
   const pathname = usePathname();
-
-  const handleSignOut = async () => {
-    await signOut({ redirect: false });
-  };
-
-  const getUserInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  };
+  const {
+    isAuthenticated,
+    user,
+    signOut,
+    getDisplayName,
+    getInitials,
+    getPhotoUrl,
+  } = useAuth();
 
   const isActiveRoute = (href: string) => {
     if (href === '/') {
       return pathname === '/';
     }
     return pathname.startsWith(href);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
   };
 
   return (
@@ -137,78 +135,61 @@ export function Header() {
 
         {/* Right Side - Auth and Mobile Menu */}
         <div className="flex items-center space-x-4">
-          {/* User Menu or Login Button */}
-          {status === 'loading' ? (
-            <div className="bg-muted h-8 w-8 animate-pulse rounded-full" />
-          ) : session?.user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="relative h-8 w-8 rounded-full"
-                >
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="" alt={session.user.name || ''} />
-                    <AvatarFallback>
-                      {getUserInitials(
-                        session.user.name || session.user.email || 'U'
-                      )}
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
-                <div className="flex items-center justify-start gap-2 p-2">
-                  <div className="flex flex-col space-y-1 leading-none">
-                    {session.user.name && (
-                      <p className="font-medium">{session.user.name}</p>
-                    )}
-                    {session.user.email && (
-                      <p className="text-muted-foreground w-[200px] truncate text-sm">
-                        {session.user.email}
+          {isAuthenticated ? (
+            /* Authenticated User Menu */
+            <div className="hidden sm:flex">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                  >
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage
+                        src={getPhotoUrl() || undefined}
+                        alt={getDisplayName()}
+                      />
+                      <AvatarFallback>{getInitials()}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm leading-none font-medium">
+                        {getDisplayName()}
                       </p>
-                    )}
-                    {session.user.role === 'admin' && (
-                      <Badge variant="secondary" className="w-fit text-xs">
-                        Admin
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-                <DropdownMenuSeparator />
-                {USER_NAVIGATION.map((item) => (
-                  <DropdownMenuItem key={item.href} asChild>
-                    <Link href={item.href} className="cursor-pointer">
+                      <p className="text-muted-foreground text-xs leading-none">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="cursor-pointer">
                       <User className="mr-2 h-4 w-4" />
-                      {item.title}
+                      <span>Profile</span>
                     </Link>
                   </DropdownMenuItem>
-                ))}
-                {session.user.role === 'admin' && (
-                  <>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <Link
-                        href={ROUTES.ADMIN.DASHBOARD}
-                        className="cursor-pointer"
-                      >
-                        <Settings className="mr-2 h-4 w-4" />
-                        Admin Dashboard
-                      </Link>
-                    </DropdownMenuItem>
-                  </>
-                )}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={handleSignOut}
-                  className="cursor-pointer"
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <DropdownMenuItem asChild>
+                    <Link href="/settings" className="cursor-pointer">
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    className="cursor-pointer"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           ) : (
+            /* Unauthenticated User Buttons */
             <div className="hidden sm:flex">
               <Button asChild>
                 <Link href={ROUTES.LOGIN}>Join Alumni</Link>
@@ -288,30 +269,89 @@ export function Header() {
               })}
 
               {/* Mobile Auth Buttons */}
-              {!session?.user && (
-                <div className="space-y-2 border-t pt-4 sm:hidden">
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    asChild
-                  >
-                    <Link
-                      href={ROUTES.LOGIN}
-                      onClick={() => setIsMobileMenuOpen(false)}
+              <div className="space-y-2 border-t pt-4 sm:hidden">
+                {isAuthenticated ? (
+                  <>
+                    <div className="flex items-center space-x-3 px-2 py-2">
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage
+                          src={getPhotoUrl() || undefined}
+                          alt={getDisplayName()}
+                        />
+                        <AvatarFallback>{getInitials()}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col">
+                        <p className="text-sm font-medium">
+                          {getDisplayName()}
+                        </p>
+                        <p className="text-muted-foreground text-xs">
+                          {user?.email}
+                        </p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start"
+                      asChild
                     >
-                      Sign In
-                    </Link>
-                  </Button>
-                  <Button className="w-full" asChild>
-                    <Link
-                      href={ROUTES.REGISTER}
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      <Link
+                        href="/profile"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <User className="mr-2 h-4 w-4" />
+                        Profile
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start"
+                      asChild
                     >
-                      Join Alumni
-                    </Link>
-                  </Button>
-                </div>
-              )}
+                      <Link
+                        href="/settings"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <Settings className="mr-2 h-4 w-4" />
+                        Settings
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start"
+                      onClick={() => {
+                        handleSignOut();
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Log out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start"
+                      asChild
+                    >
+                      <Link
+                        href={ROUTES.LOGIN}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        Sign In
+                      </Link>
+                    </Button>
+                    <Button className="w-full" asChild>
+                      <Link
+                        href={ROUTES.REGISTER}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        Join Alumni
+                      </Link>
+                    </Button>
+                  </>
+                )}
+              </div>
             </nav>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { CheckCircle } from 'lucide-react';
-import { ChecklistItemProps } from '@/lib/constants/legal';
+import { ChecklistItemProps } from '@/constants/legal';
 
 export const ChecklistItem = ({
   children,

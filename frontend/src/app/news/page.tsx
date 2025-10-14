@@ -1,3 +1,22 @@
+import { UnderConstructionPage } from '@/components/common/UnderConstructionPage';
+import { ROUTES } from '@/constants';
+
+export default function NewsPage() {
+  const breadcrumbItems = [
+    { label: 'Beranda', href: ROUTES.HOME },
+    { label: 'Berita', current: true },
+  ];
+
+  return (
+    <UnderConstructionPage
+      title="Berita"
+      breadcrumbs={breadcrumbItems}
+      estimatedCompletion="Maret 2026"
+    />
+  );
+}
+
+/* TEMPORARILY DISABLED - UNDER CONSTRUCTION
 import { Metadata } from 'next';
 import {
   Breadcrumb,
@@ -8,11 +27,8 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { NewsPageContent } from '@/components/features/news/NewsPageContent';
-import { ROUTES, APP_CONFIG } from '@/lib/constants';
-import {
-  MOCK_NEWS_ARTICLES,
-  MOCK_NEWS_CATEGORIES,
-} from '@/lib/constants/content';
+import { ROUTES, APP_CONFIG } from '@/constants';
+import { MOCK_NEWS_ARTICLES, MOCK_NEWS_CATEGORIES } from '@/constants/content';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -37,7 +53,7 @@ export default function NewsPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Breadcrumb */}
+      MARK: Breadcrumb
       <div className="bg-muted/30 border-b">
         <div className="container mx-auto px-4 py-4">
           <Breadcrumb>
@@ -63,8 +79,9 @@ export default function NewsPage() {
         </div>
       </div>
 
-      {/* Content */}
+      MARK: Content
       <NewsPageContent newsArticles={newsArticles} categories={categories} />
     </div>
   );
 }
+*/

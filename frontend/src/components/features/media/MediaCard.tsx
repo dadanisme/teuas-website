@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Calendar, Eye, Download, ExternalLink, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ROUTES } from '@/lib/constants';
+import { ROUTES } from '@/constants';
 
 interface MediaCardProps {
   album: MediaAlbum;
