@@ -54,10 +54,10 @@ export function ProfileSkills({ profile }: ProfileSkillsProps) {
         return;
       }
 
-      toast.success('Skills updated successfully');
+      toast.success('Keahlian berhasil diperbarui');
       setIsManagingSkills(false);
     } catch {
-      toast.error('Failed to update skills');
+      toast.error('Gagal memperbarui keahlian');
     }
   };
 
@@ -110,17 +110,17 @@ export function ProfileSkills({ profile }: ProfileSkillsProps) {
   return (
     <Card className="p-6">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-foreground text-xl font-semibold">Skills</h2>
+        <h2 className="text-foreground text-xl font-semibold">Keahlian</h2>
         <Dialog open={isManagingSkills} onOpenChange={setIsManagingSkills}>
           <DialogTrigger asChild>
             <Button variant="outline" size="sm">
               <Edit2 className="mr-2 h-4 w-4" />
-              Manage Skills
+              Kelola Keahlian
             </Button>
           </DialogTrigger>
           <DialogContent className="max-h-[80vh] max-w-3xl overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Manage Skills</DialogTitle>
+              <DialogTitle>Kelola Keahlian</DialogTitle>
             </DialogHeader>
             <SkillsForm
               initialSkills={skills.map(convertToFormData)}
@@ -171,10 +171,12 @@ export function ProfileSkills({ profile }: ProfileSkillsProps) {
         ) : (
           <div className="py-8 text-center">
             <Code className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
-            <p className="text-muted-foreground mb-4">No skills added yet</p>
+            <p className="text-muted-foreground mb-4">
+              Belum ada keahlian yang ditambahkan
+            </p>
             <Button variant="outline" onClick={() => setIsManagingSkills(true)}>
               <Plus className="mr-2 h-4 w-4" />
-              Add Your Skills
+              Tambah Keahlian Anda
             </Button>
           </div>
         )}
@@ -182,9 +184,8 @@ export function ProfileSkills({ profile }: ProfileSkillsProps) {
         {skills.length > 0 && (
           <div className="border-t pt-4">
             <p className="text-muted-foreground text-sm">
-              {skills.length} skill{skills.length !== 1 ? 's' : ''} •
-              {Object.keys(skillsByCategory).length} categor
-              {Object.keys(skillsByCategory).length !== 1 ? 'ies' : 'y'}
+              {skills.length} keahlian •{Object.keys(skillsByCategory).length}{' '}
+              kategori
             </p>
           </div>
         )}

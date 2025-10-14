@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Edit Profile | IKA TEUAS UPI',
-  description:
-    'Edit your profile information and manage your professional details',
+  title: 'Edit Profil | IKA TEUAS UPI',
+  description: 'Edit informasi profil Anda dan kelola detail profesional Anda',
 };
 
 interface ProfileLayoutProps {

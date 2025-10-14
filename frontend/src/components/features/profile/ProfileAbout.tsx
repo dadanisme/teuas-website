@@ -13,7 +13,7 @@ export function ProfileAbout({ profile }: ProfileAboutProps) {
   return (
     <Card className="p-6">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-foreground text-xl font-semibold">About</h2>
+        <h2 className="text-foreground text-xl font-semibold">Tentang</h2>
         <EditBasicProfileDialog profile={profile} />
       </div>
 
@@ -23,7 +23,7 @@ export function ProfileAbout({ profile }: ProfileAboutProps) {
           <p className="text-foreground leading-relaxed">{profile.bio}</p>
         ) : (
           <p className="text-muted-foreground italic">
-            Add a bio to tell others about yourself
+            Tambahkan bio untuk menceritakan tentang diri Anda
           </p>
         )}
 
@@ -31,27 +31,27 @@ export function ProfileAbout({ profile }: ProfileAboutProps) {
         <div className="grid grid-cols-1 gap-4 border-t pt-4 md:grid-cols-2">
           <div className="flex items-center gap-2 text-sm">
             <MapPin className="text-muted-foreground h-4 w-4" />
-            <span className="text-muted-foreground">Location:</span>
+            <span className="text-muted-foreground">Lokasi:</span>
             <span className="text-foreground">
-              {profile?.location || 'Not specified'}
+              {profile?.location || 'Tidak ditentukan'}
             </span>
           </div>
 
           <div className="flex items-center gap-2 text-sm">
             <Calendar className="text-muted-foreground h-4 w-4" />
-            <span className="text-muted-foreground">Class of:</span>
+            <span className="text-muted-foreground">Angkatan:</span>
             <span className="text-foreground">
-              {profile?.year || 'Not specified'}
+              {profile?.year || 'Tidak ditentukan'}
             </span>
           </div>
 
           <div className="flex items-center gap-2 text-sm">
             <GraduationCap className="text-muted-foreground h-4 w-4" />
-            <span className="text-muted-foreground">Education:</span>
+            <span className="text-muted-foreground">Pendidikan:</span>
             <span className="text-foreground">
               {profile?.degree && profile?.major
                 ? `${profile.degree} ${profile.major}`
-                : 'Not specified'}
+                : 'Tidak ditentukan'}
             </span>
           </div>
 
@@ -59,7 +59,7 @@ export function ProfileAbout({ profile }: ProfileAboutProps) {
             <Hash className="text-muted-foreground h-4 w-4" />
             <span className="text-muted-foreground">NIM:</span>
             <span className="text-foreground">
-              {profile?.nim || 'Not specified'}
+              {profile?.nim || 'Tidak ditentukan'}
             </span>
           </div>
         </div>

@@ -86,13 +86,13 @@ export function ProfileEducation({ profile }: ProfileEducationProps) {
 
       toast.success(
         editingEducation
-          ? 'Education updated successfully'
-          : 'Education added successfully'
+          ? 'Pendidikan berhasil diperbarui'
+          : 'Pendidikan berhasil ditambahkan'
       );
       setIsAddingEducation(false);
       setEditingEducation(null);
     } catch {
-      toast.error('Failed to save education');
+      toast.error('Gagal menyimpan pendidikan');
     }
   };
 
@@ -114,9 +114,9 @@ export function ProfileEducation({ profile }: ProfileEducationProps) {
         return;
       }
 
-      toast.success('Education deleted successfully');
+      toast.success('Pendidikan berhasil dihapus');
     } catch {
-      toast.error('Failed to delete education');
+      toast.error('Gagal menghapus pendidikan');
     }
   };
 
@@ -132,17 +132,17 @@ export function ProfileEducation({ profile }: ProfileEducationProps) {
   return (
     <Card className="p-6">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-foreground text-xl font-semibold">Education</h2>
+        <h2 className="text-foreground text-xl font-semibold">Pendidikan</h2>
         <Dialog open={isAddingEducation} onOpenChange={setIsAddingEducation}>
           <DialogTrigger asChild>
             <Button variant="outline" size="sm">
               <Plus className="mr-2 h-4 w-4" />
-              Add Education
+              Tambah Pendidikan
             </Button>
           </DialogTrigger>
           <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Add Education</DialogTitle>
+              <DialogTitle>Tambah Pendidikan</DialogTitle>
             </DialogHeader>
             <EducationForm
               onSave={handleSaveEducation}
@@ -191,7 +191,7 @@ export function ProfileEducation({ profile }: ProfileEducationProps) {
                     {education.grade && (
                       <div className="flex items-center gap-1">
                         <Award className="h-3 w-3" />
-                        <span>Grade: {education.grade}</span>
+                        <span>Nilai: {education.grade}</span>
                       </div>
                     )}
                   </div>
@@ -221,7 +221,7 @@ export function ProfileEducation({ profile }: ProfileEducationProps) {
                     </DialogTrigger>
                     <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
                       <DialogHeader>
-                        <DialogTitle>Edit Education</DialogTitle>
+                        <DialogTitle>Edit Pendidikan</DialogTitle>
                       </DialogHeader>
                       <EducationForm
                         initialData={editingEducation || undefined}
@@ -249,13 +249,15 @@ export function ProfileEducation({ profile }: ProfileEducationProps) {
         ) : (
           <div className="py-8 text-center">
             <GraduationCap className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
-            <p className="text-muted-foreground mb-4">No education added yet</p>
+            <p className="text-muted-foreground mb-4">
+              Belum ada pendidikan yang ditambahkan
+            </p>
             <Button
               variant="outline"
               onClick={() => setIsAddingEducation(true)}
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add Your Education
+              Tambah Pendidikan Anda
             </Button>
           </div>
         )}

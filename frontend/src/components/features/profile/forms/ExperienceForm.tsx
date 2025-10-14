@@ -92,14 +92,14 @@ export function ExperienceForm({
     <form onSubmit={handleSubmit} className="space-y-4 py-4">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="position">Position *</Label>
+          <Label htmlFor="position">Posisi *</Label>
           <Input
             id="position"
             value={formData.position}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, position: e.target.value }))
             }
-            placeholder="e.g. Software Engineer"
+            placeholder="contoh: Software Engineer"
             className={errors.position ? 'border-destructive' : ''}
           />
           {errors.position && (
@@ -108,14 +108,14 @@ export function ExperienceForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="company">Company *</Label>
+          <Label htmlFor="company">Perusahaan *</Label>
           <Input
             id="company"
             value={formData.company}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, company: e.target.value }))
             }
-            placeholder="e.g. Google"
+            placeholder="contoh: Google"
             className={errors.company ? 'border-destructive' : ''}
           />
           {errors.company && (
@@ -125,20 +125,20 @@ export function ExperienceForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="location">Location</Label>
+        <Label htmlFor="location">Lokasi</Label>
         <Input
           id="location"
           value={formData.location || ''}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, location: e.target.value }))
           }
-          placeholder="e.g. Jakarta, Indonesia"
+          placeholder="contoh: Jakarta, Indonesia"
         />
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="start_date">Start Date *</Label>
+          <Label htmlFor="start_date">Tanggal Mulai *</Label>
           <DatePicker
             value={formData.start_date || ''}
             onChange={(date: string) =>
@@ -152,7 +152,7 @@ export function ExperienceForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="end_date">End Date</Label>
+          <Label htmlFor="end_date">Tanggal Selesai</Label>
           <DatePicker
             value={formData.end_date || ''}
             onChange={(date: string) =>
@@ -174,29 +174,29 @@ export function ExperienceForm({
           onCheckedChange={handleCurrentChange}
         />
         <Label htmlFor="is_current" className="text-sm font-normal">
-          I currently work here
+          Saya saat ini bekerja di sini
         </Label>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">Deskripsi</Label>
         <Textarea
           id="description"
           value={formData.description || ''}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, description: e.target.value }))
           }
-          placeholder="Describe your role and achievements..."
+          placeholder="Deskripsikan peran dan pencapaian Anda..."
           rows={4}
         />
       </div>
 
       <div className="flex justify-end gap-2 pt-4">
         <Button type="button" variant="outline" onClick={onCancel}>
-          Cancel
+          Batal
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Saving...' : 'Save Experience'}
+          {isLoading ? 'Menyimpan...' : 'Simpan Pengalaman'}
         </Button>
       </div>
     </form>

@@ -55,11 +55,11 @@ export default function ProfilePage() {
       <div className="mx-auto max-w-4xl">
         <Alert
           variant="error"
-          title="Error Loading Profile"
+          title="Gagal Memuat Profil"
           description={
             error instanceof Error
               ? error.message
-              : 'Failed to load profile. Please try again.'
+              : 'Gagal memuat profil. Silakan coba lagi.'
           }
           showIcon
         />
