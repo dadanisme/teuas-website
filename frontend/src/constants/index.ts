@@ -59,6 +59,10 @@ export const ROUTES = {
   FORGOT_PASSWORD: '/auth/forgot-password',
   RESET_PASSWORD: '/auth/reset-password',
 
+  // Rute profil
+  PROFILE: '/profile',
+  SETTINGS: '/settings',
+
   // Rute alumni
   ALUMNI: {
     ROOT: '/alumni',

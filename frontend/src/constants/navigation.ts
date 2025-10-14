@@ -47,7 +47,7 @@ export const MAIN_NAVIGATION: NavItem[] = [
 export const USER_NAVIGATION: NavItem[] = [
   {
     title: 'Profil Saya',
-    href: ROUTES.ALUMNI.EDIT_PROFILE,
+    href: ROUTES.PROFILE,
   },
   {
     title: 'Artikel Saya',
@@ -64,6 +64,10 @@ export const USER_NAVIGATION: NavItem[] = [
   {
     title: 'Aplikasi Saya',
     href: ROUTES.SCHOLARSHIPS.MY_APPLICATIONS,
+  },
+  {
+    title: 'Pengaturan',
+    href: ROUTES.SETTINGS,
   },
 ];
 
@@ -197,5 +201,9 @@ export const BREADCRUMB_CONFIG = {
   [ROUTES.JOBS.ROOT]: [
     { label: 'Beranda', href: ROUTES.HOME },
     { label: 'Pekerjaan', href: ROUTES.JOBS.ROOT },
+  ],
+  [ROUTES.SETTINGS]: [
+    { label: 'Beranda', href: ROUTES.HOME },
+    { label: 'Pengaturan', href: ROUTES.SETTINGS },
   ],
 } as const;
