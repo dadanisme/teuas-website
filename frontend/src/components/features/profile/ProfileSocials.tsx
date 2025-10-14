@@ -65,10 +65,10 @@ export function ProfileSocials({ profile }: ProfileSocialsProps) {
         return;
       }
 
-      toast.success('Social links updated successfully');
+      toast.success('Tautan sosial berhasil diperbarui');
       setIsManagingSocials(false);
     } catch {
-      toast.error('Failed to update social links');
+      toast.error('Gagal memperbarui tautan sosial');
     }
   };
 
@@ -144,17 +144,17 @@ export function ProfileSocials({ profile }: ProfileSocialsProps) {
   return (
     <Card className="p-6">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-foreground text-xl font-semibold">Social Links</h2>
+        <h2 className="text-foreground text-xl font-semibold">Tautan Sosial</h2>
         <Dialog open={isManagingSocials} onOpenChange={setIsManagingSocials}>
           <DialogTrigger asChild>
             <Button variant="outline" size="sm">
               <Edit2 className="mr-2 h-4 w-4" />
-              Manage Links
+              Kelola Tautan
             </Button>
           </DialogTrigger>
           <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Manage Social Links</DialogTitle>
+              <DialogTitle>Kelola Tautan Sosial</DialogTitle>
             </DialogHeader>
             <SocialsForm
               initialSocials={socials.map(convertToFormData)}
@@ -200,14 +200,14 @@ export function ProfileSocials({ profile }: ProfileSocialsProps) {
           <div className="py-8 text-center">
             <Globe className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
             <p className="text-muted-foreground mb-4">
-              No social links added yet
+              Belum ada tautan sosial yang ditambahkan
             </p>
             <Button
               variant="outline"
               onClick={() => setIsManagingSocials(true)}
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add Social Links
+              Tambah Tautan Sosial
             </Button>
           </div>
         )}
@@ -215,8 +215,7 @@ export function ProfileSocials({ profile }: ProfileSocialsProps) {
         {socials.length > 0 && (
           <div className="border-t pt-4">
             <p className="text-muted-foreground text-sm">
-              {socials.length} social link{socials.length !== 1 ? 's' : ''}{' '}
-              added
+              {socials.length} tautan sosial ditambahkan
             </p>
           </div>
         )}

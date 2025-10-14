@@ -61,10 +61,10 @@ export function EditBasicProfileDialog({
         return;
       }
 
-      toast.success('Profile updated successfully');
+      toast.success('Profil berhasil diperbarui');
       setIsOpen(false);
     } catch {
-      toast.error('Failed to update profile');
+      toast.error('Gagal memperbarui profil');
     }
   };
 
@@ -92,12 +92,12 @@ export function EditBasicProfileDialog({
       </DialogTrigger>
       <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit Basic Information</DialogTitle>
+          <DialogTitle>Edit Informasi Dasar</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="full_name">Full Name *</Label>
+              <Label htmlFor="full_name">Nama Lengkap *</Label>
               <Input
                 id="full_name"
                 value={formData.full_name}
@@ -107,7 +107,7 @@ export function EditBasicProfileDialog({
                     full_name: e.target.value,
                   }))
                 }
-                placeholder="Enter your full name"
+                placeholder="Masukkan nama lengkap Anda"
               />
             </div>
             <div className="space-y-2">
@@ -118,7 +118,7 @@ export function EditBasicProfileDialog({
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, nim: e.target.value }))
                 }
-                placeholder="Enter your NIM"
+                placeholder="Masukkan NIM Anda"
               />
             </div>
           </div>
@@ -131,14 +131,14 @@ export function EditBasicProfileDialog({
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, bio: e.target.value }))
               }
-              placeholder="Tell us about yourself..."
+              placeholder="Ceritakan tentang diri Anda..."
               rows={4}
             />
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="location">Location</Label>
+              <Label htmlFor="location">Lokasi</Label>
               <Input
                 id="location"
                 value={formData.location || ''}
@@ -148,11 +148,11 @@ export function EditBasicProfileDialog({
                     location: e.target.value,
                   }))
                 }
-                placeholder="City, Country"
+                placeholder="Kota, Negara"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone</Label>
+              <Label htmlFor="phone">Telepon</Label>
               <Input
                 id="phone"
                 value={formData.phone || ''}
@@ -169,7 +169,7 @@ export function EditBasicProfileDialog({
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="space-y-2">
-              <Label htmlFor="year">Year of Entry</Label>
+              <Label htmlFor="year">Tahun Masuk</Label>
               <Input
                 id="year"
                 type="number"
@@ -186,7 +186,7 @@ export function EditBasicProfileDialog({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="degree">Degree</Label>
+              <Label htmlFor="degree">Gelar</Label>
               <Select
                 value={formData.degree || ''}
                 onValueChange={(value) =>
@@ -197,7 +197,7 @@ export function EditBasicProfileDialog({
                 }
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select degree" />
+                  <SelectValue placeholder="Pilih gelar" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="S1">S1</SelectItem>
@@ -206,7 +206,7 @@ export function EditBasicProfileDialog({
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="major">Major</Label>
+              <Label htmlFor="major">Jurusan</Label>
               <Select
                 value={formData.major || ''}
                 onValueChange={(value) =>
@@ -219,7 +219,7 @@ export function EditBasicProfileDialog({
                 }
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select major" />
+                  <SelectValue placeholder="Pilih jurusan" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Teknik Elektro">Teknik Elektro</SelectItem>
@@ -233,13 +233,15 @@ export function EditBasicProfileDialog({
 
           <div className="flex justify-end gap-2 pt-4">
             <Button variant="outline" onClick={handleCancel}>
-              Cancel
+              Batal
             </Button>
             <Button
               onClick={handleSave}
               disabled={updateBasicProfile.isPending}
             >
-              {updateBasicProfile.isPending ? 'Saving...' : 'Save Changes'}
+              {updateBasicProfile.isPending
+                ? 'Menyimpan...'
+                : 'Simpan Perubahan'}
             </Button>
           </div>
         </div>

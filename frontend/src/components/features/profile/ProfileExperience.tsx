@@ -79,13 +79,13 @@ export function ProfileExperience({ profile }: ProfileExperienceProps) {
 
       toast.success(
         editingExperience
-          ? 'Experience updated successfully'
-          : 'Experience added successfully'
+          ? 'Pengalaman berhasil diperbarui'
+          : 'Pengalaman berhasil ditambahkan'
       );
       setIsAddingExperience(false);
       setEditingExperience(null);
     } catch {
-      toast.error('Failed to save experience');
+      toast.error('Gagal menyimpan pengalaman');
     }
   };
 
@@ -107,9 +107,9 @@ export function ProfileExperience({ profile }: ProfileExperienceProps) {
         return;
       }
 
-      toast.success('Experience deleted successfully');
+      toast.success('Pengalaman berhasil dihapus');
     } catch {
-      toast.error('Failed to delete experience');
+      toast.error('Gagal menghapus pengalaman');
     }
   };
 
@@ -125,17 +125,17 @@ export function ProfileExperience({ profile }: ProfileExperienceProps) {
   return (
     <Card className="p-6">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-foreground text-xl font-semibold">Experience</h2>
+        <h2 className="text-foreground text-xl font-semibold">Pengalaman</h2>
         <Dialog open={isAddingExperience} onOpenChange={setIsAddingExperience}>
           <DialogTrigger asChild>
             <Button variant="outline" size="sm">
               <Plus className="mr-2 h-4 w-4" />
-              Add Experience
+              Tambah Pengalaman
             </Button>
           </DialogTrigger>
           <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Add Work Experience</DialogTitle>
+              <DialogTitle>Tambah Pengalaman Kerja</DialogTitle>
             </DialogHeader>
             <ExperienceForm
               onSave={handleSaveExperience}
@@ -164,7 +164,7 @@ export function ProfileExperience({ profile }: ProfileExperienceProps) {
                     </h3>
                     {experience.is_current && (
                       <Badge variant="default" className="text-xs">
-                        Current
+                        Saat Ini
                       </Badge>
                     )}
                   </div>
@@ -179,7 +179,7 @@ export function ProfileExperience({ profile }: ProfileExperienceProps) {
                       <span>
                         {formatDate(experience.start_date)} -{' '}
                         {experience.is_current
-                          ? 'Present'
+                          ? 'Sekarang'
                           : formatDate(experience.end_date)}
                       </span>
                     </div>
@@ -216,7 +216,7 @@ export function ProfileExperience({ profile }: ProfileExperienceProps) {
                     </DialogTrigger>
                     <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
                       <DialogHeader>
-                        <DialogTitle>Edit Work Experience</DialogTitle>
+                        <DialogTitle>Edit Pengalaman Kerja</DialogTitle>
                       </DialogHeader>
                       <ExperienceForm
                         initialData={editingExperience || undefined}
@@ -245,14 +245,14 @@ export function ProfileExperience({ profile }: ProfileExperienceProps) {
           <div className="py-8 text-center">
             <Briefcase className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
             <p className="text-muted-foreground mb-4">
-              No work experience added yet
+              Belum ada pengalaman kerja yang ditambahkan
             </p>
             <Button
               variant="outline"
               onClick={() => setIsAddingExperience(true)}
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add Your First Experience
+              Tambah Pengalaman Pertama Anda
             </Button>
           </div>
         )}

@@ -77,14 +77,14 @@ export function EducationForm({
     <form onSubmit={handleSubmit} className="space-y-4 py-4">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="institution">Institution *</Label>
+          <Label htmlFor="institution">Institusi *</Label>
           <Input
             id="institution"
             value={formData.institution}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, institution: e.target.value }))
             }
-            placeholder="e.g. Universitas Pendidikan Indonesia"
+            placeholder="contoh: Universitas Pendidikan Indonesia"
             className={errors.institution ? 'border-destructive' : ''}
           />
           {errors.institution && (
@@ -93,14 +93,14 @@ export function EducationForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="degree">Degree *</Label>
+          <Label htmlFor="degree">Gelar *</Label>
           <Input
             id="degree"
             value={formData.degree}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, degree: e.target.value }))
             }
-            placeholder="e.g. Bachelor of Science"
+            placeholder="contoh: Sarjana Teknik"
             className={errors.degree ? 'border-destructive' : ''}
           />
           {errors.degree && (
@@ -110,20 +110,20 @@ export function EducationForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="field_of_study">Field of Study</Label>
+        <Label htmlFor="field_of_study">Bidang Studi</Label>
         <Input
           id="field_of_study"
           value={formData.field_of_study || ''}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, field_of_study: e.target.value }))
           }
-          placeholder="e.g. Electrical Engineering"
+          placeholder="contoh: Teknik Elektro"
         />
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="start_date">Start Date *</Label>
+          <Label htmlFor="start_date">Tanggal Mulai *</Label>
           <DatePicker
             value={formData.start_date || ''}
             onChange={(date) =>
@@ -137,7 +137,7 @@ export function EducationForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="end_date">End Date *</Label>
+          <Label htmlFor="end_date">Tanggal Selesai *</Label>
           <DatePicker
             value={formData.end_date || ''}
             onChange={(date) =>
@@ -152,36 +152,36 @@ export function EducationForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="grade">Grade/GPA</Label>
+        <Label htmlFor="grade">Nilai/IPK</Label>
         <Input
           id="grade"
           value={formData.grade || ''}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, grade: e.target.value }))
           }
-          placeholder="e.g. 3.8/4.0 or Magna Cum Laude"
+          placeholder="contoh: 3.8/4.0 atau Cum Laude"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">Deskripsi</Label>
         <Textarea
           id="description"
           value={formData.description || ''}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, description: e.target.value }))
           }
-          placeholder="Describe your studies, achievements, activities..."
+          placeholder="Deskripsikan studi, pencapaian, aktivitas Anda..."
           rows={4}
         />
       </div>
 
       <div className="flex justify-end gap-2 pt-4">
         <Button type="button" variant="outline" onClick={onCancel}>
-          Cancel
+          Batal
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Saving...' : 'Save Education'}
+          {isLoading ? 'Menyimpan...' : 'Simpan Pendidikan'}
         </Button>
       </div>
     </form>

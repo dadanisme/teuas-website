@@ -88,13 +88,13 @@ export function ProfileCertifications({ profile }: ProfileCertificationsProps) {
 
       toast.success(
         editingCertification
-          ? 'Certification updated successfully'
-          : 'Certification added successfully'
+          ? 'Sertifikasi berhasil diperbarui'
+          : 'Sertifikasi berhasil ditambahkan'
       );
       setIsAddingCertification(false);
       setEditingCertification(null);
     } catch {
-      toast.error('Failed to save certification');
+      toast.error('Gagal menyimpan sertifikasi');
     }
   };
 
@@ -116,9 +116,9 @@ export function ProfileCertifications({ profile }: ProfileCertificationsProps) {
         return;
       }
 
-      toast.success('Certification deleted successfully');
+      toast.success('Sertifikasi berhasil dihapus');
     } catch {
-      toast.error('Failed to delete certification');
+      toast.error('Gagal menghapus sertifikasi');
     }
   };
 
@@ -139,9 +139,7 @@ export function ProfileCertifications({ profile }: ProfileCertificationsProps) {
   return (
     <Card className="p-6">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-foreground text-xl font-semibold">
-          Certifications
-        </h2>
+        <h2 className="text-foreground text-xl font-semibold">Sertifikasi</h2>
         <Dialog
           open={isAddingCertification}
           onOpenChange={setIsAddingCertification}
@@ -149,12 +147,12 @@ export function ProfileCertifications({ profile }: ProfileCertificationsProps) {
           <DialogTrigger asChild>
             <Button variant="outline" size="sm">
               <Plus className="mr-2 h-4 w-4" />
-              Add Certification
+              Tambah Sertifikasi
             </Button>
           </DialogTrigger>
           <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Add Certification</DialogTitle>
+              <DialogTitle>Tambah Sertifikasi</DialogTitle>
             </DialogHeader>
             <CertificationForm
               onSave={handleSaveCertification}
@@ -182,7 +180,7 @@ export function ProfileCertifications({ profile }: ProfileCertificationsProps) {
                     {certification.expiry_date &&
                       isExpired(certification.expiry_date) && (
                         <Badge variant="destructive" className="text-xs">
-                          Expired
+                          Kedaluwarsa
                         </Badge>
                       )}
                   </div>
@@ -196,7 +194,7 @@ export function ProfileCertifications({ profile }: ProfileCertificationsProps) {
                       <div className="flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
                         <span>
-                          Issued: {formatDate(certification.issue_date)}
+                          Diterbitkan: {formatDate(certification.issue_date)}
                         </span>
                       </div>
                     )}
@@ -210,7 +208,7 @@ export function ProfileCertifications({ profile }: ProfileCertificationsProps) {
                               : ''
                           }
                         >
-                          Expires: {formatDate(certification.expiry_date)}
+                          Berakhir: {formatDate(certification.expiry_date)}
                         </span>
                       </div>
                     )}
@@ -231,7 +229,7 @@ export function ProfileCertifications({ profile }: ProfileCertificationsProps) {
                         className="text-primary inline-flex items-center gap-1 text-sm hover:underline"
                       >
                         <ExternalLink className="h-3 w-3" />
-                        View Credential
+                        Lihat Kredensial
                       </a>
                     </div>
                   )}
@@ -259,7 +257,7 @@ export function ProfileCertifications({ profile }: ProfileCertificationsProps) {
                     </DialogTrigger>
                     <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
                       <DialogHeader>
-                        <DialogTitle>Edit Certification</DialogTitle>
+                        <DialogTitle>Edit Sertifikasi</DialogTitle>
                       </DialogHeader>
                       <CertificationForm
                         initialData={editingCertification || undefined}
@@ -289,14 +287,14 @@ export function ProfileCertifications({ profile }: ProfileCertificationsProps) {
           <div className="py-8 text-center">
             <Award className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
             <p className="text-muted-foreground mb-4">
-              No certifications added yet
+              Belum ada sertifikasi yang ditambahkan
             </p>
             <Button
               variant="outline"
               onClick={() => setIsAddingCertification(true)}
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add Your First Certification
+              Tambah Sertifikasi Pertama Anda
             </Button>
           </div>
         )}

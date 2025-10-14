@@ -37,46 +37,46 @@ export function ProfileStats({ profile }: ProfileStatsProps) {
 
   const getCompletionStatus = () => {
     if (completionPercentage >= 80)
-      return { text: 'Excellent', variant: 'default' as const };
+      return { text: 'Sangat Baik', variant: 'default' as const };
     if (completionPercentage >= 60)
-      return { text: 'Good', variant: 'secondary' as const };
+      return { text: 'Baik', variant: 'secondary' as const };
     if (completionPercentage >= 40)
-      return { text: 'Fair', variant: 'outline' as const };
-    return { text: 'Needs Work', variant: 'destructive' as const };
+      return { text: 'Cukup', variant: 'outline' as const };
+    return { text: 'Perlu Diperbaiki', variant: 'destructive' as const };
   };
 
   const status = getCompletionStatus();
 
   const sections = [
     {
-      name: 'Basic Information',
+      name: 'Informasi Dasar',
       completed: !!(
         profile?.full_name &&
         profile?.bio &&
         profile?.location &&
         profile?.phone
       ),
-      items: ['Name', 'Bio', 'Location', 'Phone'],
+      items: ['Nama', 'Bio', 'Lokasi', 'Telepon'],
     },
     {
-      name: 'Work Experience',
+      name: 'Pengalaman Kerja',
       completed: !!profile?.user_experiences?.length,
-      items: ['Current/Past Positions'],
+      items: ['Posisi Saat Ini/Sebelumnya'],
     },
     {
-      name: 'Education',
+      name: 'Pendidikan',
       completed: !!profile?.user_educations?.length,
-      items: ['Academic Background'],
+      items: ['Latar Belakang Akademik'],
     },
     {
-      name: 'Skills',
+      name: 'Keahlian',
       completed: !!profile?.user_skills?.length,
-      items: ['Professional Skills'],
+      items: ['Keahlian Profesional'],
     },
     {
-      name: 'Social Links',
+      name: 'Tautan Sosial',
       completed: !!profile?.user_socials?.length,
-      items: ['Professional Networks'],
+      items: ['Jaringan Profesional'],
     },
   ];
 

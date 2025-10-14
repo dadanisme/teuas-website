@@ -73,12 +73,12 @@ export function ProfileHeader({ profile }: ProfileHeaderProps) {
         <div className="flex-1 space-y-4">
           <div>
             <h1 className="text-foreground text-3xl font-bold">
-              {profile?.full_name || 'Your Name'}
+              {profile?.full_name || 'Nama Anda'}
             </h1>
             <p className="text-muted-foreground mt-1 text-lg">
               {profile?.major && profile?.degree
                 ? `${profile.degree} ${profile.major}`
-                : 'Add your degree and major'}
+                : 'Tambahkan gelar dan jurusan Anda'}
             </p>
           </div>
 
@@ -93,7 +93,7 @@ export function ProfileHeader({ profile }: ProfileHeaderProps) {
             {profile?.year && (
               <div className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                <span>Class of {profile.year}</span>
+                <span>Angkatan {profile.year}</span>
               </div>
             )}
             {profile?.email && (
