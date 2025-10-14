@@ -34,7 +34,7 @@ export function AcademicSection({ control }: AcademicSectionProps) {
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-medium">Informasi Akademik</h3>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Informasi tentang latar belakang akademik Anda di TEUAS UPI.
         </p>
       </div>
@@ -52,7 +52,7 @@ export function AcademicSection({ control }: AcademicSectionProps) {
                 value={field.value?.toString() || ''}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Pilih tahun" />
                   </SelectTrigger>
                 </FormControl>
@@ -64,9 +64,7 @@ export function AcademicSection({ control }: AcademicSectionProps) {
                   ))}
                 </SelectContent>
               </Select>
-              <FormDescription>
-                Tahun kelulusan dari TEUAS UPI
-              </FormDescription>
+              <FormDescription>Tahun kelulusan dari TEUAS UPI</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -81,7 +79,7 @@ export function AcademicSection({ control }: AcademicSectionProps) {
               <FormLabel>Jurusan</FormLabel>
               <Select onValueChange={field.onChange} value={field.value || ''}>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Pilih jurusan" />
                   </SelectTrigger>
                 </FormControl>
@@ -109,7 +107,7 @@ export function AcademicSection({ control }: AcademicSectionProps) {
               <FormLabel>Jenjang</FormLabel>
               <Select onValueChange={field.onChange} value={field.value || ''}>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Pilih jenjang" />
                   </SelectTrigger>
                 </FormControl>
