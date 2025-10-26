@@ -10,8 +10,8 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/constants';
 import { FormAlert } from '@/components/ui/alert';
-import { useAuth } from '@/hooks/useAuth';
 import { signInSchema, type SignInData } from '@/schemas/auth.schema';
+import { useSignInMutation } from '@/hooks/queries/useAuthMutations';
 import { EmailField } from './form-fields/EmailField';
 import { PasswordField } from './form-fields/PasswordField';
 import { SubmitButton } from './form-fields/SubmitButton';
@@ -23,7 +23,7 @@ interface LoginFormProps {
 }
 
 function LoginFormComponent({ onSubmit }: LoginFormProps) {
-  const { signIn } = useAuth();
+  const { mutateAsync: signIn, isPending: isSigningIn } = useSignInMutation();
 
   const form = useForm<SignInData>({
     resolver: zodResolver(signInSchema),
@@ -35,7 +35,7 @@ function LoginFormComponent({ onSubmit }: LoginFormProps) {
     shouldUnregister: false,
   });
 
-  const isLoading = form.formState.isSubmitting;
+  const isLoading = form.formState.isSubmitting || isSigningIn;
   const error = form.formState.errors.root?.message;
 
   const handleFormSubmit = async (data: SignInData) => {
@@ -43,11 +43,7 @@ function LoginFormComponent({ onSubmit }: LoginFormProps) {
       if (onSubmit) {
         await onSubmit(data);
       } else {
-        const { error } = await signIn(data);
-        if (error) {
-          form.setError('root', { message: error });
-          return;
-        }
+        await signIn(data);
       }
     } catch (error) {
       form.setError('root', {

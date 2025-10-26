@@ -26,18 +26,15 @@ import { Menu, X, User, LogOut, Settings } from 'lucide-react';
 import { MAIN_NAVIGATION } from '@/constants/navigation';
 import { ROUTES, APP_CONFIG } from '@/constants';
 import { useAuth } from '@/hooks/useAuth';
+import { useSignOutMutation } from '@/hooks/queries/useAuthMutations';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const {
-    isAuthenticated,
-    user,
-    signOut,
-    getDisplayName,
-    getInitials,
-    getPhotoUrl,
-  } = useAuth();
+  const { isAuthenticated, user, getDisplayName, getInitials, getPhotoUrl } =
+    useAuth();
+  const { mutateAsync: signOut, isPending: isSigningOut } =
+    useSignOutMutation();
 
   const isActiveRoute = (href: string) => {
     if (href === '/') {
@@ -47,7 +44,12 @@ export function Header() {
   };
 
   const handleSignOut = async () => {
-    await signOut();
+    try {
+      await signOut();
+    } catch {
+      // Error will be shown by mutation error handling
+      // Silent fail - mutation handles error display
+    }
   };
 
   return (
@@ -180,10 +182,11 @@ export function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={handleSignOut}
+                    disabled={isSigningOut}
                     className="cursor-pointer"
                   >
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
+                    <span>{isSigningOut ? 'Logging out...' : 'Log out'}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -318,13 +321,14 @@ export function Header() {
                     <Button
                       variant="ghost"
                       className="w-full justify-start"
+                      disabled={isSigningOut}
                       onClick={() => {
                         handleSignOut();
                         setIsMobileMenuOpen(false);
                       }}
                     >
                       <LogOut className="mr-2 h-4 w-4" />
-                      Log out
+                      {isSigningOut ? 'Logging out...' : 'Log out'}
                     </Button>
                   </>
                 ) : (

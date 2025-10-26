@@ -6,11 +6,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Card, CardContent } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { FormAlert } from '@/components/ui/alert';
-import { useAuth } from '@/hooks/useAuth';
 import {
   signUpWithConfirmSchema,
   type SignUpWithConfirmData,
 } from '@/schemas/auth.schema';
+import { useSignUpMutation } from '@/hooks/queries/useAuthMutations';
 import { RegisterFormFields } from './RegisterFormFields';
 import { SubmitButton } from './form-fields/SubmitButton';
 
@@ -21,7 +21,7 @@ interface RegisterFormProps {
 }
 
 function RegisterFormComponent({ onSubmit }: RegisterFormProps) {
-  const { signUp } = useAuth();
+  const { mutateAsync: signUp, isPending: isSigningUp } = useSignUpMutation();
 
   const form = useForm<SignUpWithConfirmData>({
     resolver: zodResolver(signUpWithConfirmSchema),
@@ -36,7 +36,7 @@ function RegisterFormComponent({ onSubmit }: RegisterFormProps) {
     shouldUnregister: false,
   });
 
-  const isLoading = form.formState.isSubmitting;
+  const isLoading = form.formState.isSubmitting || isSigningUp;
   const error = form.formState.errors.root?.message;
 
   const handleFormSubmit = async (data: SignUpWithConfirmData) => {
@@ -44,17 +44,12 @@ function RegisterFormComponent({ onSubmit }: RegisterFormProps) {
       if (onSubmit) {
         await onSubmit(data);
       } else {
-        const { error } = await signUp({
+        await signUp({
           email: data.email,
           password: data.password,
           fullName: data.fullName.trim(),
           nim: data.nim,
         });
-
-        if (error) {
-          form.setError('root', { message: error });
-          return;
-        }
       }
     } catch (error) {
       form.setError('root', {

@@ -11,11 +11,6 @@ import React, {
 import type { User, Session } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 import { authService } from '@/services/auth.service';
-import type {
-  SignUpData,
-  SignInData,
-  ErrorResponse,
-} from '@/schemas/auth.schema';
 import { logger } from '@teuas/shared/utils/logger';
 
 interface AuthContextType {
@@ -27,9 +22,6 @@ interface AuthContextType {
   isAuthenticated: boolean;
 
   // Methods
-  signUp: (data: SignUpData) => Promise<ErrorResponse>;
-  signIn: (data: SignInData) => Promise<ErrorResponse>;
-  signOut: () => Promise<ErrorResponse>;
   refreshProfile: () => Promise<void>;
 }
 
@@ -100,91 +92,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   );
 
   /**
-   * Sign up a new user
-   */
-  const signUp = async (data: SignUpData): Promise<ErrorResponse> => {
-    try {
-      setIsLoading(true);
-      const { error } = await authService.signUp(data);
-
-      if (error) {
-        logger.error('Sign up failed:', error);
-        setIsLoading(false);
-        return { error };
-      }
-
-      // Note: User will be signed in automatically if email confirmation is disabled
-      // Otherwise, they need to confirm their email first
-      return { error: null };
-    } catch (error) {
-      logger.error('Sign up error:', error);
-      setIsLoading(false);
-      return {
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
-      };
-    }
-  };
-
-  /**
-   * Sign in an existing user
-   */
-  const signIn = async (data: SignInData): Promise<ErrorResponse> => {
-    try {
-      setIsLoading(true);
-      const { error } = await authService.signIn(data);
-
-      if (error) {
-        logger.error('Sign in failed:', error);
-        setIsLoading(false);
-        return { error };
-      }
-
-      // Auth state change will be handled by the listener
-      return { error: null };
-    } catch (error) {
-      logger.error('Sign in error:', error);
-      setIsLoading(false);
-      return {
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
-      };
-    }
-  };
-
-  /**
-   * Sign out the current user
-   */
-  const signOut = async (): Promise<ErrorResponse> => {
-    try {
-      setIsLoading(true);
-      const { error } = await authService.signOut();
-
-      if (error) {
-        logger.error('Sign out failed:', error);
-        setIsLoading(false);
-        return { error };
-      }
-
-      // Auth state change will be handled by the listener
-      return { error: null };
-    } catch (error) {
-      logger.error('Sign out error:', error);
-      setIsLoading(false);
-      return {
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
-      };
-    }
-  };
-
-  /**
    * Initialize auth state and set up listeners
    */
   useEffect(() => {
@@ -236,9 +143,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     isAuthenticated,
 
     // Methods
-    signUp,
-    signIn,
-    signOut,
     refreshProfile,
   };
 

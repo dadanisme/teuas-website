@@ -52,4 +52,9 @@ export const queryKeys = {
     detail: (userId: string) =>
       [...queryKeys.profile.details(), userId] as const,
   },
+  // Auth-related query keys
+  auth: {
+    all: ['auth'] as const,
+    session: () => [...queryKeys.auth.all, 'session'] as const,
+  },
 } as const;
