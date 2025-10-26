@@ -1,8 +1,9 @@
 'use client';
 
-import { ReactNode, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { ReactNode } from 'react';
+
 import { useAuth } from '@/hooks/useAuth';
+import { redirect } from 'next/navigation';
 import { ROUTES } from '@/constants';
 
 interface AuthLayoutProps {
@@ -10,15 +11,7 @@ interface AuthLayoutProps {
 }
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
-  const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
-
-  // Redirect authenticated users to home page
-  useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      router.push(ROUTES.HOME);
-    }
-  }, [isAuthenticated, isLoading, router]);
 
   // Show loading or redirect while checking auth state
   if (isLoading) {
@@ -37,14 +30,18 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
 
   // Don't render children if user is authenticated (will redirect)
   if (isAuthenticated) {
-    return null;
+    return redirect(ROUTES.HOME);
   }
 
-  return (
-    <div className="bg-background">
-      <div className="flex items-center justify-center px-6 py-12 md:min-h-[calc(100vh-80px)]">
-        <div className="w-full max-w-lg">{children}</div>
+  if (!isAuthenticated) {
+    return (
+      <div className="bg-background">
+        <div className="flex items-center justify-center px-6 py-12 md:min-h-[calc(100vh-80px)]">
+          <div className="w-full max-w-lg">{children}</div>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  return null;
 }
