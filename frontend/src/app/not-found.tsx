@@ -7,27 +7,27 @@ import { Home, Search, Users, Calendar, BookOpen } from 'lucide-react';
 export default function NotFound() {
   const quickLinks = [
     {
-      title: 'Home',
+      title: 'Beranda',
       href: ROUTES.HOME,
-      description: 'Return to homepage',
+      description: 'Kembali ke beranda',
       icon: Home,
     },
     {
-      title: 'Alumni Directory',
+      title: 'Direktori Alumni',
       href: ROUTES.ALUMNI.DIRECTORY,
-      description: 'Find fellow alumni',
+      description: 'Temukan sesama alumni',
       icon: Users,
     },
     {
-      title: 'Latest News',
+      title: 'Berita Terkini',
       href: ROUTES.NEWS.ROOT,
-      description: 'Stay updated with news',
+      description: 'Tetap update dengan berita',
       icon: BookOpen,
     },
     {
-      title: 'Events',
+      title: 'Acara',
       href: ROUTES.EVENTS.ROOT,
-      description: 'Discover upcoming events',
+      description: 'Temukan acara mendatang',
       icon: Calendar,
     },
   ];
@@ -45,14 +45,14 @@ export default function NotFound() {
         {/* Main Content */}
         <div className="mb-12">
           <h2 className="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-            Page Not Found
+            Halaman Tidak Ditemukan
           </h2>
           <p className="text-muted-foreground mb-2 text-lg">
-            Sorry, we couldn't find the page you're looking for.
+            Maaf, kami tidak dapat menemukan halaman yang Anda cari.
           </p>
           <p className="text-muted-foreground">
-            The page might have been moved, deleted, or you entered the wrong
-            URL.
+            Halaman mungkin telah dipindahkan, dihapus, atau Anda memasukkan URL
+            yang salah.
           </p>
         </div>
 
@@ -61,7 +61,7 @@ export default function NotFound() {
           <Button asChild size="lg" className="gap-2">
             <Link href={ROUTES.HOME}>
               <Home className="h-4 w-4" />
-              Go to Homepage
+              Ke Beranda
             </Link>
           </Button>
         </div>
@@ -69,7 +69,7 @@ export default function NotFound() {
         {/* Quick Links */}
         <div className="mb-12">
           <h3 className="text-foreground mb-6 text-xl font-semibold">
-            Popular Pages
+            Halaman Populer
           </h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {quickLinks.map((link) => {
@@ -104,28 +104,28 @@ export default function NotFound() {
           <div className="mb-3 flex items-center justify-center gap-2">
             <Search className="text-muted-foreground h-5 w-5" />
             <h4 className="text-foreground font-medium">
-              Looking for something specific?
+              Mencari sesuatu yang spesifik?
             </h4>
           </div>
           <p className="text-muted-foreground mb-4">
-            Try using our search feature or browse through our main sections.
+            Coba gunakan fitur pencarian kami atau jelajahi bagian utama kami.
           </p>
           <Button asChild variant="outline">
-            <Link href={ROUTES.SEARCH}>Search Website</Link>
+            <Link href={ROUTES.SEARCH}>Cari di Website</Link>
           </Button>
         </div>
 
         {/* Contact Information */}
         <div className="mt-12 border-t pt-8">
           <p className="text-muted-foreground text-sm">
-            Still can't find what you're looking for?{' '}
+            Masih tidak dapat menemukan yang Anda cari?{' '}
             <Link
               href={ROUTES.CONTACT}
               className="text-primary font-medium hover:underline"
             >
-              Contact us
+              Hubungi kami
             </Link>{' '}
-            and we'll help you out.
+            dan kami akan membantu Anda.
           </p>
         </div>
       </div>
