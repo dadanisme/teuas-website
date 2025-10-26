@@ -2,6 +2,7 @@
 
 import { useAuth } from '@/hooks/useAuth';
 import { useProfile } from '@/hooks/queries/useProfile';
+import { ProtectedRoute } from '@/components/layout/ProtectedRoute';
 import { ProfileHeader } from '@/components/features/profile/ProfileHeader';
 import { ProfileAbout } from '@/components/features/profile/ProfileAbout';
 import { ProfileExperience } from '@/components/features/profile/ProfileExperience';
@@ -15,6 +16,14 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Alert } from '@/components/ui/alert';
 
 export default function ProfilePage() {
+  return (
+    <ProtectedRoute loadingMessage="Memuat profil...">
+      <ProfilePageContent />
+    </ProtectedRoute>
+  );
+}
+
+function ProfilePageContent() {
   const { user, isLoading: authLoading } = useAuth();
   const {
     data: profileResponse,
