@@ -3,7 +3,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import {
   Briefcase,
   GraduationCap,
@@ -13,6 +12,7 @@ import {
   ExternalLink,
   Star,
 } from 'lucide-react';
+import { Timeline, TimelineItem } from '@/components/common/Timeline';
 import { AlumniProfile } from '@/types/alumni-query';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
@@ -22,6 +22,33 @@ interface AlumniProfileContentProps {
 }
 
 export function AlumniProfileContent({ alumni }: AlumniProfileContentProps) {
+  // Transform experiences to timeline items
+  const experienceItems: TimelineItem[] =
+    alumni.user_experiences?.map((work) => ({
+      id: work.id || '',
+      icon: Briefcase,
+      title: work.position,
+      subtitle: work.company,
+      badge: work.is_current
+        ? { label: 'Saat Ini', variant: 'default' as const }
+        : undefined,
+      dateRange: `${
+        work.start_date
+          ? format(new Date(work.start_date), 'MMM yyyy', { locale: id })
+          : 'N/A'
+      } - ${
+        work.is_current
+          ? 'Sekarang'
+          : work.end_date
+            ? format(new Date(work.end_date), 'MMM yyyy', { locale: id })
+            : 'N/A'
+      }`,
+      metadata: work.location
+        ? [{ icon: MapPin, label: work.location }]
+        : undefined,
+      description: work.description || undefined,
+    })) || [];
+
   return (
     <div className="space-y-6">
       {/* Work Experience */}
@@ -33,47 +60,8 @@ export function AlumniProfileContent({ alumni }: AlumniProfileContentProps) {
               Pengalaman Kerja
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
-            {alumni.user_experiences.map((work, index) => (
-              <div key={work.id} className="space-y-2">
-                <div className="flex flex-col gap-1">
-                  <h3 className="text-lg font-semibold">{work.position}</h3>
-                  <p className="text-primary font-medium">{work.company}</p>
-                  <div className="text-muted-foreground flex flex-wrap gap-4 text-sm">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      <span>
-                        {work.start_date
-                          ? format(new Date(work.start_date), 'MMM yyyy', {
-                              locale: id,
-                            })
-                          : 'N/A'}{' '}
-                        -{' '}
-                        {work.is_current
-                          ? 'Sekarang'
-                          : work.end_date
-                            ? format(new Date(work.end_date), 'MMM yyyy', {
-                                locale: id,
-                              })
-                            : 'N/A'}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <MapPin className="h-4 w-4" />
-                      <span>{work.location || 'N/A'}</span>
-                    </div>
-                  </div>
-                </div>
-                {work.description && (
-                  <p className="text-muted-foreground leading-relaxed">
-                    {work.description}
-                  </p>
-                )}
-                {index < (alumni.user_experiences?.length ?? 0) - 1 && (
-                  <Separator className="mt-4" />
-                )}
-              </div>
-            ))}
+          <CardContent>
+            <Timeline items={experienceItems} />
           </CardContent>
         </Card>
       )}
@@ -218,46 +206,40 @@ export function AlumniProfileContent({ alumni }: AlumniProfileContentProps) {
               Pendidikan Lainnya
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            {alumni.user_educations.map((education) => (
-              <div key={education.id} className="space-y-2">
-                <div className="flex flex-col gap-1">
-                  <h3 className="text-lg font-semibold">
-                    {education.institution || 'N/A'}
-                  </h3>
-                  <p className="text-primary font-medium">
-                    {education.degree || 'N/A'}
-                  </p>
-                  <p className="text-muted-foreground text-sm">
-                    {education.field_of_study || 'N/A'}
-                  </p>
-                  <div className="text-muted-foreground flex items-center gap-1 text-sm">
-                    <Calendar className="h-4 w-4" />
-                    <span>
-                      {education.start_date
-                        ? format(new Date(education.start_date), 'yyyy', {
-                            locale: id,
-                          })
-                        : 'N/A'}{' '}
-                      -{' '}
-                      {education.end_date
-                        ? format(new Date(education.end_date), 'yyyy', {
-                            locale: id,
-                          })
-                        : 'Sekarang'}
-                    </span>
-                  </div>
-                  <p className="text-muted-foreground text-sm">
-                    Grade: {education.grade || 'N/A'}
-                  </p>
-                </div>
-                {education.description && (
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {education.description}
-                  </p>
-                )}
-              </div>
-            ))}
+          <CardContent>
+            <Timeline
+              items={
+                alumni.user_educations?.map((education) => ({
+                  id: education.id || '',
+                  icon: GraduationCap,
+                  title: education.degree || 'N/A',
+                  subtitle: education.institution || 'N/A',
+                  badge: education.field_of_study
+                    ? {
+                        label: education.field_of_study,
+                        variant: 'secondary' as const,
+                      }
+                    : undefined,
+                  dateRange: `${
+                    education.start_date
+                      ? format(new Date(education.start_date), 'yyyy', {
+                          locale: id,
+                        })
+                      : 'N/A'
+                  } - ${
+                    education.end_date
+                      ? format(new Date(education.end_date), 'yyyy', {
+                          locale: id,
+                        })
+                      : 'Sekarang'
+                  }`,
+                  metadata: education.grade
+                    ? [{ icon: Award, label: `Grade: ${education.grade}` }]
+                    : undefined,
+                  description: education.description || undefined,
+                })) || []
+              }
+            />
           </CardContent>
         </Card>
       )}

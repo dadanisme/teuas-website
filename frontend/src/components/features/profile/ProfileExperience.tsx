@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
   DialogContent,
@@ -11,7 +10,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Plus, Edit2, Trash2, Briefcase, MapPin, Calendar } from 'lucide-react';
+import { Plus, Edit2, Trash2, Briefcase, MapPin } from 'lucide-react';
+import { Timeline, TimelineItem } from '@/components/common/Timeline';
 import { ExperienceForm } from './forms/ExperienceForm';
 import { useUpdateExperiences } from '@/hooks/queries/useProfile';
 import { useAuth } from '@/hooks/useAuth';
@@ -122,6 +122,24 @@ export function ProfileExperience({ profile }: ProfileExperienceProps) {
     });
   };
 
+  // Transform experiences to timeline items
+  const timelineItems: TimelineItem[] = experiences.map((experience) => ({
+    id: experience.id || '',
+    icon: Briefcase,
+    title: experience.position,
+    subtitle: experience.company,
+    badge: experience.is_current
+      ? { label: 'Saat Ini', variant: 'default' as const }
+      : undefined,
+    dateRange: `${formatDate(experience.start_date)} - ${
+      experience.is_current ? 'Sekarang' : formatDate(experience.end_date)
+    }`,
+    metadata: experience.location
+      ? [{ icon: MapPin, label: experience.location }]
+      : undefined,
+    description: experience.description || undefined,
+  }));
+
   return (
     <Card className="p-6">
       <div className="mb-4 flex items-center justify-between">
@@ -146,107 +164,59 @@ export function ProfileExperience({ profile }: ProfileExperienceProps) {
         </Dialog>
       </div>
 
-      <div className="space-y-4">
-        {experiences.length > 0 ? (
-          experiences.map((experience) => (
-            <div
-              key={experience.id}
-              className="border-primary/20 relative border-l-2 pl-4"
-            >
-              <div className="bg-primary absolute top-2 -left-2 h-4 w-4 rounded-full"></div>
+      <Timeline
+        items={timelineItems}
+        renderActions={(item) => {
+          const experience = experiences.find((exp) => exp.id === item.id);
+          if (!experience) return null;
 
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="mb-1 flex items-center gap-2">
-                    <Briefcase className="text-muted-foreground h-4 w-4" />
-                    <h3 className="text-foreground font-semibold">
-                      {experience.position}
-                    </h3>
-                    {experience.is_current && (
-                      <Badge variant="default" className="text-xs">
-                        Saat Ini
-                      </Badge>
-                    )}
-                  </div>
-
-                  <p className="text-primary mb-2 font-medium">
-                    {experience.company}
-                  </p>
-
-                  <div className="text-muted-foreground mb-2 flex flex-wrap gap-4 text-sm">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      <span>
-                        {formatDate(experience.start_date)} -{' '}
-                        {experience.is_current
-                          ? 'Sekarang'
-                          : formatDate(experience.end_date)}
-                      </span>
-                    </div>
-                    {experience.location && (
-                      <div className="flex items-center gap-1">
-                        <MapPin className="h-3 w-3" />
-                        <span>{experience.location}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {experience.description && (
-                    <p className="text-foreground text-sm leading-relaxed">
-                      {experience.description}
-                    </p>
-                  )}
-                </div>
-
-                <div className="ml-4 flex gap-1">
-                  <Dialog
-                    open={editingExperience?.id === experience.id}
-                    onOpenChange={(open) => !open && setEditingExperience(null)}
-                  >
-                    <DialogTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() =>
-                          setEditingExperience(convertToFormData(experience))
-                        }
-                      >
-                        <Edit2 className="h-3 w-3" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
-                      <DialogHeader>
-                        <DialogTitle>Edit Pengalaman Kerja</DialogTitle>
-                      </DialogHeader>
-                      <ExperienceForm
-                        initialData={editingExperience || undefined}
-                        onSave={handleSaveExperience}
-                        onCancel={() => setEditingExperience(null)}
-                        isLoading={updateExperiences.isPending}
-                      />
-                    </DialogContent>
-                  </Dialog>
-
+          return (
+            <>
+              <Dialog
+                open={editingExperience?.id === experience.id}
+                onOpenChange={(open) => !open && setEditingExperience(null)}
+              >
+                <DialogTrigger asChild>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() =>
-                      experience.id && handleDeleteExperience(experience.id)
+                      setEditingExperience(convertToFormData(experience))
                     }
-                    className="text-destructive hover:text-destructive"
                   >
-                    <Trash2 className="h-3 w-3" />
+                    <Edit2 className="h-3 w-3" />
                   </Button>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="py-8 text-center">
-            <Briefcase className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
-            <p className="text-muted-foreground mb-4">
-              Belum ada pengalaman kerja yang ditambahkan
-            </p>
+                </DialogTrigger>
+                <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Edit Pengalaman Kerja</DialogTitle>
+                  </DialogHeader>
+                  <ExperienceForm
+                    initialData={editingExperience || undefined}
+                    onSave={handleSaveExperience}
+                    onCancel={() => setEditingExperience(null)}
+                    isLoading={updateExperiences.isPending}
+                  />
+                </DialogContent>
+              </Dialog>
+
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() =>
+                  experience.id && handleDeleteExperience(experience.id)
+                }
+                className="text-destructive hover:text-destructive"
+              >
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </>
+          );
+        }}
+        emptyState={{
+          icon: Briefcase,
+          message: 'Belum ada pengalaman kerja yang ditambahkan',
+          action: (
             <Button
               variant="outline"
               onClick={() => setIsAddingExperience(true)}
@@ -254,9 +224,9 @@ export function ProfileExperience({ profile }: ProfileExperienceProps) {
               <Plus className="mr-2 h-4 w-4" />
               Tambah Pengalaman Pertama Anda
             </Button>
-          </div>
-        )}
-      </div>
+          ),
+        }}
+      />
     </Card>
   );
 }

@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
   DialogContent,
@@ -11,14 +10,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import {
-  Plus,
-  Edit2,
-  Trash2,
-  GraduationCap,
-  Calendar,
-  Award,
-} from 'lucide-react';
+import { Plus, Edit2, Trash2, GraduationCap, Award } from 'lucide-react';
+import { Timeline, TimelineItem } from '@/components/common/Timeline';
 import { EducationForm } from './forms/EducationForm';
 import { useUpdateEducations } from '@/hooks/queries/useProfile';
 import { useAuth } from '@/hooks/useAuth';
@@ -129,6 +122,22 @@ export function ProfileEducation({ profile }: ProfileEducationProps) {
     });
   };
 
+  // Transform educations to timeline items
+  const timelineItems: TimelineItem[] = educations.map((education) => ({
+    id: education.id || '',
+    icon: GraduationCap,
+    title: education.degree,
+    subtitle: education.institution,
+    badge: education.field_of_study
+      ? { label: education.field_of_study, variant: 'secondary' as const }
+      : undefined,
+    dateRange: `${formatDate(education.start_date)} - ${formatDate(education.end_date)}`,
+    metadata: education.grade
+      ? [{ icon: Award, label: `Nilai: ${education.grade}` }]
+      : undefined,
+    description: education.description || undefined,
+  }));
+
   return (
     <Card className="p-6">
       <div className="mb-4 flex items-center justify-between">
@@ -153,105 +162,59 @@ export function ProfileEducation({ profile }: ProfileEducationProps) {
         </Dialog>
       </div>
 
-      <div className="space-y-4">
-        {educations.length > 0 ? (
-          educations.map((education) => (
-            <div
-              key={education.id}
-              className="border-primary/20 relative border-l-2 pl-4"
-            >
-              <div className="bg-primary absolute top-2 -left-2 h-4 w-4 rounded-full"></div>
+      <Timeline
+        items={timelineItems}
+        renderActions={(item) => {
+          const education = educations.find((edu) => edu.id === item.id);
+          if (!education) return null;
 
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="mb-1 flex items-center gap-2">
-                    <GraduationCap className="text-muted-foreground h-4 w-4" />
-                    <h3 className="text-foreground font-semibold">
-                      {education.degree}
-                    </h3>
-                    {education.field_of_study && (
-                      <Badge variant="secondary" className="text-xs">
-                        {education.field_of_study}
-                      </Badge>
-                    )}
-                  </div>
-
-                  <p className="text-primary mb-2 font-medium">
-                    {education.institution}
-                  </p>
-
-                  <div className="text-muted-foreground mb-2 flex flex-wrap gap-4 text-sm">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      <span>
-                        {formatDate(education.start_date)} -{' '}
-                        {formatDate(education.end_date)}
-                      </span>
-                    </div>
-                    {education.grade && (
-                      <div className="flex items-center gap-1">
-                        <Award className="h-3 w-3" />
-                        <span>Nilai: {education.grade}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {education.description && (
-                    <p className="text-foreground text-sm leading-relaxed">
-                      {education.description}
-                    </p>
-                  )}
-                </div>
-
-                <div className="ml-4 flex gap-1">
-                  <Dialog
-                    open={editingEducation?.id === education.id}
-                    onOpenChange={(open) => !open && setEditingEducation(null)}
-                  >
-                    <DialogTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() =>
-                          setEditingEducation(convertToFormData(education))
-                        }
-                      >
-                        <Edit2 className="h-3 w-3" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
-                      <DialogHeader>
-                        <DialogTitle>Edit Pendidikan</DialogTitle>
-                      </DialogHeader>
-                      <EducationForm
-                        initialData={editingEducation || undefined}
-                        onSave={handleSaveEducation}
-                        onCancel={() => setEditingEducation(null)}
-                        isLoading={updateEducations.isPending}
-                      />
-                    </DialogContent>
-                  </Dialog>
-
+          return (
+            <>
+              <Dialog
+                open={editingEducation?.id === education.id}
+                onOpenChange={(open) => !open && setEditingEducation(null)}
+              >
+                <DialogTrigger asChild>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() =>
-                      education.id && handleDeleteEducation(education.id)
+                      setEditingEducation(convertToFormData(education))
                     }
-                    className="text-destructive hover:text-destructive"
                   >
-                    <Trash2 className="h-3 w-3" />
+                    <Edit2 className="h-3 w-3" />
                   </Button>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="py-8 text-center">
-            <GraduationCap className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
-            <p className="text-muted-foreground mb-4">
-              Belum ada pendidikan yang ditambahkan
-            </p>
+                </DialogTrigger>
+                <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Edit Pendidikan</DialogTitle>
+                  </DialogHeader>
+                  <EducationForm
+                    initialData={editingEducation || undefined}
+                    onSave={handleSaveEducation}
+                    onCancel={() => setEditingEducation(null)}
+                    isLoading={updateEducations.isPending}
+                  />
+                </DialogContent>
+              </Dialog>
+
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() =>
+                  education.id && handleDeleteEducation(education.id)
+                }
+                className="text-destructive hover:text-destructive"
+              >
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </>
+          );
+        }}
+        emptyState={{
+          icon: GraduationCap,
+          message: 'Belum ada pendidikan yang ditambahkan',
+          action: (
             <Button
               variant="outline"
               onClick={() => setIsAddingEducation(true)}
@@ -259,9 +222,9 @@ export function ProfileEducation({ profile }: ProfileEducationProps) {
               <Plus className="mr-2 h-4 w-4" />
               Tambah Pendidikan Anda
             </Button>
-          </div>
-        )}
-      </div>
+          ),
+        }}
+      />
     </Card>
   );
 }
