@@ -19,6 +19,7 @@ import type {
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 import { createClient as createClientSideClient } from '@/utils/supabase/client';
+import { mapErrorToIndonesian } from '@/utils/errorMapper';
 
 /**
  * Profile service class that handles all profile-related data operations
@@ -53,18 +54,18 @@ export class ProfileService {
         .single();
 
       if (error) {
-        return ServiceResponseBuilder.error(error.message);
+        return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
       }
 
       if (!user) {
-        return ServiceResponseBuilder.error('Profile not found');
+        return ServiceResponseBuilder.error(
+          mapErrorToIndonesian('Profile not found')
+        );
       }
 
       return ServiceResponseBuilder.success(user);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
-      return ServiceResponseBuilder.error(errorMessage);
+      return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
     }
   }
 
@@ -87,14 +88,12 @@ export class ProfileService {
         .single();
 
       if (error) {
-        return ServiceResponseBuilder.error(error.message);
+        return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
       }
 
       return ServiceResponseBuilder.success(updatedUser);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
-      return ServiceResponseBuilder.error(errorMessage);
+      return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
     }
   }
 
@@ -126,7 +125,7 @@ export class ProfileService {
           .select();
 
         if (error) {
-          return ServiceResponseBuilder.error(error.message);
+          return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
         }
 
         return ServiceResponseBuilder.success(data || []);
@@ -134,9 +133,7 @@ export class ProfileService {
 
       return ServiceResponseBuilder.success([]);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
-      return ServiceResponseBuilder.error(errorMessage);
+      return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
     }
   }
 
@@ -165,7 +162,7 @@ export class ProfileService {
           .select();
 
         if (error) {
-          return ServiceResponseBuilder.error(error.message);
+          return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
         }
 
         return ServiceResponseBuilder.success(data || []);
@@ -173,9 +170,7 @@ export class ProfileService {
 
       return ServiceResponseBuilder.success([]);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
-      return ServiceResponseBuilder.error(errorMessage);
+      return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
     }
   }
 
@@ -207,7 +202,7 @@ export class ProfileService {
           .select();
 
         if (error) {
-          return ServiceResponseBuilder.error(error.message);
+          return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
         }
 
         return ServiceResponseBuilder.success(data || []);
@@ -215,9 +210,7 @@ export class ProfileService {
 
       return ServiceResponseBuilder.success([]);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
-      return ServiceResponseBuilder.error(errorMessage);
+      return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
     }
   }
 
@@ -249,7 +242,7 @@ export class ProfileService {
           .select();
 
         if (error) {
-          return ServiceResponseBuilder.error(error.message);
+          return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
         }
 
         return ServiceResponseBuilder.success(data || []);
@@ -257,9 +250,7 @@ export class ProfileService {
 
       return ServiceResponseBuilder.success([]);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
-      return ServiceResponseBuilder.error(errorMessage);
+      return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
     }
   }
 
@@ -288,7 +279,7 @@ export class ProfileService {
           .select();
 
         if (error) {
-          return ServiceResponseBuilder.error(error.message);
+          return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
         }
 
         return ServiceResponseBuilder.success(data || []);
@@ -296,9 +287,7 @@ export class ProfileService {
 
       return ServiceResponseBuilder.success([]);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
-      return ServiceResponseBuilder.error(errorMessage);
+      return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
     }
   }
 
@@ -374,9 +363,7 @@ export class ProfileService {
       // Return updated profile
       return this.getProfile(userId);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
-      return ServiceResponseBuilder.error(errorMessage);
+      return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
     }
   }
 }

@@ -18,6 +18,7 @@ import type {
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 import { createClient as createClientSideClient } from '@/utils/supabase/client';
+import { mapErrorToIndonesian } from '@/utils/errorMapper';
 
 /**
  * Alumni service class that handles all alumni-related data operations
@@ -115,10 +116,8 @@ export class AlumniService {
 
       return PaginatedResponseBuilder.success(filteredUsers, pagination);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
       return PaginatedResponseBuilder.error(
-        errorMessage,
+        mapErrorToIndonesian(error),
         filters.page || 1,
         filters.limit || 12
       );
@@ -147,18 +146,18 @@ export class AlumniService {
         .single();
 
       if (error) {
-        return ServiceResponseBuilder.error(error.message);
+        return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
       }
 
       if (!user) {
-        return ServiceResponseBuilder.error('Alumni profile not found');
+        return ServiceResponseBuilder.error(
+          mapErrorToIndonesian('Alumni profile not found')
+        );
       }
 
       return ServiceResponseBuilder.success(user);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
-      return ServiceResponseBuilder.error(errorMessage);
+      return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
     }
   }
 
@@ -220,9 +219,7 @@ export class AlumniService {
 
       return ServiceResponseBuilder.success(stats);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
-      return ServiceResponseBuilder.error(errorMessage);
+      return ServiceResponseBuilder.error(mapErrorToIndonesian(error));
     }
   }
 }

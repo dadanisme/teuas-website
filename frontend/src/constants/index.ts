@@ -303,26 +303,5 @@ export const STORAGE_KEYS = {
   DRAFT_ARTICLES: 'ika_teuas_draft_articles',
 } as const;
 
-// Pesan kesalahan
-export const ERROR_MESSAGES = {
-  NETWORK: 'Kesalahan jaringan. Periksa koneksi internet Anda.',
-  UNAUTHORIZED: 'Anda tidak berwenang untuk melakukan tindakan ini.',
-  FORBIDDEN: 'Akses ditolak. Silakan hubungi administrator.',
-  NOT_FOUND: 'Sumber daya yang diminta tidak ditemukan.',
-  VALIDATION: 'Periksa input Anda dan coba lagi.',
-  SERVER: 'Kesalahan server. Silakan coba lagi nanti.',
-  UNKNOWN: 'Terjadi kesalahan yang tidak terduga.',
-} as const;
-
-// Pesan sukses
-export const SUCCESS_MESSAGES = {
-  SAVE: 'Perubahan berhasil disimpan',
-  CREATE: 'Berhasil dibuat',
-  UPDATE: 'Berhasil diperbarui',
-  DELETE: 'Berhasil dihapus',
-  SEND: 'Berhasil dikirim',
-  UPLOAD: 'Berhasil diunggah',
-  LOGIN: 'Berhasil masuk',
-  LOGOUT: 'Berhasil keluar',
-  REGISTER: 'Pendaftaran berhasil diselesaikan',
-} as const;
+// Re-export error and success messages from dedicated errors file
+export { ERROR_MESSAGES, SUCCESS_MESSAGES } from './errors';

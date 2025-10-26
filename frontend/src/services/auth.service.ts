@@ -11,6 +11,7 @@ import {
   validateSignIn,
   validateProfileUpdate,
 } from '@/schemas/auth.schema';
+import { mapErrorToIndonesian } from '@/utils/errorMapper';
 
 /**
  * Authentication service class that handles all Supabase auth operations
@@ -35,7 +36,9 @@ export class AuthService {
         return {
           user: null,
           session: null,
-          error: validation.error.issues[0]?.message || 'Invalid input data',
+          error:
+            validation.error.issues[0]?.message ||
+            mapErrorToIndonesian('Invalid input data'),
         };
       }
 
@@ -56,7 +59,7 @@ export class AuthService {
         return {
           user: null,
           session: null,
-          error: error.message,
+          error: mapErrorToIndonesian(error),
         };
       }
 
@@ -69,10 +72,7 @@ export class AuthService {
       return {
         user: null,
         session: null,
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
+        error: mapErrorToIndonesian(error),
       };
     }
   }
@@ -88,7 +88,9 @@ export class AuthService {
         return {
           user: null,
           session: null,
-          error: validation.error.issues[0]?.message || 'Invalid input data',
+          error:
+            validation.error.issues[0]?.message ||
+            mapErrorToIndonesian('Invalid input data'),
         };
       }
 
@@ -104,7 +106,7 @@ export class AuthService {
         return {
           user: null,
           session: null,
-          error: error.message,
+          error: mapErrorToIndonesian(error),
         };
       }
 
@@ -117,10 +119,7 @@ export class AuthService {
       return {
         user: null,
         session: null,
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
+        error: mapErrorToIndonesian(error),
       };
     }
   }
@@ -133,16 +132,13 @@ export class AuthService {
       const { error } = await this.supabase.auth.signOut();
 
       if (error) {
-        return { error: error.message };
+        return { error: mapErrorToIndonesian(error) };
       }
 
       return { error: null };
     } catch (error) {
       return {
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
+        error: mapErrorToIndonesian(error),
       };
     }
   }
@@ -161,17 +157,14 @@ export class AuthService {
       } = await this.supabase.auth.getSession();
 
       if (error) {
-        return { session: null, error: error.message };
+        return { session: null, error: mapErrorToIndonesian(error) };
       }
 
       return { session, error: null };
     } catch (error) {
       return {
         session: null,
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
+        error: mapErrorToIndonesian(error),
       };
     }
   }
@@ -187,17 +180,14 @@ export class AuthService {
       } = await this.supabase.auth.getUser();
 
       if (error) {
-        return { user: null, error: error.message };
+        return { user: null, error: mapErrorToIndonesian(error) };
       }
 
       return { user, error: null };
     } catch (error) {
       return {
         user: null,
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
+        error: mapErrorToIndonesian(error),
       };
     }
   }
@@ -214,7 +204,9 @@ export class AuthService {
       const validation = validateProfileUpdate(data);
       if (!validation.success) {
         return {
-          error: validation.error.issues[0]?.message || 'Invalid input data',
+          error:
+            validation.error.issues[0]?.message ||
+            mapErrorToIndonesian('Invalid input data'),
         };
       }
 
@@ -229,16 +221,13 @@ export class AuthService {
         .eq('id', userId);
 
       if (error) {
-        return { error: error.message };
+        return { error: mapErrorToIndonesian(error) };
       }
 
       return { error: null };
     } catch (error) {
       return {
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
+        error: mapErrorToIndonesian(error),
       };
     }
   }
@@ -256,17 +245,14 @@ export class AuthService {
         .single();
 
       if (error) {
-        return { profile: null, error: error.message };
+        return { profile: null, error: mapErrorToIndonesian(error) };
       }
 
       return { profile: data, error: null };
     } catch (error) {
       return {
         profile: null,
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
+        error: mapErrorToIndonesian(error),
       };
     }
   }
@@ -287,7 +273,7 @@ export class AuthService {
     try {
       // Basic email validation
       if (!email || !email.includes('@')) {
-        return { error: 'Please enter a valid email address' };
+        return { error: mapErrorToIndonesian('Invalid email') };
       }
 
       const { error } = await this.supabase.auth.resetPasswordForEmail(email, {
@@ -295,16 +281,13 @@ export class AuthService {
       });
 
       if (error) {
-        return { error: error.message };
+        return { error: mapErrorToIndonesian(error) };
       }
 
       return { error: null };
     } catch (error) {
       return {
-        error:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
+        error: mapErrorToIndonesian(error),
       };
     }
   }

@@ -46,6 +46,7 @@ function LoginFormComponent({ onSubmit }: LoginFormProps) {
         await signIn(data);
       }
     } catch (error) {
+      // Error is already mapped to Indonesian in the service layer
       form.setError('root', {
         message:
           error instanceof Error

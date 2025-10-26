@@ -52,6 +52,7 @@ function RegisterFormComponent({ onSubmit }: RegisterFormProps) {
         });
       }
     } catch (error) {
+      // Error is already mapped to Indonesian in the service layer
       form.setError('root', {
         message:
           error instanceof Error

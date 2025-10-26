@@ -32,20 +32,20 @@ function DefaultErrorFallback({ error, resetError }: ErrorFallbackProps) {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-            <AlertTriangle className="h-8 w-8 text-red-600" />
+            <AlertTriangle className="text-destructive h-8 w-8" />
           </div>
-          <CardTitle className="text-xl">Something went wrong</CardTitle>
+          <CardTitle className="text-xl">Terjadi Kesalahan</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-muted-foreground text-center">
-            We encountered an unexpected error. Please try refreshing the page
-            or contact support if the problem persists.
+            Kami mengalami kesalahan yang tidak terduga. Silakan muat ulang
+            halaman atau hubungi dukungan jika masalah berlanjut.
           </p>
 
           {process.env.NODE_ENV === 'development' && error && (
             <details className="mt-4">
               <summary className="cursor-pointer text-sm font-medium">
-                Error Details (Development)
+                Detail Kesalahan (Development)
               </summary>
               <pre className="bg-muted mt-2 overflow-auto rounded p-2 text-xs">
                 {error.message}
@@ -57,12 +57,12 @@ function DefaultErrorFallback({ error, resetError }: ErrorFallbackProps) {
           <div className="flex flex-col space-y-2">
             <Button onClick={resetError} className="w-full">
               <RefreshCw className="mr-2 h-4 w-4" />
-              Try Again
+              Coba Lagi
             </Button>
             <Button variant="outline" asChild className="w-full">
               <Link href="/">
                 <Home className="mr-2 h-4 w-4" />
-                Go Home
+                Kembali ke Beranda
               </Link>
             </Button>
           </div>
@@ -124,8 +124,8 @@ export class ErrorBoundary extends React.Component<
 export function PageError({
   error,
   reset,
-  title = 'Page Error',
-  description = 'An error occurred while loading this page.',
+  title = 'Kesalahan Halaman',
+  description = 'Terjadi kesalahan saat memuat halaman ini.',
 }: {
   error?: Error;
   reset?: () => void;
@@ -147,7 +147,7 @@ export function PageError({
           {process.env.NODE_ENV === 'development' && error && (
             <details className="mt-4">
               <summary className="cursor-pointer text-sm font-medium">
-                Error Details (Development)
+                Detail Kesalahan (Development)
               </summary>
               <pre className="bg-muted mt-2 max-h-40 overflow-auto rounded p-2 text-xs">
                 {error.message}
@@ -161,13 +161,13 @@ export function PageError({
             {reset && (
               <Button onClick={reset} className="w-full">
                 <RefreshCw className="mr-2 h-4 w-4" />
-                Try Again
+                Coba Lagi
               </Button>
             )}
             <Button variant="outline" asChild className="w-full">
               <Link href="/">
                 <Home className="mr-2 h-4 w-4" />
-                Return Home
+                Kembali ke Beranda
               </Link>
             </Button>
             <Button
@@ -176,7 +176,7 @@ export function PageError({
               className="w-full"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Go Back
+              Kembali
             </Button>
           </div>
         </CardContent>
@@ -187,8 +187,8 @@ export function PageError({
 
 // Not Found Component
 export function NotFound({
-  title = 'Page Not Found',
-  description = "The page you're looking for doesn't exist or has been moved.",
+  title = 'Halaman Tidak Ditemukan',
+  description = 'Halaman yang Anda cari tidak ada atau telah dipindahkan.',
 }: {
   title?: string;
   description?: string;
@@ -209,7 +209,7 @@ export function NotFound({
             <Button asChild className="w-full">
               <Link href="/">
                 <Home className="mr-2 h-4 w-4" />
-                Return Home
+                Kembali ke Beranda
               </Link>
             </Button>
 
@@ -219,7 +219,7 @@ export function NotFound({
               className="w-full"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Go Back
+              Kembali
             </Button>
           </div>
         </CardContent>
