@@ -32,32 +32,27 @@ export function SkillsForm({
   const [newSkill, setNewSkill] = useState<Partial<UserSkillData>>({
     name: '',
     category: '',
-    level: 'Intermediate',
+    level: 'Menengah',
   });
 
   useEffect(() => {
     setSkills(initialSkills);
   }, [initialSkills]);
 
-  const skillLevels = [
-    'Beginner',
-    'Intermediate',
-    'Advanced',
-    'Expert',
-  ] as const;
+  const skillLevels = ['Pemula', 'Menengah', 'Mahir', 'Ahli'] as const;
 
   const commonCategories = [
-    'Programming Languages',
-    'Web Development',
-    'Mobile Development',
-    'Database',
+    'Bahasa Pemrograman',
+    'Pengembangan Web',
+    'Pengembangan Mobile',
+    'Basis Data',
     'DevOps',
-    'Design',
-    'Project Management',
-    'Data Science',
-    'Machine Learning',
-    'Cloud Computing',
-    'Other',
+    'Desain',
+    'Manajemen Proyek',
+    'Ilmu Data',
+    'Pembelajaran Mesin',
+    'Komputasi Awan',
+    'Lainnya',
   ];
 
   const handleAddSkill = () => {
@@ -65,15 +60,15 @@ export function SkillsForm({
 
     const skillToAdd: UserSkillData = {
       name: newSkill.name.trim(),
-      category: newSkill.category || 'Other',
-      level: newSkill.level || 'Intermediate',
+      category: newSkill.category || 'Lainnya',
+      level: newSkill.level || 'Menengah',
     };
 
     setSkills((prev) => [...prev, skillToAdd]);
     setNewSkill({
       name: '',
       category: '',
-      level: 'Intermediate',
+      level: 'Menengah',
     });
   };
 
@@ -100,13 +95,13 @@ export function SkillsForm({
 
   const getLevelColor = (level?: string) => {
     switch (level) {
-      case 'Expert':
+      case 'Ahli':
         return 'bg-primary/10 text-primary border-primary/20';
-      case 'Advanced':
+      case 'Mahir':
         return 'bg-secondary/10 text-secondary-foreground border-secondary/20';
-      case 'Intermediate':
+      case 'Menengah':
         return 'bg-accent/10 text-accent-foreground border-accent/20';
-      case 'Beginner':
+      case 'Pemula':
         return 'bg-muted text-muted-foreground border-border';
       default:
         return 'bg-muted text-muted-foreground border-border';
@@ -115,13 +110,13 @@ export function SkillsForm({
 
   const getLevelStars = (level?: string) => {
     switch (level) {
-      case 'Expert':
+      case 'Ahli':
         return 4;
-      case 'Advanced':
+      case 'Mahir':
         return 3;
-      case 'Intermediate':
+      case 'Menengah':
         return 2;
-      case 'Beginner':
+      case 'Pemula':
         return 1;
       default:
         return 0;
@@ -132,22 +127,24 @@ export function SkillsForm({
     <form onSubmit={handleSubmit} className="space-y-6 py-4">
       {/* Add New Skill */}
       <div className="bg-muted/30 space-y-4 rounded-lg border p-4">
-        <h3 className="text-foreground font-medium">Add New Skill</h3>
+        <h3 className="text-foreground font-medium">
+          Tambah Keterampilan Baru
+        </h3>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="space-y-2">
-            <Label htmlFor="skill_name">Skill Name *</Label>
+            <Label htmlFor="skill_name">Nama Keterampilan *</Label>
             <Input
               id="skill_name"
               value={newSkill.name || ''}
               onChange={(e) =>
                 setNewSkill((prev) => ({ ...prev, name: e.target.value }))
               }
-              placeholder="e.g. JavaScript"
+              placeholder="cth. JavaScript"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="skill_category">Category</Label>
+            <Label htmlFor="skill_category">Kategori</Label>
             <Select
               value={newSkill.category || ''}
               onValueChange={(value) =>
@@ -155,7 +152,7 @@ export function SkillsForm({
               }
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select category" />
+                <SelectValue placeholder="Pilih kategori" />
               </SelectTrigger>
               <SelectContent>
                 {commonCategories.map((category) => (
@@ -168,9 +165,9 @@ export function SkillsForm({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="skill_level">Level</Label>
+            <Label htmlFor="skill_level">Tingkat</Label>
             <Select
-              value={newSkill.level || 'Intermediate'}
+              value={newSkill.level || 'Menengah'}
               onValueChange={(value) =>
                 setNewSkill((prev) => ({
                   ...prev,
@@ -199,14 +196,14 @@ export function SkillsForm({
           size="sm"
         >
           <Plus className="mr-2 h-4 w-4" />
-          Add Skill
+          Tambah Keterampilan
         </Button>
       </div>
 
       {/* Current Skills */}
       <div className="space-y-4">
         <h3 className="text-foreground font-medium">
-          Current Skills ({skills.length})
+          Keterampilan Saat Ini ({skills.length})
         </h3>
 
         {skills.length > 0 ? (
@@ -222,7 +219,7 @@ export function SkillsForm({
                     onChange={(e) =>
                       handleUpdateSkill(index, 'name', e.target.value)
                     }
-                    placeholder="Skill name"
+                    placeholder="Nama keterampilan"
                   />
 
                   <Select
@@ -232,7 +229,7 @@ export function SkillsForm({
                     }
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Category" />
+                      <SelectValue placeholder="Kategori" />
                     </SelectTrigger>
                     <SelectContent>
                       {commonCategories.map((category) => (
@@ -244,7 +241,7 @@ export function SkillsForm({
                   </Select>
 
                   <Select
-                    value={skill.level || 'Intermediate'}
+                    value={skill.level || 'Menengah'}
                     onValueChange={(value) =>
                       handleUpdateSkill(index, 'level', value)
                     }
@@ -290,7 +287,8 @@ export function SkillsForm({
           </div>
         ) : (
           <p className="text-muted-foreground py-4 text-center">
-            No skills added yet. Add your first skill above.
+            Belum ada keterampilan yang ditambahkan. Tambahkan keterampilan
+            pertama Anda di atas.
           </p>
         )}
       </div>
@@ -298,7 +296,7 @@ export function SkillsForm({
       {/* Preview */}
       {skills.length > 0 && (
         <div className="space-y-3">
-          <h3 className="text-foreground font-medium">Preview</h3>
+          <h3 className="text-foreground font-medium">Pratinjau</h3>
           <div className="flex flex-wrap gap-2">
             {skills.map((skill, index) => (
               <Badge
@@ -329,10 +327,10 @@ export function SkillsForm({
 
       <div className="flex justify-end gap-2 pt-4">
         <Button type="button" variant="outline" onClick={onCancel}>
-          Cancel
+          Batal
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Saving...' : 'Save Skills'}
+          {isLoading ? 'Menyimpan...' : 'Simpan Keterampilan'}
         </Button>
       </div>
     </form>

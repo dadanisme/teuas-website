@@ -186,7 +186,9 @@ export function SocialsForm({
       {/* Add New Social Link */}
       {getAvailablePlatforms().length > 0 && (
         <div className="bg-muted/30 space-y-4 rounded-lg border p-4">
-          <h3 className="text-foreground font-medium">Add Social Link</h3>
+          <h3 className="text-foreground font-medium">
+            Tambah Tautan Media Sosial
+          </h3>
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="platform">Platform</Label>
@@ -202,7 +204,7 @@ export function SocialsForm({
                 }
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select platform" />
+                  <SelectValue placeholder="Pilih platform" />
                 </SelectTrigger>
                 <SelectContent>
                   {getAvailablePlatforms().map((platform) => (
@@ -231,7 +233,7 @@ export function SocialsForm({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="username">Username (optional)</Label>
+              <Label htmlFor="username">Username (opsional)</Label>
               <Input
                 id="username"
                 value={newSocial.username || ''}
@@ -257,7 +259,7 @@ export function SocialsForm({
             size="sm"
           >
             <Plus className="mr-2 h-4 w-4" />
-            Add Link
+            Tambah Tautan
           </Button>
         </div>
       )}
@@ -265,7 +267,7 @@ export function SocialsForm({
       {/* Current Social Links */}
       <div className="space-y-4">
         <h3 className="text-foreground font-medium">
-          Social Links ({socials.length})
+          Tautan Media Sosial ({socials.length})
         </h3>
 
         {socials.length > 0 ? (
@@ -299,7 +301,7 @@ export function SocialsForm({
                       onChange={(e) =>
                         handleUpdateSocial(index, 'username', e.target.value)
                       }
-                      placeholder="Username (optional)"
+                      placeholder="Username (opsional)"
                     />
                   </div>
 
@@ -318,7 +320,8 @@ export function SocialsForm({
           </div>
         ) : (
           <p className="text-muted-foreground py-4 text-center">
-            No social links added yet. Add your first link above.
+            Belum ada tautan media sosial yang ditambahkan. Tambahkan tautan
+            pertama Anda di atas.
           </p>
         )}
       </div>
@@ -326,7 +329,7 @@ export function SocialsForm({
       {/* Preview */}
       {socials.length > 0 && (
         <div className="space-y-3">
-          <h3 className="text-foreground font-medium">Preview</h3>
+          <h3 className="text-foreground font-medium">Pratinjau</h3>
           <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
             {socials.map((social, index) => {
               const platform = platforms.find(
@@ -355,10 +358,10 @@ export function SocialsForm({
 
       <div className="flex justify-end gap-2 pt-4">
         <Button type="button" variant="outline" onClick={onCancel}>
-          Cancel
+          Batal
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Saving...' : 'Save Social Links'}
+          {isLoading ? 'Menyimpan...' : 'Simpan Tautan Media Sosial'}
         </Button>
       </div>
     </form>

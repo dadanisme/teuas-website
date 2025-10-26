@@ -31,9 +31,7 @@ export const userSkillSchema = z.object({
     .min(1, 'Nama skill wajib diisi')
     .max(50, 'Nama skill terlalu panjang'),
   category: z.string().max(50, 'Kategori terlalu panjang').optional(),
-  level: z
-    .enum(['Beginner', 'Intermediate', 'Advanced', 'Expert'] as const)
-    .optional(),
+  level: z.enum(['Pemula', 'Menengah', 'Mahir', 'Ahli'] as const).optional(),
 });
 
 // User certification schema

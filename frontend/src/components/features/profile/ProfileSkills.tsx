@@ -36,8 +36,7 @@ export function ProfileSkills({ profile }: ProfileSkillsProps) {
     name: dbSkill.name,
     category: dbSkill.category || undefined,
     level:
-      (dbSkill.level as 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert') ||
-      undefined,
+      (dbSkill.level as 'Pemula' | 'Menengah' | 'Mahir' | 'Ahli') || undefined,
   });
 
   const handleSaveSkills = async (skillsData: UserSkillData[]) => {
@@ -65,7 +64,7 @@ export function ProfileSkills({ profile }: ProfileSkillsProps) {
     const categorized: Record<string, UserSkillData[]> = {};
 
     skills.forEach((skill) => {
-      const category = skill.category || 'Other';
+      const category = skill.category || 'Lainnya';
       if (!categorized[category]) {
         categorized[category] = [];
       }
@@ -77,13 +76,13 @@ export function ProfileSkills({ profile }: ProfileSkillsProps) {
 
   const getLevelColor = (level?: string) => {
     switch (level) {
-      case 'Expert':
+      case 'Ahli':
         return 'bg-primary/10 text-primary border-primary/20';
-      case 'Advanced':
+      case 'Mahir':
         return 'bg-secondary/10 text-secondary-foreground border-secondary/20';
-      case 'Intermediate':
+      case 'Menengah':
         return 'bg-accent/10 text-accent-foreground border-accent/20';
-      case 'Beginner':
+      case 'Pemula':
         return 'bg-muted text-muted-foreground border-border';
       default:
         return 'bg-muted text-muted-foreground border-border';
@@ -92,13 +91,13 @@ export function ProfileSkills({ profile }: ProfileSkillsProps) {
 
   const getLevelStars = (level?: string) => {
     switch (level) {
-      case 'Expert':
+      case 'Ahli':
         return 4;
-      case 'Advanced':
+      case 'Mahir':
         return 3;
-      case 'Intermediate':
+      case 'Menengah':
         return 2;
-      case 'Beginner':
+      case 'Pemula':
         return 1;
       default:
         return 0;

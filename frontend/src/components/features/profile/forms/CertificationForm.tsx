@@ -42,18 +42,18 @@ export function CertificationForm({
     const newErrors: Record<string, string> = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Certification name is required';
+      newErrors.name = 'Nama sertifikasi wajib diisi';
     }
 
     if (!formData.issuer.trim()) {
-      newErrors.issuer = 'Issuer is required';
+      newErrors.issuer = 'Organisasi penerbit wajib diisi';
     }
 
     if (formData.credential_url && formData.credential_url.trim()) {
       try {
         new URL(formData.credential_url);
       } catch {
-        newErrors.credential_url = 'Please enter a valid URL';
+        newErrors.credential_url = 'Harap masukkan URL yang valid';
       }
     }
 
@@ -84,14 +84,14 @@ export function CertificationForm({
     <form onSubmit={handleSubmit} className="space-y-4 py-4">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="name">Certification Name *</Label>
+          <Label htmlFor="name">Nama Sertifikasi *</Label>
           <Input
             id="name"
             value={formData.name}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, name: e.target.value }))
             }
-            placeholder="e.g. AWS Certified Solutions Architect"
+            placeholder="cth. AWS Certified Solutions Architect"
             className={errors.name ? 'border-destructive' : ''}
           />
           {errors.name && (
@@ -100,14 +100,14 @@ export function CertificationForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="issuer">Issuing Organization *</Label>
+          <Label htmlFor="issuer">Organisasi Penerbit *</Label>
           <Input
             id="issuer"
             value={formData.issuer}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, issuer: e.target.value }))
             }
-            placeholder="e.g. Amazon Web Services"
+            placeholder="cth. Amazon Web Services"
             className={errors.issuer ? 'border-destructive' : ''}
           />
           {errors.issuer && (
@@ -118,7 +118,7 @@ export function CertificationForm({
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="issue_date">Issue Date</Label>
+          <Label htmlFor="issue_date">Tanggal Terbit</Label>
           <DatePicker
             value={formData.issue_date || ''}
             onChange={(date) =>
@@ -128,7 +128,7 @@ export function CertificationForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="expiry_date">Expiry Date</Label>
+          <Label htmlFor="expiry_date">Tanggal Kadaluarsa</Label>
           <DatePicker
             value={formData.expiry_date || ''}
             onChange={(date) =>
@@ -139,19 +139,19 @@ export function CertificationForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="credential_id">Credential ID</Label>
+        <Label htmlFor="credential_id">ID Kredensial</Label>
         <Input
           id="credential_id"
           value={formData.credential_id || ''}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, credential_id: e.target.value }))
           }
-          placeholder="e.g. ABC123XYZ"
+          placeholder="cth. ABC123XYZ"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="credential_url">Credential URL</Label>
+        <Label htmlFor="credential_url">URL Kredensial</Label>
         <Input
           id="credential_url"
           type="url"
@@ -166,16 +166,16 @@ export function CertificationForm({
           <p className="text-destructive text-sm">{errors.credential_url}</p>
         )}
         <p className="text-muted-foreground text-xs">
-          Link to verify your certification online
+          Tautan untuk memverifikasi sertifikasi Anda secara online
         </p>
       </div>
 
       <div className="flex justify-end gap-2 pt-4">
         <Button type="button" variant="outline" onClick={onCancel}>
-          Cancel
+          Batal
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Saving...' : 'Save Certification'}
+          {isLoading ? 'Menyimpan...' : 'Simpan Sertifikasi'}
         </Button>
       </div>
     </form>
