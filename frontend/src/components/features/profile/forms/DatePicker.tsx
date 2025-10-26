@@ -13,7 +13,6 @@ interface DatePickerProps {
   value?: string;
   onChange: (date: string) => void;
   onBlur?: () => void;
-  name?: string;
   disabled?: boolean;
   className?: string;
 }
@@ -22,7 +21,6 @@ export function DatePicker({
   value,
   onChange,
   onBlur,
-  name,
   disabled = false,
   className,
 }: DatePickerProps) {

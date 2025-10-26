@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   CheckCircle,
   AlertTriangle,
@@ -123,6 +123,11 @@ export function Alert({
 }: AlertProps) {
   const [isVisible, setIsVisible] = useState(true);
 
+  const handleDismiss = useCallback(() => {
+    setIsVisible(false);
+    onDismiss?.();
+  }, [onDismiss]);
+
   // Auto hide functionality
   useEffect(() => {
     if (autoHide && autoHideDelay > 0) {
@@ -132,12 +137,7 @@ export function Alert({
 
       return () => clearTimeout(timer);
     }
-  }, [autoHide, autoHideDelay]);
-
-  const handleDismiss = () => {
-    setIsVisible(false);
-    onDismiss?.();
-  };
+  }, [autoHide, autoHideDelay, handleDismiss]);
 
   if (!isVisible) return null;
 

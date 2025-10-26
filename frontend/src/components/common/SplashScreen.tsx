@@ -26,8 +26,8 @@ export function SplashScreen({ message }: SplashScreenProps) {
 
         {/* Loading spinner */}
         <div className="flex flex-col items-center gap-3">
-          <div className="border-primary h-10 w-10 animate-spin rounded-full border-b-2 border-t-2" />
-          
+          <div className="border-primary h-10 w-10 animate-spin rounded-full border-t-2 border-b-2" />
+
           {/* Optional loading message */}
           {message && (
             <p className="text-muted-foreground animate-pulse text-sm">
@@ -39,4 +39,3 @@ export function SplashScreen({ message }: SplashScreenProps) {
     </div>
   );
 }
-
