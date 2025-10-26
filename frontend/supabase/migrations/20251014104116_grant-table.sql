@@ -5,10 +5,8 @@
 
 -- Grant READ-ONLY permissions to anonymous users
 GRANT SELECT ON ALL TABLES IN SCHEMA "public" TO anon;
-
 -- Grant full permissions to authenticated users
 GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA "public" TO authenticated;
-
 -- Note: DELETE is intentionally omitted - we use soft deletes via 'deleted' flag
 -- Note: RLS policies will ensure authenticated users can only modify their own data
 
