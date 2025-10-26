@@ -113,10 +113,9 @@ export class ProfileService {
 
       // Insert new experiences if any
       if (experiences.length > 0) {
-        const experiencesToInsert = experiences.map((exp) => ({
+        const experiencesToInsert = experiences.map(({ id, ...exp }) => ({
           ...exp,
           user_id: userId,
-          id: undefined, // Let database generate new IDs
         }));
 
         const { data, error } = await this.supabase
@@ -150,10 +149,9 @@ export class ProfileService {
 
       // Insert new skills if any
       if (skills.length > 0) {
-        const skillsToInsert = skills.map((skill) => ({
+        const skillsToInsert = skills.map(({ id, ...skill }) => ({
           ...skill,
           user_id: userId,
-          id: undefined, // Let database generate new IDs
         }));
 
         const { data, error } = await this.supabase
@@ -190,11 +188,12 @@ export class ProfileService {
 
       // Insert new certifications if any
       if (certifications.length > 0) {
-        const certificationsToInsert = certifications.map((cert) => ({
-          ...cert,
-          user_id: userId,
-          id: undefined, // Let database generate new IDs
-        }));
+        const certificationsToInsert = certifications.map(
+          ({ id, ...cert }) => ({
+            ...cert,
+            user_id: userId,
+          })
+        );
 
         const { data, error } = await this.supabase
           .from('user_certifications')
@@ -230,10 +229,9 @@ export class ProfileService {
 
       // Insert new educations if any
       if (educations.length > 0) {
-        const educationsToInsert = educations.map((edu) => ({
+        const educationsToInsert = educations.map(({ id, ...edu }) => ({
           ...edu,
           user_id: userId,
-          id: undefined, // Let database generate new IDs
         }));
 
         const { data, error } = await this.supabase
@@ -267,10 +265,9 @@ export class ProfileService {
 
       // Insert new socials if any
       if (socials.length > 0) {
-        const socialsToInsert = socials.map((social) => ({
+        const socialsToInsert = socials.map(({ id, ...social }) => ({
           ...social,
           user_id: userId,
-          id: undefined, // Let database generate new IDs
         }));
 
         const { data, error } = await this.supabase
