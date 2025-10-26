@@ -96,7 +96,7 @@ export function SkillsForm({
           </h3>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="space-y-2">
-              <Label htmlFor="newSkillName">Nama Keterampilan *</Label>
+              <Label htmlFor="newSkillName">Nama *</Label>
               <Input
                 id="newSkillName"
                 value={newSkillName}

@@ -168,6 +168,8 @@ export const ROUTES = {
   PRIVACY: '/privacy',
   TERMS: '/terms',
   SITEMAP: '/sitemap.xml',
+
+  NOT_FOUND: '/404',
 } as const;
 
 // Program akademik dan jurusan

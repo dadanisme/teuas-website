@@ -14,18 +14,14 @@ import { AlumniProfileContent } from './AlumniProfileContent';
 import { AlumniProfileSidebar } from './AlumniProfileSidebar';
 import { useAlumniProfile } from '@/hooks/queries/useAlumni';
 import { ROUTES } from '@/constants';
+import { redirect } from 'next/navigation';
 
 interface AlumniProfilePageProps {
   id: string;
 }
 
 export function AlumniProfilePage({ id }: AlumniProfilePageProps) {
-  const {
-    data: alumniResponse,
-    isLoading,
-    isError,
-    error,
-  } = useAlumniProfile(id);
+  const { data: alumniResponse, isLoading, isError } = useAlumniProfile(id);
 
   if (isLoading) {
     return (
@@ -50,24 +46,7 @@ export function AlumniProfilePage({ id }: AlumniProfilePageProps) {
   }
 
   if (isError || !alumniResponse?.data || alumniResponse.error) {
-    return (
-      <div className="bg-background min-h-screen">
-        <div className="container mx-auto px-4 py-8 text-center">
-          <h1 className="mb-4 text-2xl font-bold">Alumni tidak ditemukan</h1>
-          <p className="text-muted-foreground mb-4">
-            {error instanceof Error
-              ? error.message
-              : 'Profil alumni tidak dapat ditemukan'}
-          </p>
-          <Link
-            href={ROUTES.ALUMNI.ROOT}
-            className="text-primary hover:underline"
-          >
-            Kembali ke Direktori Alumni
-          </Link>
-        </div>
-      </div>
-    );
+    redirect(ROUTES.NOT_FOUND);
   }
 
   const alumni = alumniResponse.data;

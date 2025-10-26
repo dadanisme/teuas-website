@@ -31,7 +31,7 @@ export function SkillField({ control, index, onRemove }: SkillFieldProps) {
           name={`skills.${index}.name`}
           render={({ field }) => (
             <FormControl>
-              <Input {...field} placeholder="Nama keterampilan" />
+              <Input {...field} placeholder="Nama" />
             </FormControl>
           )}
         />
