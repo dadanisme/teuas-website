@@ -132,7 +132,7 @@ export function SkillsForm({
         </h3>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="space-y-2">
-            <Label htmlFor="skill_name">Nama Keterampilan *</Label>
+            <Label htmlFor="skill_name">Nama *</Label>
             <Input
               id="skill_name"
               value={newSkill.name || ''}
@@ -219,7 +219,7 @@ export function SkillsForm({
                     onChange={(e) =>
                       handleUpdateSkill(index, 'name', e.target.value)
                     }
-                    placeholder="Nama keterampilan"
+                    placeholder="Nama"
                   />
 
                   <Select
