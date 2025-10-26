@@ -12,6 +12,8 @@ import {
 interface DatePickerProps {
   value?: string;
   onChange: (date: string) => void;
+  onBlur?: () => void;
+  name?: string;
   disabled?: boolean;
   className?: string;
 }
@@ -19,6 +21,8 @@ interface DatePickerProps {
 export function DatePicker({
   value,
   onChange,
+  onBlur,
+  name,
   disabled = false,
   className,
 }: DatePickerProps) {
@@ -86,6 +90,7 @@ export function DatePicker({
             const dateString = `${selectedYear}-${String(monthValue + 1).padStart(2, '0')}-01`;
             onChange(dateString);
           }
+          onBlur?.();
         }}
         disabled={disabled}
       >
@@ -112,6 +117,7 @@ export function DatePicker({
             const dateString = `${yearValue}-${String(selectedMonth + 1).padStart(2, '0')}-01`;
             onChange(dateString);
           }
+          onBlur?.();
         }}
         disabled={disabled}
       >

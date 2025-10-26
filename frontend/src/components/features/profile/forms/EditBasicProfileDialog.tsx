@@ -1,17 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import {
   Dialog,
   DialogContent,
@@ -19,12 +11,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Form } from '@/components/ui/form';
 import { Edit2 } from 'lucide-react';
 import { useUpdateBasicProfile } from '@/hooks/queries/useProfile';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import { BasicProfileFields } from './form-fields/BasicProfileFields';
+import {
+  basicProfileSchema,
+  type BasicProfileData,
+} from '@/schemas/profile.schema';
 import type { ProfileData } from '@/types/profile-query';
-import type { BasicProfileData } from '@/schemas/profile.schema';
 
 interface EditBasicProfileDialogProps {
   profile?: ProfileData | null;
@@ -35,41 +32,10 @@ export function EditBasicProfileDialog({
 }: EditBasicProfileDialogProps) {
   const { user } = useAuth();
   const updateBasicProfile = useUpdateBasicProfile();
-  const [isOpen, setIsOpen] = useState(false);
-  const [formData, setFormData] = useState<Partial<BasicProfileData>>({
-    full_name: profile?.full_name || '',
-    nim: profile?.nim || '',
-    bio: profile?.bio || '',
-    location: profile?.location || '',
-    phone: profile?.phone || '',
-    year: profile?.year || undefined,
-    major: profile?.major || undefined,
-    degree: profile?.degree || undefined,
-  });
 
-  const handleSave = async () => {
-    if (!user?.id) return;
-
-    try {
-      const result = await updateBasicProfile.mutateAsync({
-        userId: user.id,
-        data: formData,
-      });
-
-      if (result.error) {
-        toast.error(result.error);
-        return;
-      }
-
-      toast.success('Profil berhasil diperbarui');
-      setIsOpen(false);
-    } catch {
-      toast.error('Gagal memperbarui profil');
-    }
-  };
-
-  const handleCancel = () => {
-    setFormData({
+  const form = useForm<BasicProfileData>({
+    resolver: zodResolver(basicProfileSchema),
+    defaultValues: {
       full_name: profile?.full_name || '',
       nim: profile?.nim || '',
       bio: profile?.bio || '',
@@ -78,12 +44,47 @@ export function EditBasicProfileDialog({
       year: profile?.year || undefined,
       major: profile?.major || undefined,
       degree: profile?.degree || undefined,
-    });
-    setIsOpen(false);
+    },
+  });
+
+  useEffect(() => {
+    if (profile) {
+      form.reset({
+        full_name: profile.full_name || '',
+        nim: profile.nim || '',
+        bio: profile.bio || '',
+        location: profile.location || '',
+        phone: profile.phone || '',
+        year: profile.year || undefined,
+        major: profile.major || undefined,
+        degree: profile.degree || undefined,
+      });
+    }
+  }, [profile, form]);
+
+  const handleFormSubmit = async (data: BasicProfileData) => {
+    if (!user?.id) return;
+
+    try {
+      const result = await updateBasicProfile.mutateAsync({
+        userId: user.id,
+        data,
+      });
+
+      if (result.error) {
+        toast.error(result.error);
+        return;
+      }
+
+      toast.success('Profil berhasil diperbarui');
+      form.reset(data);
+    } catch {
+      toast.error('Gagal memperbarui profil');
+    }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
           <Edit2 className="mr-2 h-4 w-4" />
@@ -94,157 +95,27 @@ export function EditBasicProfileDialog({
         <DialogHeader>
           <DialogTitle>Edit Informasi Dasar</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4 py-4">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="full_name">Nama Lengkap *</Label>
-              <Input
-                id="full_name"
-                value={formData.full_name}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    full_name: e.target.value,
-                  }))
-                }
-                placeholder="Masukkan nama lengkap Anda"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="nim">NIM *</Label>
-              <Input
-                id="nim"
-                value={formData.nim}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, nim: e.target.value }))
-                }
-                placeholder="Masukkan NIM Anda"
-              />
-            </div>
-          </div>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleFormSubmit)}
+            className="space-y-4 py-4"
+          >
+            <BasicProfileFields control={form.control} />
 
-          <div className="space-y-2">
-            <Label htmlFor="bio">Bio</Label>
-            <Textarea
-              id="bio"
-              value={formData.bio || ''}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, bio: e.target.value }))
-              }
-              placeholder="Ceritakan tentang diri Anda..."
-              rows={4}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="location">Lokasi</Label>
-              <Input
-                id="location"
-                value={formData.location || ''}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    location: e.target.value,
-                  }))
-                }
-                placeholder="Kota, Negara"
-              />
+            <div className="flex justify-end gap-2 pt-4">
+              <DialogTrigger asChild>
+                <Button type="button" variant="outline">
+                  Batal
+                </Button>
+              </DialogTrigger>
+              <Button type="submit" disabled={updateBasicProfile.isPending}>
+                {updateBasicProfile.isPending
+                  ? 'Menyimpan...'
+                  : 'Simpan Perubahan'}
+              </Button>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="phone">Telepon</Label>
-              <Input
-                id="phone"
-                value={formData.phone || ''}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    phone: e.target.value,
-                  }))
-                }
-                placeholder="+62 xxx xxx xxxx"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="space-y-2">
-              <Label htmlFor="year">Tahun Masuk</Label>
-              <Input
-                id="year"
-                type="number"
-                value={formData.year || ''}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    year: e.target.value ? parseInt(e.target.value) : undefined,
-                  }))
-                }
-                placeholder="2024"
-                min="1990"
-                max={new Date().getFullYear()}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="degree">Gelar</Label>
-              <Select
-                value={formData.degree || ''}
-                onValueChange={(value) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    degree: value as 'S1' | 'D3',
-                  }))
-                }
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Pilih gelar" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="S1">S1</SelectItem>
-                  <SelectItem value="D3">D3</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="major">Jurusan</Label>
-              <Select
-                value={formData.major || ''}
-                onValueChange={(value) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    major: value as
-                      | 'Teknik Elektro'
-                      | 'Pendidikan Teknik Elektro',
-                  }))
-                }
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Pilih jurusan" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Teknik Elektro">Teknik Elektro</SelectItem>
-                  <SelectItem value="Pendidikan Teknik Elektro">
-                    Pendidikan Teknik Elektro
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="flex justify-end gap-2 pt-4">
-            <Button variant="outline" onClick={handleCancel}>
-              Batal
-            </Button>
-            <Button
-              onClick={handleSave}
-              disabled={updateBasicProfile.isPending}
-            >
-              {updateBasicProfile.isPending
-                ? 'Menyimpan...'
-                : 'Simpan Perubahan'}
-            </Button>
-          </div>
-        </div>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );
