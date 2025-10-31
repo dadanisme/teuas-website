@@ -168,7 +168,7 @@ export function FeaturedAlumni({ className = '' }: FeaturedAlumniProps) {
                             </span>
                           </h4>
                           <p className="text-muted-foreground text-xs">
-                            Class of {testimonial.year}
+                            Angkatan {testimonial.year}
                           </p>
                         </div>
                       </CardContent>

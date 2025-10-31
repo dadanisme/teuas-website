@@ -88,7 +88,7 @@ export function AlumniFilters({
         <div className="bg-muted/30 grid grid-cols-1 gap-4 rounded-lg border p-4 md:grid-cols-3">
           <div>
             <label className="mb-2 block text-sm font-medium">
-              Tahun Lulus
+              Angkatan
             </label>
             <Select
               value={selectedYear}

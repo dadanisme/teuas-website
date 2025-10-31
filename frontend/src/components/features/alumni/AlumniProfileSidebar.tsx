@@ -27,7 +27,7 @@ export function AlumniProfileSidebar({ alumni }: AlumniProfileSidebarProps) {
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="text-sm">Tahun Lulus</span>
+            <span className="text-sm">Angkatan</span>
             <span className="font-semibold">{alumni.year || 'N/A'}</span>
           </div>
 

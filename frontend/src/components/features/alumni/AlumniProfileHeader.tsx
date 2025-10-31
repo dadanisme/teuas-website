@@ -61,7 +61,7 @@ export function AlumniProfileHeader({ alumni }: AlumniProfileHeaderProps) {
                 <div className="text-muted-foreground flex flex-wrap gap-4 text-sm">
                   <div className="flex items-center gap-1">
                     <Calendar className="h-4 w-4" />
-                    <span>Lulus {alumni.year || 'N/A'}</span>
+                    <span>Angkatan {alumni.year || 'N/A'}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Building className="h-4 w-4" />

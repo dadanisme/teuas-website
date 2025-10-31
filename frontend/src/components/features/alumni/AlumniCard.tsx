@@ -33,7 +33,7 @@ export function AlumniCard({ alumni }: AlumniCardProps) {
             </h3>
 
             <p className="text-muted-foreground line-clamp-1 text-sm">
-              Class of {alumni.year}
+              {alumni.year ? `Angkatan ${alumni.year}` : 'Alumni TEUAS'}
             </p>
           </div>
           {/* Note: is_mentor field doesn't exist in database, removing for now */}

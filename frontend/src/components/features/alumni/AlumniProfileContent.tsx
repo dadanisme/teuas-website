@@ -188,7 +188,7 @@ export function AlumniProfileContent({ alumni }: AlumniProfileContentProps) {
             <p className="text-primary font-medium">{alumni.major || 'N/A'}</p>
             <div className="text-muted-foreground flex items-center gap-1 text-sm">
               <Calendar className="h-4 w-4" />
-              <span>Lulus {alumni.year || 'N/A'}</span>
+              <span>Angkatan {alumni.year || 'N/A'}</span>
             </div>
             <p className="text-muted-foreground text-sm">
               NIM: {alumni.nim || 'N/A'}
