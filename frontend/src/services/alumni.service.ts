@@ -126,6 +126,7 @@ export class AlumniService {
 
   /**
    * Fetch a single alumni profile by ID
+   * Phone numbers are automatically masked for privacy (format: +XX **** XXX)
    */
   async getAlumniProfile(id: string): Promise<AlumniResponse> {
     try {

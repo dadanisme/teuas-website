@@ -12,7 +12,8 @@
     "format": "npx prettier --write .",
     "format:check": "prettier --check .",
     "clean": "rm -rf .next out dist",
-    "analyze": "ANALYZE=true npm run build"
+    "analyze": "ANALYZE=true npm run build",
+    "gen-types": "supabase gen types typescript --project-id nxoqazbenwbldhvbmqfd --schema public > src/types/database.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
