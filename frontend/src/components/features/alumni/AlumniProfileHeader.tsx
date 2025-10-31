@@ -104,14 +104,10 @@ export function AlumniProfileHeader({ alumni }: AlumniProfileHeaderProps) {
                       Email
                     </Link>
                   </Button>
-                  {alumni.phone && (
-                    <Button variant="outline" size="sm" asChild>
-                      <Link href={`tel:${alumni.phone}`}>
-                        <Phone className="mr-2 h-4 w-4" />
-                        Telepon
-                      </Link>
-                    </Button>
-                  )}
+                  <Button variant="outline" size="sm" disabled>
+                    <Phone className="mr-2 h-4 w-4" />
+                    +62 ****
+                  </Button>
                   {alumni.user_socials?.map((social) => (
                     <Button key={social.id} variant="outline" size="sm" asChild>
                       <Link

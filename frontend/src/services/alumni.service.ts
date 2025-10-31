@@ -38,12 +38,25 @@ export class AlumniService {
     try {
       const { search, year, company, location, page = 1, limit = 12 } = filters;
 
-      // Start building the query
+      // Start building the query (exclude phone for privacy)
       let query = this.supabase
         .from('users')
         .select(
           `
-          *,
+          id,
+          email,
+          full_name,
+          bio,
+          photo_url,
+          location,
+          year,
+          major,
+          degree,
+          nim,
+          role,
+          deleted,
+          created_at,
+          updated_at,
           user_experiences(*),
           user_skills(*),
           user_certifications(*),
@@ -126,7 +139,7 @@ export class AlumniService {
 
   /**
    * Fetch a single alumni profile by ID
-   * Phone numbers are automatically masked for privacy (format: +XX **** XXX)
+   * Phone numbers are excluded from query for privacy
    */
   async getAlumniProfile(id: string): Promise<AlumniResponse> {
     try {
@@ -134,7 +147,20 @@ export class AlumniService {
         .from('users')
         .select(
           `
-          *,
+          id,
+          email,
+          full_name,
+          bio,
+          photo_url,
+          location,
+          year,
+          major,
+          degree,
+          nim,
+          role,
+          deleted,
+          created_at,
+          updated_at,
           user_experiences(*),
           user_skills(*),
           user_certifications(*),

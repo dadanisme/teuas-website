@@ -10,8 +10,9 @@ type DbUserCertification =
 type DbUserEducation = Database['public']['Tables']['user_educations']['Row'];
 type DbUserSocial = Database['public']['Tables']['user_socials']['Row'];
 
-// Alumni profile with related data - exactly matching Supabase query result
-export type AlumniProfile = DbUser & {
+// Alumni profile with related data - phone is excluded for privacy
+export type AlumniProfile = Omit<DbUser, 'phone'> & {
+  phone?: string | null; // Optional - excluded from alumni queries for privacy
   user_experiences: DbUserExperience[] | null;
   user_skills: DbUserSkill[] | null;
   user_certifications: DbUserCertification[] | null;

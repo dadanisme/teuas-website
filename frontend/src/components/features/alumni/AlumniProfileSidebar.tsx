@@ -62,7 +62,7 @@ export function AlumniProfileSidebar({ alumni }: AlumniProfileSidebarProps) {
 
             <div className="flex items-center gap-2">
               <Phone className="h-4 w-4" />
-              <span className="text-sm">{alumni.phone || 'N/A'}</span>
+              <span className="text-sm">+62 ****</span>
             </div>
           </div>
         </CardContent>
