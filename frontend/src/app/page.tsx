@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/assets/hero/background.png',
+        url: '/assets/og.png',
         width: 1200,
         height: 630,
         alt: `${APP_CONFIG.fullName} - Terhubung dengan Alumni`,
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     title: `${APP_CONFIG.name} - Jaringan Alumni`,
     description: `${APP_CONFIG.shortDescription}. Bergabunglah dengan komunitas lulusan ${APP_CONFIG.fullName}.`,
-    images: ['/assets/hero/background.png'],
+    images: ['/assets/og.png'],
   },
 };
 

@@ -56,7 +56,7 @@ export const metadata: Metadata = {
         type: 'image/png',
       },
       {
-        url: '/assets/hero/background.png',
+        url: '/assets/og.png',
         width: 1200,
         height: 630,
         alt: `${APP_CONFIG.fullName} Alumni Network`,
