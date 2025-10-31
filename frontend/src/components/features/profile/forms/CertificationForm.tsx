@@ -100,7 +100,12 @@ export function CertificationForm({
             control={form.control}
             name="expiry_date"
             render={({ field }) => (
-              <DatePickerField label="Tanggal Kadaluarsa" {...field} />
+              <DatePickerField
+                label="Tanggal Kadaluarsa"
+                includeFutureYears={true}
+                futureYearsCount={10}
+                {...field}
+              />
             )}
           />
         </div>

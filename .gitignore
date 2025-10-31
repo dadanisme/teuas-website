@@ -104,3 +104,4 @@ temp/
 # Database
 *.sqlite
 *.db
+.vercel

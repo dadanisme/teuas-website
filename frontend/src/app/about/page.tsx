@@ -1,3 +1,22 @@
+import { UnderConstructionPage } from '@/components/common/UnderConstructionPage';
+import { ROUTES } from '@/constants';
+
+export default function AboutPage() {
+  const breadcrumbItems = [
+    { label: 'Beranda', href: ROUTES.HOME },
+    { label: 'Tentang TEUAS', current: true },
+  ];
+
+  return (
+    <UnderConstructionPage
+      title="Tentang TEUAS"
+      breadcrumbs={breadcrumbItems}
+      estimatedCompletion="Maret 2026"
+    />
+  );
+}
+
+/* TEMPORARILY DISABLED - UNDER CONSTRUCTION
 import { MissionVision } from '@/components/features/about/MissionVision';
 import { LeadershipTeam } from '@/components/features/about/LeadershipTeam';
 import { OrganizationOverview } from '@/components/features/about/OrganizationOverview';
@@ -35,3 +54,4 @@ export default function AboutPage() {
     </>
   );
 }
+*/

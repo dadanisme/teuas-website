@@ -16,6 +16,8 @@ interface DatePickerProps {
   name?: string;
   disabled?: boolean;
   className?: string;
+  includeFutureYears?: boolean;
+  futureYearsCount?: number;
 }
 
 export function DatePicker({
@@ -25,6 +27,8 @@ export function DatePicker({
   name: _name,
   disabled = false,
   className,
+  includeFutureYears = false,
+  futureYearsCount = 10,
 }: DatePickerProps) {
   const [selectedYear, setSelectedYear] = useState<number | undefined>(() => {
     if (value) {
@@ -58,9 +62,13 @@ export function DatePicker({
   ];
 
   const currentYear = new Date().getFullYear();
+  const startYear = 1990;
+  const endYear = includeFutureYears
+    ? currentYear + futureYearsCount
+    : currentYear;
   const years = Array.from(
-    { length: currentYear - 1990 + 1 },
-    (_, i) => currentYear - i
+    { length: endYear - startYear + 1 },
+    (_, i) => endYear - i
   );
 
   // Update state when value prop changes

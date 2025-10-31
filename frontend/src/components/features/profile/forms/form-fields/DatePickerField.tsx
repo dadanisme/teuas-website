@@ -16,6 +16,8 @@ interface DatePickerFieldProps {
   onChange?: (date: string) => void;
   onBlur?: () => void;
   name?: string;
+  includeFutureYears?: boolean;
+  futureYearsCount?: number;
 }
 
 export function DatePickerField({
@@ -25,6 +27,8 @@ export function DatePickerField({
   onChange,
   onBlur,
   name,
+  includeFutureYears = false,
+  futureYearsCount = 10,
 }: DatePickerFieldProps) {
   return (
     <FormItem>
@@ -36,6 +40,8 @@ export function DatePickerField({
           onBlur={onBlur}
           name={name}
           disabled={disabled}
+          includeFutureYears={includeFutureYears}
+          futureYearsCount={futureYearsCount}
         />
       </FormControl>
       <FormMessage />
